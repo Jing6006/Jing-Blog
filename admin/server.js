@@ -380,7 +380,7 @@ function readSettings() {
 }
 
 function writeSettings(body, file) {
-  let avatar = body.avatarPath || readSettings().avatar;
+  let avatar = readSettings().avatar;
   if (file) {
     fs.mkdirSync(IMG_DIR, {recursive: true});
     const ext = path.extname(file.originalname).toLowerCase();
@@ -693,7 +693,7 @@ app.get(`${ADMIN_BASE}/settings`, ensureAuth, (req, res) => {
           </div>
           <label>作者卡片介绍<input name="authorDescription" value="${htmlEscape(settings.authorDescription)}"></label>
           <label>公告<textarea name="announcement" rows="3">${htmlEscape(settings.announcement)}</textarea></label>
-          <label>当前头像路径<input name="avatarPath" value="${htmlEscape(settings.avatar)}"></label>
+          <label>当前头像路径<input name="avatarPath" value="${htmlEscape(settings.avatar)}" readonly></label>
           <label>上传新头像<input name="avatar" type="file" accept=".jpg,.jpeg,.png,.webp,.svg,image/*"></label>
           <div class="actions">
             <button class="primary">保存并发布</button>
