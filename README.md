@@ -25,6 +25,8 @@ npm run admin
 
 后台默认运行在 `http://127.0.0.1:4010/login`。账号、密码哈希和会话密钥放在 `.env` 中，参考 `.env.example`。
 
+后台包含文章管理、站点设置和访问统计。文章页会向 `/track/view` 上报访问记录，统计数据保存在 `admin/data/analytics.json`，该目录不会提交到 Git。
+
 ## 写文章
 
 ```bash

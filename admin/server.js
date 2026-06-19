@@ -13,6 +13,8 @@ require('dotenv').config({path: path.join(__dirname, '..', '.env')});
 const ROOT = path.resolve(__dirname, '..');
 const POSTS_DIR = path.join(ROOT, 'source', '_posts');
 const IMG_DIR = path.join(ROOT, 'source', 'img');
+const DATA_DIR = path.join(__dirname, 'data');
+const ANALYTICS_FILE = path.join(DATA_DIR, 'analytics.json');
 const CONFIG_FILE = path.join(ROOT, '_config.yml');
 const THEME_CONFIG_FILE = path.join(ROOT, '_config.butterfly.yml');
 const PUBLIC_DIR = path.join(ROOT, 'public');
@@ -223,6 +225,82 @@ function writeText(file, text) {
   fs.writeFileSync(file, text, 'utf8');
 }
 
+function readAnalytics() {
+  fs.mkdirSync(DATA_DIR, {recursive: true});
+  if (!fs.existsSync(ANALYTICS_FILE)) return {posts: {}, visits: []};
+  try {
+    const data = JSON.parse(fs.readFileSync(ANALYTICS_FILE, 'utf8'));
+    return {
+      posts: data.posts && typeof data.posts === 'object' ? data.posts : {},
+      visits: Array.isArray(data.visits) ? data.visits : [],
+    };
+  } catch {
+    return {posts: {}, visits: []};
+  }
+}
+
+function writeAnalytics(data) {
+  fs.mkdirSync(DATA_DIR, {recursive: true});
+  fs.writeFileSync(ANALYTICS_FILE, JSON.stringify(data, null, 2), 'utf8');
+}
+
+function clientIp(req) {
+  const forwarded = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
+  return forwarded || req.socket.remoteAddress || '';
+}
+
+function normalizePostPath(value) {
+  const clean = String(value || '').split('?')[0].split('#')[0];
+  if (!/^\/posts\/[A-Za-z0-9_-]+\/?$/.test(clean)) return '';
+  return clean.endsWith('/') ? clean : `${clean}/`;
+}
+
+function recordVisit(req) {
+  const postPath = normalizePostPath(req.body.path);
+  if (!postPath) return false;
+
+  const data = readAnalytics();
+  const ip = clientIp(req);
+  const title = String(req.body.title || postPath).slice(0, 120);
+  const now = new Date().toISOString();
+  const post = data.posts[postPath] || {
+    path: postPath,
+    title,
+    views: 0,
+    ips: {},
+    lastVisitAt: '',
+  };
+
+  post.title = title || post.title;
+  post.views += 1;
+  post.lastVisitAt = now;
+  post.ips[ip] = (post.ips[ip] || 0) + 1;
+  data.posts[postPath] = post;
+
+  data.visits.unshift({
+    path: postPath,
+    title: post.title,
+    ip,
+    at: now,
+    referrer: String(req.body.referrer || '').slice(0, 300),
+    userAgent: String(req.headers['user-agent'] || '').slice(0, 300),
+  });
+  data.visits = data.visits.slice(0, 5000);
+  writeAnalytics(data);
+  return true;
+}
+
+function analyticsSummary() {
+  const data = readAnalytics();
+  const posts = Object.values(data.posts)
+    .map((post) => ({
+      ...post,
+      uniqueIps: Object.keys(post.ips || {}).filter(Boolean).length,
+    }))
+    .sort((a, b) => b.views - a.views);
+  return {posts, visits: data.visits};
+}
+
 function replaceTopLevel(text, key, value) {
   const escaped = String(value || '').replaceAll('\n', ' ');
   const pattern = new RegExp(`^${key}:.*$`, 'm');
@@ -385,6 +463,7 @@ function layout(title, body) {
     <a class="brand" href="${ADMIN_BASE}/">Jing Blog Admin</a>
     <nav>
       <a href="${ADMIN_BASE}/posts/new">新建文章</a>
+      <a href="${ADMIN_BASE}/analytics">访问统计</a>
       <a href="${ADMIN_BASE}/settings">站点设置</a>
       <a href="/" target="_blank">查看博客</a>
       <form action="${LOGOUT_PATH}" method="post"><button>退出</button></form>
@@ -459,6 +538,11 @@ app.post(LOGOUT_PATH, ensureAuth, (req, res) => {
   req.session.destroy(() => res.redirect(LOGIN_PATH));
 });
 
+app.post('/track/view', (req, res) => {
+  const ok = recordVisit(req);
+  res.status(ok ? 204 : 400).end();
+});
+
 app.get(`${ADMIN_BASE}/`, ensureAuth, (req, res) => {
   const posts = readPosts();
   const rows = posts
@@ -486,6 +570,50 @@ app.get(`${ADMIN_BASE}/`, ensureAuth, (req, res) => {
         <table>
           <thead><tr><th>文章</th><th>分类</th><th>标签</th><th>日期</th><th>操作</th></tr></thead>
           <tbody>${rows || '<tr><td colspan="5">暂无文章</td></tr>'}</tbody>
+        </table>
+      </section>`,
+    ),
+  );
+});
+
+app.get(`${ADMIN_BASE}/analytics`, ensureAuth, (req, res) => {
+  const {posts, visits} = analyticsSummary();
+  const postRows = posts
+    .map((post) => `<tr>
+      <td><a href="${htmlEscape(post.path)}" target="_blank"><strong>${htmlEscape(post.title)}</strong></a><small>${htmlEscape(post.path)}</small></td>
+      <td>${post.views}</td>
+      <td>${post.uniqueIps}</td>
+      <td>${htmlEscape(post.lastVisitAt || '')}</td>
+    </tr>`)
+    .join('');
+  const visitRows = visits
+    .slice(0, 200)
+    .map((visit) => `<tr>
+      <td>${htmlEscape(visit.at)}</td>
+      <td><a href="${htmlEscape(visit.path)}" target="_blank">${htmlEscape(visit.title)}</a></td>
+      <td>${htmlEscape(visit.ip)}</td>
+      <td>${htmlEscape(visit.referrer)}</td>
+    </tr>`)
+    .join('');
+
+  res.send(
+    layout(
+      '访问统计',
+      `<section class="panel">
+        <div class="panel-head">
+          <div><h1>访问统计</h1><p>统计来自博客文章页的访问记录。</p></div>
+        </div>
+        <h2>帖子访问量</h2>
+        <table>
+          <thead><tr><th>帖子</th><th>访问量</th><th>独立 IP</th><th>最近访问</th></tr></thead>
+          <tbody>${postRows || '<tr><td colspan="4">暂无统计</td></tr>'}</tbody>
+        </table>
+      </section>
+      <section class="panel">
+        <h2>最近访问 IP</h2>
+        <table>
+          <thead><tr><th>时间</th><th>帖子</th><th>IP</th><th>来源</th></tr></thead>
+          <tbody>${visitRows || '<tr><td colspan="4">暂无访问记录</td></tr>'}</tbody>
         </table>
       </section>`,
     ),
