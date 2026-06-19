@@ -34,3 +34,29 @@ npx hexo new "文章标题"
 ```
 
 文章文件会生成到 `source/_posts/`。
+
+也可以直接在外部写作目录里写 Markdown：
+
+```text
+D:\Student\Java\博客\date
+```
+
+这个目录下的一级或多级文件夹会自动作为分类。例如：
+
+```text
+D:\Student\Java\博客\date\个人开发\我的工具.md
+```
+
+会同步为 `个人开发` 分类下的一篇文章。
+
+手动同步：
+
+```bash
+npm run content:sync
+```
+
+本地监听同步：
+
+```bash
+npm run content:watch
+```
