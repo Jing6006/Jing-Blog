@@ -35,7 +35,13 @@ npx hexo new "文章标题"
 
 文章文件会生成到 `source/_posts/`。
 
-也可以直接在外部写作目录里写 Markdown：
+也可以直接在写作目录里写 Markdown。这个目录已经纳入当前博客 Git 仓库：
+
+```text
+D:\Student\Java\博客\hexo-blog\date
+```
+
+为了日常打开方便，本机也保留了这个入口：
 
 ```text
 D:\Student\Java\博客\date
@@ -59,4 +65,12 @@ npm run content:sync
 
 ```bash
 npm run content:watch
+```
+
+常用提交流程：
+
+```bash
+git add .
+git commit -m "新增文章"
+git push
 ```
