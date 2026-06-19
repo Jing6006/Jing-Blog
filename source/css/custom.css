@@ -85,6 +85,16 @@
   content: '';
 }
 
+.card-category-list-item.is-empty,
+.category-list-item.is-empty {
+  opacity: 0.72;
+}
+
+.card-category-list-item.is-empty a,
+.category-list-item.is-empty a {
+  cursor: default;
+}
+
 @media screen and (max-width: 768px) {
   #recent-posts > .recent-post-item,
   .card-widget,

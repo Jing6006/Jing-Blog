@@ -5,6 +5,7 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const SOURCE_DIR = path.resolve(process.env.BLOG_CONTENT_DIR || path.join(ROOT, '..', 'date'));
 const POSTS_DIR = path.join(ROOT, 'source', '_posts');
+const DATE_CATEGORIES_FILE = path.join(ROOT, 'source', 'date-categories.json');
 const GENERATED_PREFIX = 'date-';
 const GENERATED_MARKER = 'synced_from_date: true';
 
@@ -70,6 +71,15 @@ function walkMarkdown(dir) {
   return result;
 }
 
+function topLevelDirectories(dir) {
+  if (!fs.existsSync(dir)) return [];
+
+  return fs.readdirSync(dir, {withFileTypes: true})
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort((a, b) => a.localeCompare(b, 'zh-CN'));
+}
+
 function toPosix(value) {
   return value.split(path.sep).join('/');
 }
@@ -95,6 +105,33 @@ function firstParagraph(content) {
     .find(Boolean) || '';
 }
 
+function writeDateCategories(sourceFiles) {
+  const counts = new Map();
+  const names = new Set(topLevelDirectories(SOURCE_DIR));
+
+  for (const sourceFile of sourceFiles) {
+    const rel = path.relative(SOURCE_DIR, sourceFile);
+    const parts = rel.split(path.sep).filter(Boolean);
+    const name = parts.length > 1 ? parts[0] : '\u672a\u5206\u7c7b';
+    names.add(name);
+    counts.set(name, (counts.get(name) || 0) + 1);
+  }
+
+  const categories = [...names]
+    .sort((a, b) => a.localeCompare(b, 'zh-CN'))
+    .map((name) => ({
+      name,
+      count: counts.get(name) || 0,
+      url: `/categories/${encodeURIComponent(name)}/`,
+    }));
+
+  fs.writeFileSync(
+    DATE_CATEGORIES_FILE,
+    `${JSON.stringify({categories}, null, 2)}\n`,
+    'utf8',
+  );
+}
+
 function syncContent() {
   fs.mkdirSync(POSTS_DIR, {recursive: true});
 
@@ -105,6 +142,7 @@ function syncContent() {
 
   const sourceFiles = walkMarkdown(SOURCE_DIR);
   const expected = new Set();
+  writeDateCategories(sourceFiles);
 
   for (const sourceFile of sourceFiles) {
     const rel = path.relative(SOURCE_DIR, sourceFile);
