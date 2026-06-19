@@ -18,6 +18,8 @@ const THEME_CONFIG_FILE = path.join(ROOT, '_config.butterfly.yml');
 const PUBLIC_DIR = path.join(ROOT, 'public');
 const DEPLOY_DIR = process.env.DEPLOY_DIR || path.join(ROOT, 'public');
 const ADMIN_BASE = '/admin';
+const LOGIN_PATH = '/login';
+const LOGOUT_PATH = '/logout';
 const PORT = Number(process.env.ADMIN_PORT || 4010);
 
 const app = express();
@@ -245,6 +247,9 @@ function setThemeSettings(theme, values) {
   if (values.email) {
     socialLines.push(`  fas fa-envelope: mailto:${values.email} || Email || '#4a7dbe'`);
   }
+  socialLines.push(`  fab fa-qq: ${values.qq || '/about/'} || QQ || '#12B7F5'`);
+  socialLines.push(`  fab fa-weixin: ${values.wechat || '/about/'} || WeChat || '#07C160'`);
+  socialLines.push(`  fab fa-linux: ${values.linuxdo || 'https://linux.do/'} || Linux.do || '#111827'`);
   theme = theme.replace(
     /social:\r?\n[\s\S]*?\r?\n# --------------------------------------\r?\n# Image Settings/,
     `${socialLines.join('\n')}\n\n# --------------------------------------\n# Image Settings`,
@@ -279,6 +284,9 @@ function readSettings() {
     author: readLineValue(config, 'author'),
     email: readThemeValue(/fas fa-envelope:\s*mailto:([^|]+)\|\|/, theme),
     github: readThemeValue(/fab fa-github:\s*([^|]+)\|\|/, theme),
+    qq: readThemeValue(/fab fa-qq:\s*([^|]+)\|\|/, theme),
+    wechat: readThemeValue(/fab fa-weixin:\s*([^|]+)\|\|/, theme),
+    linuxdo: readThemeValue(/fab fa-linux:\s*([^|]+)\|\|/, theme),
     avatar: readThemeValue(/avatar:\r?\n\s+img:\s*(.*)/, theme),
     authorDescription: readThemeValue(/card_author:\r?\n\s+enable: true\r?\n\s+description:\s*(.*)/, theme),
     announcement: readThemeValue(/card_announcement:\r?\n\s+enable: true\r?\n\s+content:\s*(.*)/, theme),
@@ -309,6 +317,9 @@ function writeSettings(body, file) {
   const theme = setThemeSettings(readText(THEME_CONFIG_FILE), {
     email: body.email,
     github: body.github,
+    qq: body.qq,
+    wechat: body.wechat,
+    linuxdo: body.linuxdo,
     avatar,
     authorDescription: body.authorDescription,
     announcement: body.announcement,
@@ -351,7 +362,7 @@ async function rebuildAndDeploy() {
 
 function ensureAuth(req, res, next) {
   if (req.session.authenticated) return next();
-  res.redirect(`${ADMIN_BASE}/login`);
+  res.redirect(LOGIN_PATH);
 }
 
 async function verifyPassword(password) {
@@ -376,7 +387,7 @@ function layout(title, body) {
       <a href="${ADMIN_BASE}/posts/new">新建文章</a>
       <a href="${ADMIN_BASE}/settings">站点设置</a>
       <a href="/" target="_blank">查看博客</a>
-      <form action="${ADMIN_BASE}/logout" method="post"><button>退出</button></form>
+      <form action="${LOGOUT_PATH}" method="post"><button>退出</button></form>
     </nav>
   </header>
   <main class="page">${body}</main>
@@ -394,7 +405,7 @@ function loginPage(error = '') {
   <link rel="stylesheet" href="${ADMIN_BASE}/assets/admin.css">
 </head>
 <body class="login-page">
-  <form class="login-card" action="${ADMIN_BASE}/login" method="post">
+  <form class="login-card" action="${LOGIN_PATH}" method="post">
     <h1>博客后台</h1>
     <p>登录后可以管理文章、分类标签和站点资料。</p>
     ${error ? `<div class="alert">${htmlEscape(error)}</div>` : ''}
@@ -432,8 +443,9 @@ function postForm(post = {}) {
   );
 }
 
-app.get(`${ADMIN_BASE}/login`, (req, res) => res.send(loginPage()));
-app.post(`${ADMIN_BASE}/login`, async (req, res) => {
+app.get(LOGIN_PATH, (req, res) => res.send(loginPage()));
+app.get(`${ADMIN_BASE}/login`, (req, res) => res.redirect(LOGIN_PATH));
+app.post(LOGIN_PATH, async (req, res) => {
   if (req.body.username !== (process.env.ADMIN_USER || 'admin')) {
     return res.status(401).send(loginPage('账号或密码不正确'));
   }
@@ -443,8 +455,8 @@ app.post(`${ADMIN_BASE}/login`, async (req, res) => {
   req.session.authenticated = true;
   res.redirect(`${ADMIN_BASE}/`);
 });
-app.post(`${ADMIN_BASE}/logout`, ensureAuth, (req, res) => {
-  req.session.destroy(() => res.redirect(`${ADMIN_BASE}/login`));
+app.post(LOGOUT_PATH, ensureAuth, (req, res) => {
+  req.session.destroy(() => res.redirect(LOGIN_PATH));
 });
 
 app.get(`${ADMIN_BASE}/`, ensureAuth, (req, res) => {
@@ -534,6 +546,11 @@ app.get(`${ADMIN_BASE}/settings`, ensureAuth, (req, res) => {
             <label>邮箱<input name="email" type="email" value="${htmlEscape(settings.email)}" placeholder="name@example.com"></label>
             <label>GitHub 地址<input name="github" value="${htmlEscape(settings.github)}" placeholder="https://github.com/yourname"></label>
           </div>
+          <div class="grid two">
+            <label>QQ 链接<input name="qq" value="${htmlEscape(settings.qq)}" placeholder="/about/ 或 tencent://message/?uin=QQ号"></label>
+            <label>微信链接<input name="wechat" value="${htmlEscape(settings.wechat)}" placeholder="/about/ 或二维码页面链接"></label>
+          </div>
+          <label>Linux.do 主页<input name="linuxdo" value="${htmlEscape(settings.linuxdo)}" placeholder="https://linux.do/"></label>
           <label>作者卡片介绍<input name="authorDescription" value="${htmlEscape(settings.authorDescription)}"></label>
           <label>公告<textarea name="announcement" rows="3">${htmlEscape(settings.announcement)}</textarea></label>
           <label>当前头像路径<input name="avatarPath" value="${htmlEscape(settings.avatar)}"></label>

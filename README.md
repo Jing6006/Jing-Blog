@@ -23,7 +23,7 @@ npm run build
 npm run admin
 ```
 
-后台默认运行在 `http://127.0.0.1:4010/admin`。账号、密码哈希和会话密钥放在 `.env` 中，参考 `.env.example`。
+后台默认运行在 `http://127.0.0.1:4010/login`。账号、密码哈希和会话密钥放在 `.env` 中，参考 `.env.example`。
 
 ## 写文章
 
