@@ -52,9 +52,10 @@ code_blocks:
 social:
   fab fa-github: https://github.com/ || GitHub || '#24292e'
   fas fa-envelope: mailto:Keep6006@163.com || Email || '#4a7dbe'
-  fab fa-qq: /about/ || QQ || '#12B7F5'
-  fab fa-weixin: /about/ || WeChat || '#07C160'
+  fab fa-qq: javascript:void(0) || QQ账号 未设置 || '#12B7F5'
+  fab fa-weixin: javascript:void(0) || 微信账号 未设置 || '#07C160'
   fab fa-linux: https://linux.do/ || Linux.do || '#111827'
+  fab fa-git-alt: https://gitee.com/Jing6006 || Gitee || '#C71D23'
 
 # --------------------------------------
 # Image Settings

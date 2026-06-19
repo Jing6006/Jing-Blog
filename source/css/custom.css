@@ -73,6 +73,18 @@
   letter-spacing: 0;
 }
 
+.social-icon a[href*='linux.do'] i,
+.card-info-social-icons a[href*='linux.do'] i {
+  width: 1em;
+  height: 1em;
+  background: url('/img/linuxdo.png') center / contain no-repeat;
+}
+
+.social-icon a[href*='linux.do'] i::before,
+.card-info-social-icons a[href*='linux.do'] i::before {
+  content: '';
+}
+
 @media screen and (max-width: 768px) {
   #recent-posts > .recent-post-item,
   .card-widget,

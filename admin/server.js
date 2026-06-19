@@ -317,6 +317,10 @@ function readThemeValue(pattern, text) {
   return match ? match[1].trim() : '';
 }
 
+function socialText(value, fallback = '未设置') {
+  return String(value || fallback).replaceAll('|', '').replaceAll('\n', ' ').trim();
+}
+
 function setThemeSettings(theme, values) {
   const socialLines = ['social:'];
   if (values.github) {
@@ -325,9 +329,10 @@ function setThemeSettings(theme, values) {
   if (values.email) {
     socialLines.push(`  fas fa-envelope: mailto:${values.email} || Email || '#4a7dbe'`);
   }
-  socialLines.push(`  fab fa-qq: ${values.qq || '/about/'} || QQ || '#12B7F5'`);
-  socialLines.push(`  fab fa-weixin: ${values.wechat || '/about/'} || WeChat || '#07C160'`);
+  socialLines.push(`  fab fa-qq: javascript:void(0) || QQ账号 ${socialText(values.qq)} || '#12B7F5'`);
+  socialLines.push(`  fab fa-weixin: javascript:void(0) || 微信账号 ${socialText(values.wechat)} || '#07C160'`);
   socialLines.push(`  fab fa-linux: ${values.linuxdo || 'https://linux.do/'} || Linux.do || '#111827'`);
+  socialLines.push(`  fab fa-git-alt: ${values.gitee || 'https://gitee.com/Jing6006'} || Gitee || '#C71D23'`);
   theme = theme.replace(
     /social:\r?\n[\s\S]*?\r?\n# --------------------------------------\r?\n# Image Settings/,
     `${socialLines.join('\n')}\n\n# --------------------------------------\n# Image Settings`,
@@ -362,9 +367,12 @@ function readSettings() {
     author: readLineValue(config, 'author'),
     email: readThemeValue(/fas fa-envelope:\s*mailto:([^|]+)\|\|/, theme),
     github: readThemeValue(/fab fa-github:\s*([^|]+)\|\|/, theme),
-    qq: readThemeValue(/fab fa-qq:\s*([^|]+)\|\|/, theme),
-    wechat: readThemeValue(/fab fa-weixin:\s*([^|]+)\|\|/, theme),
+    qq: readThemeValue(/fab fa-qq:\s*javascript:void\(0\)\s*\|\|\s*QQ账号\s*([^|]*)\|\|/, theme)
+      || readThemeValue(/fab fa-qq:\s*([^|]+)\|\|/, theme),
+    wechat: readThemeValue(/fab fa-weixin:\s*javascript:void\(0\)\s*\|\|\s*微信账号\s*([^|]*)\|\|/, theme)
+      || readThemeValue(/fab fa-weixin:\s*([^|]+)\|\|/, theme),
     linuxdo: readThemeValue(/fab fa-linux:\s*([^|]+)\|\|/, theme),
+    gitee: readThemeValue(/fab fa-git-alt:\s*([^|]+)\|\|/, theme),
     avatar: readThemeValue(/avatar:\r?\n\s+img:\s*(.*)/, theme),
     authorDescription: readThemeValue(/card_author:\r?\n\s+enable: true\r?\n\s+description:\s*(.*)/, theme),
     announcement: readThemeValue(/card_announcement:\r?\n\s+enable: true\r?\n\s+content:\s*(.*)/, theme),
@@ -398,6 +406,7 @@ function writeSettings(body, file) {
     qq: body.qq,
     wechat: body.wechat,
     linuxdo: body.linuxdo,
+    gitee: body.gitee,
     avatar,
     authorDescription: body.authorDescription,
     announcement: body.announcement,
@@ -675,10 +684,13 @@ app.get(`${ADMIN_BASE}/settings`, ensureAuth, (req, res) => {
             <label>GitHub 地址<input name="github" value="${htmlEscape(settings.github)}" placeholder="https://github.com/yourname"></label>
           </div>
           <div class="grid two">
-            <label>QQ 链接<input name="qq" value="${htmlEscape(settings.qq)}" placeholder="/about/ 或 tencent://message/?uin=QQ号"></label>
-            <label>微信链接<input name="wechat" value="${htmlEscape(settings.wechat)}" placeholder="/about/ 或二维码页面链接"></label>
+            <label>QQ 账号<input name="qq" value="${htmlEscape(settings.qq)}" placeholder="QQ号"></label>
+            <label>微信账号<input name="wechat" value="${htmlEscape(settings.wechat)}" placeholder="微信号"></label>
           </div>
-          <label>Linux.do 主页<input name="linuxdo" value="${htmlEscape(settings.linuxdo)}" placeholder="https://linux.do/"></label>
+          <div class="grid two">
+            <label>Linux.do 主页<input name="linuxdo" value="${htmlEscape(settings.linuxdo)}" placeholder="https://linux.do/"></label>
+            <label>Gitee 主页<input name="gitee" value="${htmlEscape(settings.gitee)}" placeholder="https://gitee.com/yourname"></label>
+          </div>
           <label>作者卡片介绍<input name="authorDescription" value="${htmlEscape(settings.authorDescription)}"></label>
           <label>公告<textarea name="announcement" rows="3">${htmlEscape(settings.announcement)}</textarea></label>
           <label>当前头像路径<input name="avatarPath" value="${htmlEscape(settings.avatar)}"></label>
