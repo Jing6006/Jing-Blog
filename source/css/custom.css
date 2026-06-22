@@ -278,13 +278,15 @@ a {
 
 #aside-content .card-info-social-icons {
   display: flex !important;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
+  gap: 8px 12px;
   margin-top: 12px;
 }
 
 #aside-content .card-info-social-icons::before {
   content: "联系方式";
+  flex: 0 0 100%;
   color: var(--jing-faint);
   font-size: 12px;
   line-height: 1;
@@ -602,6 +604,128 @@ a {
   border-radius: 4px;
 }
 
+.jing-about {
+  max-width: 820px;
+}
+
+.jing-about-hero {
+  padding: 4px 0 30px;
+  border-bottom: 1px solid var(--jing-border);
+}
+
+.jing-about-kicker {
+  margin: 0 0 10px !important;
+  color: var(--jing-link);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.jing-about-hero h1 {
+  margin: 0 0 16px !important;
+  color: var(--jing-text);
+  font-size: 34px;
+  font-weight: 650;
+  line-height: 1.28;
+}
+
+.jing-about-hero p:last-child {
+  max-width: 720px;
+  margin: 0 !important;
+  color: var(--jing-muted);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.jing-about-panel {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--jing-border);
+}
+
+.jing-about-panel h2 {
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  color: var(--jing-text);
+  font-size: 19px !important;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.jing-about-panel p {
+  margin: 0 !important;
+  color: var(--jing-muted);
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+.jing-about-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.jing-about-tags span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--jing-border);
+  border-radius: 6px;
+  background: var(--jing-surface);
+  color: var(--jing-muted);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.jing-about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--jing-border);
+}
+
+.jing-about-grid .jing-about-panel {
+  min-width: 0;
+  padding: 0;
+  border-bottom: 0;
+}
+
+.jing-about-contact {
+  border-bottom: 0;
+}
+
+.jing-about-contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+#article-container .jing-about-contact-links a {
+  display: inline-flex;
+  max-width: 100%;
+  min-height: 38px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid var(--jing-border);
+  border-radius: 6px;
+  background: var(--jing-surface);
+  color: var(--jing-text);
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+  transition: border-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
+}
+
+#article-container .jing-about-contact-links a:hover {
+  border-color: var(--jing-link);
+  color: var(--jing-link);
+  transform: translateY(-1px);
+}
+
 #post .tag_share,
 #post .post-copyright,
 #post .relatedPosts,
@@ -687,6 +811,11 @@ a {
     display: block;
     margin: 4px 0 0;
   }
+
+  .jing-about-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
 }
 
 @media screen and (max-width: 520px) {
@@ -702,5 +831,18 @@ a {
     min-width: 0;
     margin-top: 6px;
     text-align: left;
+  }
+
+  .jing-about-hero h1 {
+    font-size: 28px;
+  }
+
+  .jing-about-contact-links {
+    display: block;
+  }
+
+  #article-container .jing-about-contact-links a {
+    width: 100%;
+    margin-top: 10px;
   }
 }

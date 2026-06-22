@@ -5,7 +5,7 @@ tags:
   - 博客搭建
   - 工程实践
 categories:
-  - 工程实践
+  - 杂七杂八
 description: 用 Hexo 和 Butterfly 搭建一个适合软件开发工程师长期维护的技术博客。
 cover: >-
   https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80
@@ -13,6 +13,7 @@ abbrlink: start-tech-blog
 date: 2025-03-01 09:00:00
 updated: 2025-03-01 09:00:00
 ---
+
 
 我准备把这个博客当成一个长期维护的技术资产，而不是只存放零散笔记的地方。
 

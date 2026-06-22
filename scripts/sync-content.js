@@ -47,8 +47,10 @@ function stringifyFrontMatter(data, content) {
     if (Array.isArray(value)) {
       lines.push(`${key}:`);
       for (const item of value) lines.push(`  - ${item}`);
+    } else if (value === '' || value == null) {
+      lines.push(`${key}:`);
     } else {
-      lines.push(`${key}: ${value ?? ''}`);
+      lines.push(`${key}: ${value}`);
     }
   }
   lines.push('---', '', content.trimStart());
@@ -69,6 +71,11 @@ function walkMarkdown(dir) {
   }
 
   return result;
+}
+
+function frontMatterCategories(data) {
+  if (Array.isArray(data.categories)) return data.categories.filter(Boolean);
+  return data.categories ? [data.categories] : [];
 }
 
 function topLevelDirectories(dir) {
@@ -115,6 +122,17 @@ function writeDateCategories(sourceFiles) {
     const name = parts.length > 1 ? parts[0] : '\u672a\u5206\u7c7b';
     names.add(name);
     counts.set(name, (counts.get(name) || 0) + 1);
+  }
+
+  for (const postFile of walkMarkdown(POSTS_DIR)) {
+    const raw = fs.readFileSync(postFile, 'utf8');
+    if (raw.includes(GENERATED_MARKER)) continue;
+
+    const {data} = parseFrontMatter(raw);
+    for (const name of frontMatterCategories(data)) {
+      names.add(name);
+      counts.set(name, (counts.get(name) || 0) + 1);
+    }
   }
 
   const categories = [...names]

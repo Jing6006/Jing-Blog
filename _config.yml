@@ -54,7 +54,7 @@ index_generator:
   per_page: 8
   order_by: -date
 
-default_category: 工程实践
+default_category: 杂七杂八
 category_map:
 tag_map:
 
