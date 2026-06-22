@@ -252,8 +252,7 @@ a {
 #aside-content .site-data,
 #aside-content #card-info .site-data,
 #aside-content #card-info #card-info-btn,
-#aside-content #card-info .card-info-social-icons,
-#aside-content .card-info-social-icons {
+#aside-content #card-info .card-info-social-icons {
   display: none !important;
 }
 
@@ -271,9 +270,44 @@ a {
 
 #aside-content .author-info-description,
 #aside-content #card-info .author-info__description {
+  margin-bottom: 12px;
   color: var(--jing-muted);
   font-size: 14px;
   line-height: 1.7;
+}
+
+#aside-content .card-info-social-icons {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+#aside-content .card-info-social-icons::before {
+  content: "联系方式";
+  color: var(--jing-faint);
+  font-size: 12px;
+  line-height: 1;
+}
+
+#aside-content .card-info-social-icons .social-icon {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--jing-border);
+  border-radius: 6px;
+  background: var(--jing-surface);
+  color: var(--jing-muted);
+  font-size: 14px;
+  transition: border-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
+}
+
+#aside-content .card-info-social-icons .social-icon:hover {
+  border-color: var(--jing-link);
+  color: var(--jing-link);
+  transform: translateY(-1px);
 }
 
 #aside-content .aside-list > .aside-list-item {
