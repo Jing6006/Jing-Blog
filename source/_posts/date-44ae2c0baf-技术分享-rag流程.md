@@ -1,13 +1,16 @@
 ---
-title: RAG流程
-date: 2026-06-19 18:32:46
-updated: 2026-06-16 13:44:51
+title: RAG 流程整理
+date: 2026-06-16 14:50:00
+updated: 2026-06-16 06:50:00
 tags:
+  - RAG
+  - AI应用
+  - 知识库
 categories:
   - 技术分享
-description: RAG流程
-cover: 
-abbrlink: 技术分享-rag流程
+description: 记录从文档抽取、切分、向量化到检索问答的 RAG 流程
+cover: https://images.unsplash.com/photo-1676299081847-824916de030a?auto=format&fit=crop&w=1200&q=80
+abbrlink: rag-workflow-notes
 synced_from_date: true
 source_path: 技术分享/RAG流程.md
 ---

@@ -1,3 +1,18 @@
+---
+title: Spring AI RAG 实战教程
+date: 2026-06-14 13:38:00
+updated: 2026-06-14 13:38:00
+tags:
+  - Spring AI
+  - RAG
+  - Java
+categories:
+  - 技术分享
+description: Spring AI 与 RAG 知识库问答的实践教程
+cover: https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80
+abbrlink: spring-ai-rag-practice
+---
+
 # Spring AI + RAG 知识库实战教程
 
 ## 📚 教程概述
