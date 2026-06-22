@@ -84,6 +84,18 @@
     return String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
   }
 
+  function fetchTextWithTimeout(url, timeoutMs) {
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(), timeoutMs);
+
+    return fetch(url, {cache: 'no-store', signal: controller.signal})
+      .finally(() => window.clearTimeout(timer))
+      .then((response) => {
+        if (!response.ok) throw new Error(`${url} returned ${response.status}`);
+        return response.text();
+      });
+  }
+
   function createResultItem(item) {
     const result = document.createElement('article');
     result.className = 'jing-search-result';
@@ -147,11 +159,7 @@
     let searchIndexPromise;
     function loadSearchIndex() {
       if (!searchIndexPromise) {
-        searchIndexPromise = fetch('/search.xml', {cache: 'force-cache'})
-          .then((response) => {
-            if (!response.ok) throw new Error('search.xml not found');
-            return response.text();
-          })
+        searchIndexPromise = fetchTextWithTimeout('/search.xml', 12000)
           .then((xml) => {
             const doc = new DOMParser().parseFromString(xml, 'application/xml');
             return [...doc.querySelectorAll('entry')].map((entry) => {
