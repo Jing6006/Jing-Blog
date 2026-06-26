@@ -52,7 +52,7 @@ prismjs:
 index_generator:
   path: ''
   per_page: 8
-  order_by: -date
+  order_by: -updated
 
 default_category: 杂七杂八
 category_map:
