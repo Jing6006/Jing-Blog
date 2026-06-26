@@ -49,13 +49,17 @@ type: about
         <i class="fas fa-envelope"></i>
         <span>Keep6006@163.com</span>
       </a>
-      <a href="https://github.com/Jing6006" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+      <a href="https://github.com/lijing6006" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
         <i class="fab fa-github"></i>
         <span>GitHub</span>
       </a>
-      <a href="https://gitee.com/Jing6006" target="_blank" rel="noopener noreferrer" aria-label="Gitee">
+      <a href="https://gitee.com/lijing-dev" target="_blank" rel="noopener noreferrer" aria-label="Gitee">
         <i class="fab fa-git-alt"></i>
         <span>Gitee</span>
+      </a>
+      <a href="https://linux.do/u/keep6006/summary" target="_blank" rel="noopener noreferrer" aria-label="Linux.do">
+        <img src="/img/linuxdo.png" alt="Linux.do" width="20" height="20" />
+        <span>Linux.do</span>
       </a>
     </div>
   </section>

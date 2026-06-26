@@ -332,7 +332,7 @@ function setThemeSettings(theme, values) {
   socialLines.push(`  fab fa-qq: javascript:void(0) || QQ账号 ${socialText(values.qq)} || '#12B7F5'`);
   socialLines.push(`  fab fa-weixin: javascript:void(0) || 微信账号 ${socialText(values.wechat)} || '#07C160'`);
   socialLines.push(`  fab fa-linux: ${values.linuxdo || 'https://linux.do/'} || Linux.do || '#111827'`);
-  socialLines.push(`  fab fa-git-alt: ${values.gitee || 'https://gitee.com/Jing6006'} || Gitee || '#C71D23'`);
+  socialLines.push(`  fab fa-git-alt: ${values.gitee || 'https://gitee.com/lijing-dev'} || Gitee || '#C71D23'`);
   theme = theme.replace(
     /social:\r?\n[\s\S]*?\r?\n# --------------------------------------\r?\n# Image Settings/,
     `${socialLines.join('\n')}\n\n# --------------------------------------\n# Image Settings`,
