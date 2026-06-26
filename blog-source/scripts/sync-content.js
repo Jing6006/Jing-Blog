@@ -170,7 +170,7 @@ function syncContent() {
     const raw = fs.readFileSync(sourceFile, 'utf8');
     const {data, content} = parseFrontMatter(raw);
     const stat = fs.statSync(sourceFile);
-    const generatedName = path.basename(sourceFile);
+    const generatedName = `${fileHash(rel)}-${safeSlug(relNoExt)}.md`;
     const outputFile = path.join(POSTS_DIR, generatedName);
     const date = data.date || stat.birthtime.toISOString().slice(0, 19).replace('T', ' ');
     const updated = stat.mtime.toISOString().slice(0, 19).replace('T', ' ');

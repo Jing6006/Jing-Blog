@@ -1,24 +1,14 @@
 {
   "categories": [
     {
-      "name": "后端框架",
-      "count": 31,
-      "url": "/categories/%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6/"
-    },
-    {
-      "name": "数据库与中间件",
-      "count": 19,
-      "url": "/categories/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/"
+      "name": "开发调优",
+      "count": 76,
+      "url": "/categories/%E5%BC%80%E5%8F%91%E8%B0%83%E4%BC%98/"
     },
     {
       "name": "杂七杂八",
       "count": 25,
       "url": "/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"
-    },
-    {
-      "name": "Java 基础",
-      "count": 25,
-      "url": "/categories/Java%20%E5%9F%BA%E7%A1%80/"
     }
   ]
 }

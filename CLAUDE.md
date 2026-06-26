@@ -94,3 +94,48 @@
 - 改完后在 `blog-source` 执行：
   - `npm run build`
 
+## Git 与自动部署
+
+- 当前总仓库根目录：`D:\Student\Java\博客`
+- 当前远程仓库：`https://github.com/lijing6006/Jing-Blog.git`
+- 正常流程：
+  1. 修改 `blog-content\data\分类名\*.md`
+  2. 在 `D:\Student\Java\博客` 执行 `git add .`
+  3. `git commit`
+  4. `git push origin main`
+  5. 服务器自动检测更新并重新部署
+
+## 服务器自动部署现状
+
+服务器信息与部署约定：
+
+- 站点地址：`http://39.105.9.115/`
+- 服务器源码根目录：`/opt/jing-blog`
+- 实际 Hexo 工作目录：`/opt/jing-blog/blog-source`
+- 静态站点目录：`/var/www/jing-dev-notes`
+- 后台服务：`jing-blog-admin.service`
+- 自动同步服务：`jing-blog-sync.service`
+- 自动同步定时器：`jing-blog-sync.timer`
+- 自动部署脚本：`/usr/local/bin/jing-blog-sync`
+
+自动部署机制：
+
+- 服务器不会直接依赖 `git fetch`
+- 当前改为检查 GitHub tarball 的 ETag 是否变化
+- 有变化就重新下载仓库、恢复 `.env` 和 `admin/data`、执行构建、发布静态文件
+- 定时器按分钟轮询
+
+## 服务器维护注意事项
+
+1. 不要随便删除服务器上的：
+   - `/opt/jing-blog/blog-source/.env`
+   - `/opt/jing-blog/blog-source/admin/data`
+   - `/opt/jing-blog/blog-source/admin/uploads`
+
+2. 如果自动部署异常，优先排查：
+   - `systemctl status jing-blog-sync.timer`
+   - `systemctl status jing-blog-sync.service`
+   - `journalctl -u jing-blog-sync.service -n 200 --no-pager`
+   - `systemctl status jing-blog-admin`
+
+3. 如果你只是改 md 内容，原则上不需要手动登录服务器
