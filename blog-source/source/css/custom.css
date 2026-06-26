@@ -112,6 +112,11 @@ a {
   align-items: flex-start;
 }
 
+.post #content-inner.layout {
+  display: block;
+  max-width: 1120px;
+}
+
 #recent-posts {
   width: auto;
   min-width: 0;
@@ -559,6 +564,16 @@ a {
   width: 70%;
   margin: 0;
   padding: 0 !important;
+}
+
+.post .layout #post {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.post #aside-content {
+  display: none !important;
 }
 
 #post .post-title {
