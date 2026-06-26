@@ -1,0 +1,34 @@
+# Root temp / backup
+.git.backup-*/
+.tmp-blog-qa/
+.tmp-zishu/
+
+# Blog content repo should store content only
+blog-content/.git.backup-*/
+
+# Hexo source repo
+blog-source/.git.backup-*/
+blog-source/node_modules/
+blog-source/public/
+blog-source/db.json
+blog-source/.deploy_git/
+blog-source/*.log
+blog-source/.env
+blog-source/admin/uploads/
+blog-source/admin/data/
+
+# Legacy Docusaurus archive
+blog-source/legacy-docusaurus/node_modules/
+blog-source/legacy-docusaurus/build/
+blog-source/legacy-docusaurus/.docusaurus/
+blog-source/legacy-docusaurus/.cache-loader/
+blog-source/legacy-docusaurus/.env.local
+blog-source/legacy-docusaurus/.env.development.local
+blog-source/legacy-docusaurus/.env.test.local
+blog-source/legacy-docusaurus/.env.production.local
+
+# Misc
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

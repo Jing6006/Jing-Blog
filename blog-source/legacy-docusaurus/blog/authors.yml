@@ -1,0 +1,8 @@
+jing:
+  name: Jing
+  title: Software Developer
+  url: https://github.com/
+  image_url: /img/logo.svg
+  page: true
+  socials:
+    github: github

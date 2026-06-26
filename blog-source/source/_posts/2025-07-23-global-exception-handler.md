@@ -1,0 +1,60 @@
+---
+title: 全局异常处理的一次整理
+date: 2025-07-24 08:57:00
+updated: 2026-06-26 07:16:12
+tags:
+  - spring
+categories:
+  - 后端框架
+description: 把异常转换集中到边界层，让业务代码专注表达失败原因。
+cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
+abbrlink: global-exception-handler
+synced_from_content_repo: true
+source_path: 后端框架/2025-07-23-global-exception-handler.md
+---
+
+今天不想写长文，先把 **全局异常处理的一次整理** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。
+
+## 先说我自己的结论
+
+把异常转换集中到边界层，让业务代码专注表达失败原因。
+
+我现在会先把这类题分成“定义是什么、为什么这样设计、代码里怎么用、容易翻车在哪”四层去答。这样比死背一段话稳很多。
+
+## 快问快答
+
+- 参数异常返回明确字段。
+  我现在的理解：先记结论，再回到代码里找一个能验证它的场景。
+- 业务异常返回业务码。
+  我现在的理解：先记结论，再回到代码里找一个能验证它的场景。
+- 未知异常记录完整日志。
+  我现在的理解：先记结论，再回到代码里找一个能验证它的场景。
+
+## 如果在项目里问到我
+
+我会直接拿这个场景来讲：用 @RestControllerAdvice 统一处理三类异常。
+
+这样回答有个好处，不会显得像在背书，因为每一句都能落到接口、表结构、线程、缓存或者日志上。
+
+## 一个最小例子
+
+```java
+public Result<Void> handle(Command command) {
+    validator.check(command);
+    service.execute(command);
+    return Result.ok();
+}
+```
+
+这个例子不求大而全，只求能把核心点钉住。写完后我一般会补一个反例，看看自己是不是只会顺着讲。
+
+## 我会继续追问自己什么
+
+- 这道题最容易和哪个概念混在一起。
+- 如果业务量上来，它会不会变成性能问题。
+- 如果线上出故障，我第一步会看日志、线程、SQL 还是缓存。
+
+## 参考资料
+
+- [Spring Framework Reference](https://docs.spring.io/spring-framework/reference/)
+- [Spring Boot Reference](https://docs.spring.io/spring-boot/index.html)

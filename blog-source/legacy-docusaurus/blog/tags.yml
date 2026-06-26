@@ -1,0 +1,16 @@
+java:
+  label: Java
+  permalink: /java
+  description: Java 基础、集合、并发和 JVM 学习记录
+spring:
+  label: Spring
+  permalink: /spring
+  description: Spring Boot、Spring Security 和微服务实践
+database:
+  label: 数据库
+  permalink: /database
+  description: MySQL、Redis、索引、缓存和数据建模
+engineering:
+  label: 工程实践
+  permalink: /engineering
+  description: 测试、部署、日志、协作和项目复盘
