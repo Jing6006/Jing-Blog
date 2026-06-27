@@ -4,6 +4,7 @@ date: 2026-03-28 08:57:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - api-design
 categories:
   - 杂七杂八
 description: 把需求拆成设计、编码、自测、联调、上线和复盘。
@@ -11,6 +12,7 @@ cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&
 abbrlink: backend-api-release-flow
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-03-30-backend-api-release-flow.md
+source_hash: fbb5f5f4c83ee89476f4403f926c4f82f7fb2fcb
 ---
 
 这篇我想按“排查记录”来写，主题是 **一个后端接口从需求到上线的流程**。这种写法比纯概念文更适合我自己回看。

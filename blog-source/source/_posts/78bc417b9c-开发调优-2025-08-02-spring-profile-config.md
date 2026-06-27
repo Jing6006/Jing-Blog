@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
 categories:
-  - 后端框架
+  - 开发调优
 description: 把环境差异收敛到配置，把敏感信息交给部署环境。
 cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80
 abbrlink: spring-profile-config
 synced_from_content_repo: true
 source_path: 开发调优/2025-08-02-spring-profile-config.md
+source_hash: 2b049865902df11dfb49e69211ef65009685a42d
 ---
 
 这篇我想按“排查记录”来写，主题是 **Spring 配置文件和多环境管理**。这种写法比纯概念文更适合我自己回看。

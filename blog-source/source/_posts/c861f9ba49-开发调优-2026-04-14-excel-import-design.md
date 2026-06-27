@@ -6,12 +6,13 @@ tags:
   - spring
   - engineering
 categories:
-  - 后端框架
+  - 开发调优
 description: 导入流程要拆成解析、校验、预览、入库和错误反馈。
 cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80
 abbrlink: excel-import-design
 synced_from_content_repo: true
 source_path: 开发调优/2026-04-14-excel-import-design.md
+source_hash: 3c2a5589f9181ca4c57bf51798e14ead70afb290
 ---
 
 这篇按踩坑笔记来写，因为 **Excel 导入为什么容易写乱** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

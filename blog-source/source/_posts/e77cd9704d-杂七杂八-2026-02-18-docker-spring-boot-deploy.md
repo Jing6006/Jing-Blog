@@ -4,6 +4,8 @@ date: 2026-02-14 11:38:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - spring
+  - ops
 categories:
   - 杂七杂八
 description: 容器化重点是可重复运行和环境隔离。
@@ -11,6 +13,7 @@ cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit
 abbrlink: docker-spring-boot-deploy
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-02-18-docker-spring-boot-deploy.md
+source_hash: 05b6438849fbaadabde191563bf9f8a451e2c1af
 ---
 
 这篇我想按“排查记录”来写，主题是 **Docker 部署 Spring Boot 项目**。这种写法比纯概念文更适合我自己回看。

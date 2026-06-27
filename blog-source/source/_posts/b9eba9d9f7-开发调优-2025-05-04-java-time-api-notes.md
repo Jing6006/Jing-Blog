@@ -4,13 +4,15 @@ date: 2025-04-30 20:26:00
 updated: 2026-06-26 07:16:12
 tags:
   - java
+  - api-design
 categories:
-  - Java 基础
+  - 开发调优
 description: 区分日期、时间、时区和时间戳。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: java-time-api-notes
 synced_from_content_repo: true
 source_path: 开发调优/2025-05-04-java-time-api-notes.md
+source_hash: 127ff63fa8a9816f97f8f963ea3411f24b151a42
 ---
 
 今天不想写长文，先把 **Java 时间 API：LocalDateTime 使用笔记** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

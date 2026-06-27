@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - java
 categories:
-  - Java 基础
+  - 开发调优
 description: 结合缓存友好性、遍历方式和插入位置选择集合。
 cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80
 abbrlink: arraylist-linkedlist-choice
 synced_from_content_repo: true
 source_path: 开发调优/2025-03-30-arraylist-linkedlist-choice.md
+source_hash: 55e17cdb667c1e76219a485a4032f524f19e3e51
 ---
 
 今天不想写长文，先把 **ArrayList 和 LinkedList 不只是查询快慢** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

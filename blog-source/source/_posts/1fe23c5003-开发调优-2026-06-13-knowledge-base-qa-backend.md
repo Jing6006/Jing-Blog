@@ -5,13 +5,15 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
   - engineering
+  - ai
 categories:
-  - 后端框架
+  - 开发调优
 description: 问答系统要把上传、索引、检索、生成和反馈拆开。
 cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
 abbrlink: knowledge-base-qa-backend
 synced_from_content_repo: true
 source_path: 开发调优/2026-06-13-knowledge-base-qa-backend.md
+source_hash: 0a24d3b9a9d38f3703b6e766d132df308fb79a69
 ---
 
 这篇按踩坑笔记来写，因为 **一个知识库问答 Demo 的后端设计** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

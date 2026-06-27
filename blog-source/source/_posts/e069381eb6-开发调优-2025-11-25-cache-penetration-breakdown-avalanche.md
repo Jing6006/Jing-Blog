@@ -4,13 +4,15 @@ date: 2025-11-18 10:51:00
 updated: 2026-06-26 07:16:12
 tags:
   - database
+  - redis
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 三个问题都表现为压力打到数据库，但成因不同。
 cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
 abbrlink: cache-penetration-breakdown-avalanche
 synced_from_content_repo: true
 source_path: 开发调优/2025-11-25-cache-penetration-breakdown-avalanche.md
+source_hash: 41ec459e2484562d5cdce05b65f6b620dc15f7d2
 ---
 
 这篇按踩坑笔记来写，因为 **缓存穿透、击穿、雪崩重新整理** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

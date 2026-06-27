@@ -4,6 +4,7 @@ date: 2026-06-23 13:05:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - ai
 categories:
   - 杂七杂八
 description: 知识库不是资料仓库，而是能支持检索、复习和项目决策的材料系统。
@@ -11,6 +12,7 @@ cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&
 abbrlink: personal-knowledge-base-plan
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-06-17-personal-knowledge-base-plan.md
+source_hash: f36a71c923b7bc94c8518aa171fd031ff1b68875
 ---
 
 今天不想写长文，先把 **个人技术知识库应该怎么整理** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

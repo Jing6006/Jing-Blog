@@ -11,6 +11,7 @@ cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&
 abbrlink: maven-dependency-conflict
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-02-23-maven-dependency-conflict.md
+source_hash: 043cba84a9f19cd713d2b9e3720179d8395ad24a
 ---
 
 今天把 **Maven 依赖冲突的一次排查** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

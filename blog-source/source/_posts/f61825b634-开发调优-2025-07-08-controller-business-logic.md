@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
 categories:
-  - 后端框架
+  - 开发调优
 description: Controller 只做参数接收、校验触发和响应转换。
 cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80
 abbrlink: controller-business-logic
 synced_from_content_repo: true
 source_path: 开发调优/2025-07-08-controller-business-logic.md
+source_hash: 899f23673ee9e75e4057f4cdee97d038d7e8a55c
 ---
 
 这篇按踩坑笔记来写，因为 **Controller 层到底该写多少逻辑** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

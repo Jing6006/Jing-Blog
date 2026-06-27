@@ -4,6 +4,7 @@ date: 2026-03-14 13:05:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - api-design
 categories:
   - 杂七杂八
 description: 接口文档是协作契约，不是上线前补的说明。
@@ -11,6 +12,7 @@ cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&
 abbrlink: api-doc-frontend-backend
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-03-20-api-doc-frontend-backend.md
+source_hash: ab66a66d2c0092a5137183d71c642b62cc0f44d4
 ---
 
 今天不想写长文，先把 **接口文档和前后端联调流程整理** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

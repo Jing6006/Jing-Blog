@@ -5,13 +5,15 @@ updated: 2026-06-26 07:16:12
 tags:
   - database
   - engineering
+  - security
 categories:
-  - 后端框架
+  - 开发调优
 description: 用户权限设计从简单可用开始，避免一上来过度复杂。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: user-permission-table-design
 synced_from_content_repo: true
 source_path: 开发调优/2026-04-04-user-permission-table-design.md
+source_hash: e6a3c0b2377afc59920d6532b1dd7e5fdb4b5047
 ---
 
 今天把 **小项目的用户表和权限表设计** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

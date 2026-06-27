@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - java
 categories:
-  - Java 基础
+  - 开发调优
 description: 用 Optional 表达可能不存在的返回值，而不是替代所有 null。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: optional-boundary
 synced_from_content_repo: true
 source_path: 开发调优/2025-04-19-optional-boundary.md
+source_hash: d849aa246404140440a762a713def26da35489c8
 ---
 
 这篇按踩坑笔记来写，因为 **Optional 适合解决什么问题** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

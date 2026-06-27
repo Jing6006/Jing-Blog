@@ -4,6 +4,7 @@ date: 2026-05-03 13:05:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - testing
 categories:
   - 杂七杂八
 description: 复盘先还原事实，再分析原因，最后落实改进。
@@ -11,6 +12,7 @@ cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&
 abbrlink: production-incident-review
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-05-09-production-incident-review.md
+source_hash: 28be1a090fa601d4fd9bac301a62daf379fc72f5
 ---
 
 这篇按踩坑笔记来写，因为 **线上问题复盘：先保留现场再改代码** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - database
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 慢 SQL 排查要从现象、SQL、索引和数据分布逐步缩小。
 cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80
 abbrlink: slow-sql-debugging
 synced_from_content_repo: true
 source_path: 开发调优/2025-10-16-slow-sql-debugging.md
+source_hash: c4ac590445a67797f725374112a8bbda1fd63fef
 ---
 
 这篇按踩坑笔记来写，因为 **一次慢 SQL 的定位过程** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

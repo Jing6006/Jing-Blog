@@ -4,6 +4,8 @@ date: 2026-01-31 08:57:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - java
+  - ops
 categories:
   - 杂七杂八
 description: 从进程、端口、日志和资源使用四个角度定位问题。
@@ -11,6 +13,7 @@ cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&
 abbrlink: linux-java-debug-commands
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-02-08-linux-java-debug-commands.md
+source_hash: eb5fd55948aaeeb3cb523f68088aef53ad58fc0e
 ---
 
 这篇按踩坑笔记来写，因为 **Linux 上排查 Java 服务的常用命令** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

@@ -4,13 +4,15 @@ date: 2025-06-07 09:12:00
 updated: 2026-06-26 07:16:12
 tags:
   - java
+  - concurrency
 categories:
-  - Java 基础
+  - 开发调优
 description: 从任务类型、响应时间和资源限制倒推线程池。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: thread-pool-parameters
 synced_from_content_repo: true
 source_path: 开发调优/2025-06-08-thread-pool-parameters.md
+source_hash: 945edb1d3cce0b7b56ff3d5edcf9518cd9c1ee6d
 ---
 
 今天把 **线程池参数应该怎么设置** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

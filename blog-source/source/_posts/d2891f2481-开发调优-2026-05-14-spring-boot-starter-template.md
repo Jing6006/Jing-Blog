@@ -6,12 +6,13 @@ tags:
   - spring
   - engineering
 categories:
-  - 后端框架
+  - 开发调优
 description: 脚手架要沉淀通用能力，同时保持轻量。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: spring-boot-starter-template
 synced_from_content_repo: true
 source_path: 开发调优/2026-05-14-spring-boot-starter-template.md
+source_hash: f53d3c7f3734caa082a802235214191762d97d73
 ---
 
 今天把 **从零整理一个 Spring Boot 后端脚手架** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

@@ -11,7 +11,8 @@ const session = require('express-session');
 require('dotenv').config({path: path.join(__dirname, '..', '.env')});
 
 const ROOT = path.resolve(__dirname, '..');
-const POSTS_DIR = path.join(ROOT, 'source', '_posts');
+const CONTENT_ROOT = path.resolve(process.env.BLOG_CONTENT_DIR || path.join(ROOT, '..', 'blog-content', 'data'));
+const POSTS_DIR = CONTENT_ROOT;
 const IMG_DIR = path.join(ROOT, 'source', 'img');
 const DATA_DIR = path.join(__dirname, 'data');
 const ANALYTICS_FILE = path.join(DATA_DIR, 'analytics.json');
@@ -50,6 +51,7 @@ app.use(
 app.use(`${ADMIN_BASE}/assets`, express.static(path.join(__dirname, 'public')));
 
 let buildQueue = Promise.resolve();
+const messageRateLimit = new Map();
 
 function htmlEscape(value = '') {
   return String(value)
@@ -72,11 +74,15 @@ function normalizeDate(value) {
 }
 
 function safePostFile(name) {
-  const file = path.basename(name || '');
-  if (!file.endsWith('.md')) throw new Error('Invalid post file');
-  const full = path.join(POSTS_DIR, file);
-  if (!full.startsWith(POSTS_DIR)) throw new Error('Invalid post path');
+  const file = String(name || '').replace(/\\/g, '/').replace(/^\/+/, '');
+  if (!file.endsWith('.md') || file.includes('..')) throw new Error('Invalid post file');
+  const full = path.resolve(POSTS_DIR, file);
+  if (!full.startsWith(`${POSTS_DIR}${path.sep}`)) throw new Error('Invalid post path');
   return full;
+}
+
+function postRelPath(full) {
+  return path.relative(POSTS_DIR, full).replace(/\\/g, '/');
 }
 
 function slugifyTitle(title) {
@@ -93,6 +99,17 @@ function splitList(value) {
     .split(',')
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function walkMarkdown(dir) {
+  if (!fs.existsSync(dir)) return [];
+  const out = [];
+  for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...walkMarkdown(full));
+    if (entry.isFile() && entry.name.toLowerCase().endsWith('.md')) out.push(full);
+  }
+  return out;
 }
 
 function parseFrontMatter(text) {
@@ -159,18 +176,17 @@ function generateAbbrlink(seed) {
 
 function readPosts() {
   fs.mkdirSync(POSTS_DIR, {recursive: true});
-  return fs
-    .readdirSync(POSTS_DIR)
-    .filter((file) => file.endsWith('.md'))
-    .map((file) => {
-      const full = safePostFile(file);
+  return walkMarkdown(POSTS_DIR)
+    .map((full) => {
+      const file = postRelPath(full);
       const parsed = parseFrontMatter(fs.readFileSync(full, 'utf8'));
+      const inferredCategory = file.includes('/') ? file.split('/')[0] : '未分类';
       return {
         file,
-        title: parsed.data.title || file.replace(/\.md$/, ''),
+        title: parsed.data.title || path.basename(file, '.md'),
         date: normalizeDate(parsed.data.date),
         updated: normalizeDate(parsed.data.updated),
-        categories: asArray(parsed.data.categories),
+        categories: asArray(parsed.data.categories).length ? asArray(parsed.data.categories) : [inferredCategory],
         tags: asArray(parsed.data.tags),
         description: parsed.data.description || '',
         cover: parsed.data.cover || '',
@@ -181,13 +197,16 @@ function readPosts() {
 }
 
 function readPost(file) {
-  const parsed = parseFrontMatter(fs.readFileSync(safePostFile(file), 'utf8'));
+  const full = safePostFile(file);
+  const parsed = parseFrontMatter(fs.readFileSync(full, 'utf8'));
+  const rel = postRelPath(full);
+  const inferredCategory = rel.includes('/') ? rel.split('/')[0] : '未分类';
   return {
-    file,
+    file: rel,
     title: parsed.data.title || '',
     date: normalizeDate(parsed.data.date),
     updated: normalizeDate(parsed.data.updated),
-    categories: asArray(parsed.data.categories),
+    categories: asArray(parsed.data.categories).length ? asArray(parsed.data.categories) : [inferredCategory],
     tags: asArray(parsed.data.tags),
     description: parsed.data.description || '',
     cover: parsed.data.cover || '',
@@ -197,21 +216,28 @@ function readPost(file) {
 
 function writePost(file, body) {
   const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
-  const target = file ? safePostFile(file) : path.join(POSTS_DIR, `${Date.now()}-${slugifyTitle(body.title)}.md`);
-  const existing = fs.existsSync(target) ? parseFrontMatter(fs.readFileSync(target, 'utf8')).data : {};
+  const existingTarget = file ? safePostFile(file) : '';
+  const existing = existingTarget && fs.existsSync(existingTarget) ? parseFrontMatter(fs.readFileSync(existingTarget, 'utf8')).data : {};
+  const categories = splitList(body.categories);
+  const category = categories[0] || asArray(existing.categories)[0] || '未分类';
+  const filename = file ? path.basename(file) : `${Date.now()}-${slugifyTitle(body.title)}.md`;
+  const target = path.resolve(POSTS_DIR, category, filename);
+  if (!target.startsWith(`${POSTS_DIR}${path.sep}`)) throw new Error('Invalid post path');
   const data = {
     title: body.title || '未命名文章',
     abbrlink: existing.abbrlink || generateAbbrlink(body.title || target),
     date: body.date || now,
     updated: now,
     tags: splitList(body.tags),
-    categories: splitList(body.categories),
+    categories: categories.length ? categories : [category],
     description: body.description || '',
     cover: body.cover || '',
   };
   const next = stringifyFrontMatter(data, body.content || '');
+  fs.mkdirSync(path.dirname(target), {recursive: true});
   fs.writeFileSync(target, next, 'utf8');
-  return path.basename(target);
+  if (existingTarget && existingTarget !== target && fs.existsSync(existingTarget)) fs.unlinkSync(existingTarget);
+  return postRelPath(target);
 }
 
 function deletePost(file) {
@@ -290,10 +316,16 @@ function messageTree() {
 }
 
 function createMessage(body, req) {
+  if (String(body.website || '').trim()) throw new Error('Invalid message');
   const author = normalizeMessageText(body.author, 24);
   const content = normalizeMessageText(body.content, 800);
   const parentId = normalizeMessageText(body.parentId, 64);
   if (!author || !content) throw new Error('留言昵称和内容不能为空');
+  const ip = clientIp(req);
+  const now = Date.now();
+  const lastAt = messageRateLimit.get(ip) || 0;
+  if (now - lastAt < 60 * 1000) throw new Error('Message too frequent');
+  messageRateLimit.set(ip, now);
 
   const messages = readMessages();
   if (parentId && !messages.some((item) => item.id === parentId)) {
@@ -306,7 +338,7 @@ function createMessage(body, req) {
     author,
     content,
     createdAt: new Date().toISOString(),
-    ip: clientIp(req),
+    ip,
   };
   messages.push(message);
   writeMessages(messages);
@@ -503,7 +535,9 @@ function writeSettings(body, file) {
 }
 
 function copyDirContents(from, to) {
+  const resolvedFrom = path.resolve(from);
   const resolvedTo = path.resolve(to);
+  if (resolvedFrom === resolvedTo) return;
   if (resolvedTo === path.parse(resolvedTo).root) throw new Error('Refusing to deploy to filesystem root');
   fs.mkdirSync(resolvedTo, {recursive: true});
   for (const entry of fs.readdirSync(resolvedTo)) {

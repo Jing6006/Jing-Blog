@@ -4,13 +4,15 @@ date: 2025-06-16 14:07:00
 updated: 2026-06-26 07:16:12
 tags:
   - java
+  - concurrency
 categories:
-  - Java 基础
+  - 开发调优
 description: 把互不依赖的远程调用并行化，同时控制异常和超时。
 cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80
 abbrlink: completable-future-practice
 synced_from_content_repo: true
 source_path: 开发调优/2025-06-18-completable-future-practice.md
+source_hash: 10d31f2b91af93b51811a853ca481421b8ca6e8a
 ---
 
 这篇按踩坑笔记来写，因为 **CompletableFuture 的一次异步编排练习** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

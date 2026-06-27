@@ -4,6 +4,7 @@ date: 2026-06-14 16:18:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - ai
 categories:
   - 杂七杂八
 description: 排查类提示词要提供现象、环境、日志、已尝试方案和期望输出。
@@ -11,6 +12,7 @@ cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&
 abbrlink: prompt-debugging-workflow
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-06-15-prompt-debugging-workflow.md
+source_hash: 4fc9546fe601c40031481caebd9c47c5870bba0e
 ---
 
 这篇按踩坑笔记来写，因为 **用 AI 辅助排查问题时我怎么提问** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

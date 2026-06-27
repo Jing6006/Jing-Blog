@@ -4,13 +4,16 @@ date: 2025-09-17 11:38:00
 updated: 2026-06-26 07:16:12
 tags:
   - spring
+  - security
+  - ai
 categories:
-  - 后端框架
+  - 开发调优
 description: 理解请求进入业务接口前经过哪些安全过滤器。
 cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80
 abbrlink: spring-security-filter-chain
 synced_from_content_repo: true
 source_path: 开发调优/2025-09-21-spring-security-filter-chain.md
+source_hash: e89b52db8c234de051217e4a00783c4745df6775
 ---
 
 今天不想写长文，先把 **Spring Security 过滤器链初步理解** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

@@ -5,13 +5,15 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
   - engineering
+  - ai
 categories:
-  - 后端框架
+  - 开发调优
 description: 先理解 Spring AI 的抽象，再考虑接入具体模型。
 cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80
 abbrlink: spring-ai-learning-plan
 synced_from_content_repo: true
 source_path: 开发调优/2026-05-29-spring-ai-learning-plan.md
+source_hash: 41b056f32b8742386789b567df88aca99189c23f
 ---
 
 今天不想写长文，先把 **Spring AI 是什么，我准备怎么学** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

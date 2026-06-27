@@ -4,6 +4,8 @@ date: 2026-03-03 10:51:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - testing
+  - ai
 categories:
   - 杂七杂八
 description: 测试要锁定行为，帮助重构时发现回归。
@@ -11,6 +13,7 @@ cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&
 abbrlink: unit-test-not-coverage-only
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-03-05-unit-test-not-coverage-only.md
+source_hash: 7587c927f352e7ce8a5a48dcb1512697c48bcca9
 ---
 
 这篇按踩坑笔记来写，因为 **单元测试不是为了凑覆盖率** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

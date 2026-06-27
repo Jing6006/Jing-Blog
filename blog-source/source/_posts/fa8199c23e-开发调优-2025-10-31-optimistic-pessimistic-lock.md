@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - database
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 根据冲突概率和用户体验选择锁策略。
 cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
 abbrlink: optimistic-pessimistic-lock
 synced_from_content_repo: true
 source_path: 开发调优/2025-10-31-optimistic-pessimistic-lock.md
+source_hash: 472806fd2c8bcc3ca62c68317c39aa05e46b08ed
 ---
 
 今天不想写长文，先把 **乐观锁和悲观锁的使用边界** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

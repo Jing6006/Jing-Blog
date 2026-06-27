@@ -5,13 +5,15 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
   - database
+  - ai
 categories:
-  - 后端框架
+  - 开发调优
 description: RAG 的关键不是把文档塞进去，而是让问题能找回正确片段。
 cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80
 abbrlink: rag-retrieval-chunk-embedding
 synced_from_content_repo: true
 source_path: 开发调优/2026-06-03-rag-retrieval-chunk-embedding.md
+source_hash: b3f5e2a7ab4037e820b8f2a290f0cd349a4dcffc
 ---
 
 今天把 **RAG 的检索、切片和向量化流程** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

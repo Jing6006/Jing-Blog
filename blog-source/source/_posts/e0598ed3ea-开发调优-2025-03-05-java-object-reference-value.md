@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - java
 categories:
-  - Java 基础
+  - 开发调优
 description: 区分变量里保存的是值还是对象引用，避免把参数传递讲混。
 cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80
 abbrlink: java-object-reference-value
 synced_from_content_repo: true
 source_path: 开发调优/2025-03-05-java-object-reference-value.md
+source_hash: 2a5dcacc3562f9e6ff57901eca8cf53b81036fe5
 ---
 
 今天不想写长文，先把 **Java 对象、引用和值传递到底怎么理解** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

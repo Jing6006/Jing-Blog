@@ -4,6 +4,7 @@ date: 2026-01-21 13:05:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - ops
 categories:
   - 杂七杂八
 description: 链路 ID 让一次请求在多层日志中能被串起来。
@@ -11,6 +12,7 @@ cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&
 abbrlink: trace-id-log
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-01-29-trace-id-log.md
+source_hash: 9c4e162f31c76d4717a441ff1016168f6ff02747
 ---
 
 这篇我想按“排查记录”来写，主题是 **日志链路 ID 帮我少走了多少弯路**。这种写法比纯概念文更适合我自己回看。

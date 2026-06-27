@@ -5,13 +5,16 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
   - engineering
+  - security
+  - architecture
 categories:
-  - 后端框架
+  - 开发调优
 description: 粗粒度准入和细粒度业务权限要分开看。
 cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80
 abbrlink: permission-in-gateway-or-service
 synced_from_content_repo: true
 source_path: 开发调优/2025-09-26-permission-in-gateway-or-service.md
+source_hash: c5d0199158da51b49218c046afcd1cefc16e1ac5
 ---
 
 这篇按踩坑笔记来写，因为 **权限校验应该放在网关还是服务内** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

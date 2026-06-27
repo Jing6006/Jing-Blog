@@ -120,6 +120,26 @@ function normalizeList(value) {
   return value ? [String(value)] : [];
 }
 
+function normalize(value) {
+  return String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+const TAG_RULES = [
+  {tag: 'java', patterns: ['java', 'jvm', 'jdk', 'jre', '集合', 'hashmap', 'arraylist', 'linkedlist', 'string', 'bigdecimal', 'optional', 'lambda', '泛型']},
+  {tag: 'spring', patterns: ['spring', 'springboot', 'spring boot', 'springcloud', 'spring cloud', 'aop', 'bean', 'openfeign']},
+  {tag: 'database', patterns: ['mysql', '数据库', 'sql', '索引', '分页', '表设计', 'explain', 'mybatis']},
+  {tag: 'redis', patterns: ['redis', '缓存', 'cache', 'sentinel']},
+  {tag: 'mq', patterns: ['mq', 'rocketmq', '消息', '死信', '重试', '削峰']},
+  {tag: 'concurrency', patterns: ['并发', '线程', 'threadlocal', 'volatile', 'synchronized', 'reentrantlock', 'completablefuture', '线程池']},
+  {tag: 'security', patterns: ['security', 'jwt', '登录', '认证', '鉴权', '权限']},
+  {tag: 'api-design', patterns: ['api', '接口', 'dto', 'vo', '统一返回', '上传', '幂等']},
+  {tag: 'architecture', patterns: ['架构', '分层', '网关', '降级', '熔断', '容错']},
+  {tag: 'testing', patterns: ['测试', 'test', 'mockito', '单测', '集成测试', 'code review', 'review']},
+  {tag: 'ops', patterns: ['docker', 'nginx', 'linux', '部署', '发布', '日志', 'trace', '生产事故']},
+  {tag: 'ai', patterns: ['ai', 'rag', '知识库', '向量', 'embedding', 'prompt']},
+  {tag: 'engineering', patterns: ['工程实践', '排查', '调试', '复盘']},
+];
+
 function sameList(left, right) {
   if (left.length !== right.length) return false;
   return left.every((item, index) => item === right[index]);
@@ -129,6 +149,20 @@ function formatDateTime(date) {
   const pad = (n) => String(n).padStart(2, '0');
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} `
     + `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+}
+
+function inferTags(rel, title, existingTags) {
+  const matched = new Set(normalizeList(existingTags).map((item) => item.trim()).filter(Boolean));
+  const haystack = normalize([rel, title].join(' '));
+
+  for (const rule of TAG_RULES) {
+    if (matched.has(rule.tag)) continue;
+    if (rule.patterns.some((pattern) => haystack.includes(normalize(pattern)))) {
+      matched.add(rule.tag);
+    }
+  }
+
+  return [...matched];
 }
 
 // 给缺少 date 的源文件补一行 date，保证“最新写的排最前”，并写回源仓库使其稳定可提交。
@@ -239,8 +273,10 @@ function syncContent() {
     const outputFile = path.join(POSTS_DIR, generatedName);
     const date = data.date;
     const title = data.title || path.basename(rel, path.extname(rel));
-    const tags = normalizeList(data.tags);
-    const categories = Array.isArray(data.categories) && data.categories.length ? data.categories : folderParts;
+    // Keep generated Hexo categories aligned with the content repository folders.
+    // This avoids stale frontmatter categories from splitting posts across old category pages.
+    const categories = folderParts;
+    const tags = inferTags(rel, title, data.tags);
     const sourceHash = contentHash(raw);
     let updated = data.updated || date;
 

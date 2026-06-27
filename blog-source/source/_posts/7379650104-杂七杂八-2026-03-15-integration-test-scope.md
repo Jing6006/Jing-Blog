@@ -4,6 +4,7 @@ date: 2026-03-11 21:44:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - testing
 categories:
   - 杂七杂八
 description: 集成测试关注组件协作，不必覆盖所有细节。
@@ -11,6 +12,7 @@ cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit
 abbrlink: integration-test-scope
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-03-15-integration-test-scope.md
+source_hash: 1d57f35f0761bc8045368ab2af28b07a089e6ec1
 ---
 
 今天把 **集成测试应该测到什么程度** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

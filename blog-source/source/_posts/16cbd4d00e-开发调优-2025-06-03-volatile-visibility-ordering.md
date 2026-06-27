@@ -4,13 +4,16 @@ date: 2025-05-29 08:57:00
 updated: 2026-06-26 07:16:12
 tags:
   - java
+  - concurrency
+  - api-design
 categories:
-  - Java 基础
+  - 开发调优
 description: volatile 解决可见性和有序性，不保证复合操作原子性。
 cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
 abbrlink: volatile-visibility-ordering
 synced_from_content_repo: true
 source_path: 开发调优/2025-06-03-volatile-visibility-ordering.md
+source_hash: e25c1b734cb60a0ec95c2149f1d14cbede546a9a
 ---
 
 这篇我想按“排查记录”来写，主题是 **volatile 能保证什么，不能保证什么**。这种写法比纯概念文更适合我自己回看。

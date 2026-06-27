@@ -4,13 +4,15 @@ date: 2025-08-12 20:26:00
 updated: 2026-06-26 07:16:12
 tags:
   - spring
+  - engineering
 categories:
-  - 后端框架
+  - 开发调优
 description: 循环依赖通常暴露了职责边界不清。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: dependency-injection-cycle
 synced_from_content_repo: true
 source_path: 开发调优/2025-08-12-dependency-injection-cycle.md
+source_hash: 69f885170dc83343bfe68a9bd993d8a37abdfd16
 ---
 
 今天不想写长文，先把 **依赖注入和循环依赖问题复盘** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

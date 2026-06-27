@@ -4,13 +4,15 @@ date: 2025-05-19 21:44:00
 updated: 2026-06-26 07:16:12
 tags:
   - java
+  - concurrency
 categories:
-  - Java 基础
+  - 开发调优
 description: 先区分执行单元，再讨论共享资源。
 cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80
 abbrlink: thread-process-concurrency
 synced_from_content_repo: true
 source_path: 开发调优/2025-05-19-thread-process-concurrency.md
+source_hash: d4fe2122b27fb2705de440216f56bbe532b79de7
 ---
 
 今天把 **线程、进程和并发问题的基本认识** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

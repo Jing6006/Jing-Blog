@@ -5,13 +5,15 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
   - engineering
+  - architecture
 categories:
-  - 后端框架
+  - 开发调优
 description: 网关适合处理跨服务的入口能力，不适合写业务细节。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: gateway-responsibilities
 synced_from_content_repo: true
 source_path: 开发调优/2026-01-19-gateway-responsibilities.md
+source_hash: 31761003747404fca8d3e963a5216117f4f91599
 ---
 
 今天不想写长文，先把 **网关层应该承担哪些职责** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

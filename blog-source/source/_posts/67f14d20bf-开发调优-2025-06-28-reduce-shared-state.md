@@ -4,13 +4,15 @@ date: 2025-06-29 10:51:00
 updated: 2026-06-26 07:16:12
 tags:
   - java
+  - concurrency
 categories:
-  - Java 基础
+  - 开发调优
 description: 很多并发问题不是靠加锁解决，而是靠减少共享。
 cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
 abbrlink: reduce-shared-state
 synced_from_content_repo: true
 source_path: 开发调优/2025-06-28-reduce-shared-state.md
+source_hash: 5491640e77b2487e3f8bd7a9f57207555c59710f
 ---
 
 今天把 **并发场景下如何减少共享状态** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

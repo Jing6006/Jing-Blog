@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - java
 categories:
-  - Java 基础
+  - 开发调优
 description: 用 Lambda 减少样板代码，同时保留调试友好性。
 cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80
 abbrlink: lambda-in-business-code
 synced_from_content_repo: true
 source_path: 开发调优/2025-04-29-lambda-in-business-code.md
+source_hash: 394f6add21723dc0e5821d86b473742c68678ad3
 ---
 
 今天把 **Lambda 表达式在业务代码里的边界** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

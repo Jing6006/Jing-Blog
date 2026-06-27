@@ -4,6 +4,7 @@ date: 2026-05-22 09:12:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - ai
 categories:
   - 杂七杂八
 description: 提示词不是玄学，本质是把需求、约束和验收标准说清楚。
@@ -11,6 +12,7 @@ cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&
 abbrlink: prompt-code-quality
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-05-24-prompt-code-quality.md
+source_hash: 9f73c0f58dd867d859e0cfce1de8c72a2f3719fd
 ---
 
 这篇按踩坑笔记来写，因为 **Prompt 写得清楚，代码质量才有上限** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

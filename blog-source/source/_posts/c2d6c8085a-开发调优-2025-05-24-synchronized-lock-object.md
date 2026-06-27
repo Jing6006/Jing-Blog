@@ -4,13 +4,15 @@ date: 2025-05-19 13:05:00
 updated: 2026-06-26 07:16:12
 tags:
   - java
+  - concurrency
 categories:
-  - Java 基础
+  - 开发调优
 description: 锁住的是对象监视器，不是代码片段本身。
 cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80
 abbrlink: synchronized-lock-object
 synced_from_content_repo: true
 source_path: 开发调优/2025-05-24-synchronized-lock-object.md
+source_hash: 2dde9a2415537bc6212f26699bd561f1ab33e69f
 ---
 
 今天不想写长文，先把 **synchronized 的锁对象到底是谁** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

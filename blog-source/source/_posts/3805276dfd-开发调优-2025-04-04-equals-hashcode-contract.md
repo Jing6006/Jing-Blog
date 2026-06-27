@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - java
 categories:
-  - Java 基础
+  - 开发调优
 description: 理解对象相等性在集合中的契约。
 cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80
 abbrlink: equals-hashcode-contract
 synced_from_content_repo: true
 source_path: 开发调优/2025-04-04-equals-hashcode-contract.md
+source_hash: c6fee2820d0790da9348ad972eb744f852e511bd
 ---
 
 这篇我想按“排查记录”来写，主题是 **equals 和 hashCode 为什么必须一起看**。这种写法比纯概念文更适合我自己回看。

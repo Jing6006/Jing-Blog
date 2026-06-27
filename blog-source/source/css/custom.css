@@ -266,17 +266,11 @@ a {
 }
 
 #aside-content .avatar-img {
-  display: block !important;
-  width: 72px;
-  height: 72px;
-  margin: 0 0 14px !important;
+  display: none !important;
 }
 
 #aside-content .avatar-img img {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
+  display: none !important;
 }
 
 #aside-content .site-data {

@@ -4,13 +4,15 @@ date: 2025-12-06 19:33:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - mq
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 消息队列把同步压力转成异步处理，但增加最终一致性复杂度。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: mq-peak-shaving-boundary
 synced_from_content_repo: true
 source_path: 开发调优/2025-12-15-mq-peak-shaving-boundary.md
+source_hash: a3f4a9c146353db38ebef427a49152b9ddad814c
 ---
 
 这篇按踩坑笔记来写，因为 **MQ 为什么能削峰，但不能解决所有问题** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

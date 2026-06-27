@@ -4,6 +4,7 @@ date: 2026-03-19 19:33:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - testing
 categories:
   - 杂七杂八
 description: Review 不是挑刺，而是提前发现设计和维护问题。
@@ -11,6 +12,7 @@ cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit
 abbrlink: code-review-focus
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-03-25-code-review-focus.md
+source_hash: 18d7f110a4dd52dd43416df2a9bbfbd1321e1982
 ---
 
 这篇我想按“排查记录”来写，主题是 **代码 Review 时我会重点看什么**。这种写法比纯概念文更适合我自己回看。

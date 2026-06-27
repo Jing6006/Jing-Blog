@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - java
 categories:
-  - Java 基础
+  - 开发调优
 description: 把状态码、描述和允许的流转放到同一个语义里。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: enum-business-status
 synced_from_content_repo: true
 source_path: 开发调优/2025-05-14-enum-business-status.md
+source_hash: 3b327b6083e5907acda93d689881d128f959738c
 ---
 
 这篇我想按“排查记录”来写，主题是 **枚举类在业务状态流转里的用法**。这种写法比纯概念文更适合我自己回看。

@@ -4,13 +4,15 @@ date: 2025-08-20 16:18:00
 updated: 2026-06-26 07:16:12
 tags:
   - spring
+  - ai
 categories:
-  - 后端框架
+  - 开发调优
 description: 事务依赖代理、异常类型和数据库能力。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: spring-transaction-failure
 synced_from_content_repo: true
 source_path: 开发调优/2025-08-22-spring-transaction-failure.md
+source_hash: c0627b54ceb1a25708b5597f59d47c4cf11d984b
 ---
 
 这篇按踩坑笔记来写，因为 **Spring 事务为什么会失效** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

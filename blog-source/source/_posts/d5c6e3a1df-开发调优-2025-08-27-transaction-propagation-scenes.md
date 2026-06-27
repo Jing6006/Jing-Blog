@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
 categories:
-  - 后端框架
+  - 开发调优
 description: 传播行为决定多个事务方法嵌套时如何参与或新建事务。
 cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80
 abbrlink: transaction-propagation-scenes
 synced_from_content_repo: true
 source_path: 开发调优/2025-08-27-transaction-propagation-scenes.md
+source_hash: e8bf7cbe3c51b82fef887d1ff218285177c250b1
 ---
 
 今天把 **事务传播行为的几个常见场景** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

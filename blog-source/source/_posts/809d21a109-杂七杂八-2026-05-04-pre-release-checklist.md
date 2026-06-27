@@ -11,6 +11,7 @@ cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit
 abbrlink: pre-release-checklist
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-05-04-pre-release-checklist.md
+source_hash: 635249348a9dc983341c63c496f4b1398570b427
 ---
 
 这篇按踩坑笔记来写，因为 **项目上线前我会检查哪些配置** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

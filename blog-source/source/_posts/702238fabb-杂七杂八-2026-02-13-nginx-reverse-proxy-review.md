@@ -4,6 +4,8 @@ date: 2026-02-09 09:12:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - testing
+  - ops
 categories:
   - 杂七杂八
 description: 反向代理要关注请求头、路径转发和超时。
@@ -11,6 +13,7 @@ cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&
 abbrlink: nginx-reverse-proxy-review
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-02-13-nginx-reverse-proxy-review.md
+source_hash: ce51b6b906d5abe07d1c9f4e11784bf866a321e2
 ---
 
 这篇我想按“排查记录”来写，主题是 **Nginx 反向代理配置复盘**。这种写法比纯概念文更适合我自己回看。

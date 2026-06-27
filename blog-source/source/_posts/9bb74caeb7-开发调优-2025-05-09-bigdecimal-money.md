@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - java
 categories:
-  - Java 基础
+  - 开发调优
 description: 金额计算要控制精度、舍入和构造方式。
 cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
 abbrlink: bigdecimal-money
 synced_from_content_repo: true
 source_path: 开发调优/2025-05-09-bigdecimal-money.md
+source_hash: 23eec6f0b6d5f947f115eeb8166974a7b7138523
 ---
 
 这篇按踩坑笔记来写，因为 **BigDecimal 金额计算为什么容易出错** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

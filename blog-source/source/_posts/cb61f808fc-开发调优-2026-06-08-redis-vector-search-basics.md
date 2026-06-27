@@ -5,13 +5,16 @@ updated: 2026-06-26 07:16:12
 tags:
   - database
   - engineering
+  - redis
+  - ai
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 向量检索要理解索引、距离和元数据过滤。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: redis-vector-search-basics
 synced_from_content_repo: true
 source_path: 开发调优/2026-06-08-redis-vector-search-basics.md
+source_hash: 5705bddeb760e85a6a88756c66378c608bf557e0
 ---
 
 今天不想写长文，先把 **用 Redis 做向量检索前我先搞懂了什么** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

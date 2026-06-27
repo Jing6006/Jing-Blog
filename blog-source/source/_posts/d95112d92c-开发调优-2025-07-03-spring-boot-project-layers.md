@@ -4,13 +4,15 @@ date: 2025-06-29 16:18:00
 updated: 2026-06-26 07:16:12
 tags:
   - spring
+  - architecture
 categories:
-  - 后端框架
+  - 开发调优
 description: 让包结构反映业务边界，而不是机械地按技术名词堆文件。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: spring-boot-project-layers
 synced_from_content_repo: true
 source_path: 开发调优/2025-07-03-spring-boot-project-layers.md
+source_hash: cbb193b8c04d86605de7e67a1059161d3e8d3ed9
 ---
 
 今天不想写长文，先把 **Spring Boot 项目目录怎么分层** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

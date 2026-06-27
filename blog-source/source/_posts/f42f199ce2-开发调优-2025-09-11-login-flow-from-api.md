@@ -5,13 +5,16 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
   - engineering
+  - security
+  - api-design
 categories:
-  - 后端框架
+  - 开发调优
 description: 从用户名密码提交到接口鉴权梳理完整链路。
 cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
 abbrlink: login-flow-from-api
 synced_from_content_repo: true
 source_path: 开发调优/2025-09-11-login-flow-from-api.md
+source_hash: ef2747e2f4ab91052a283fc02d478a2adb65567e
 ---
 
 这篇我想按“排查记录”来写，主题是 **登录认证流程从接口开始梳理**。这种写法比纯概念文更适合我自己回看。

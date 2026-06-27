@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - database
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 理解范围查询、排序和磁盘访问之间的关系。
 cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
 abbrlink: bplus-tree-index
 synced_from_content_repo: true
 source_path: 开发调优/2025-10-06-bplus-tree-index.md
+source_hash: 2c2e5f25a612090f40b33eff71dba8644d5fcaea
 ---
 
 今天把 **B+ 树索引到底解决了什么问题** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

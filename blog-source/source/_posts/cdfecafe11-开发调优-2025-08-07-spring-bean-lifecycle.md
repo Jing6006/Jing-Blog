@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
 categories:
-  - 后端框架
+  - 开发调优
 description: 从实例化、依赖注入、初始化到销毁串起 Bean 生命周期。
 cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80
 abbrlink: spring-bean-lifecycle
 synced_from_content_repo: true
 source_path: 开发调优/2025-08-07-spring-bean-lifecycle.md
+source_hash: a919637b301a61fdccb29153db32ddc48b58c1a3
 ---
 
 今天把 **Bean 生命周期我目前理解到哪一步** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

@@ -11,6 +11,7 @@ cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit
 abbrlink: git-branch-commit-rules
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-02-28-git-branch-commit-rules.md
+source_hash: 54b67947ee775c2052e71b2f2591ca4ed66774fc
 ---
 
 今天不想写长文，先把 **Git 分支管理和提交规范整理** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
 categories:
-  - 后端框架
+  - 开发调优
 description: 把异常转换集中到边界层，让业务代码专注表达失败原因。
 cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
 abbrlink: global-exception-handler
 synced_from_content_repo: true
 source_path: 开发调优/2025-07-23-global-exception-handler.md
+source_hash: c6115af9bdf062ed6d419c3332ae09341bc0f38d
 ---
 
 今天不想写长文，先把 **全局异常处理的一次整理** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

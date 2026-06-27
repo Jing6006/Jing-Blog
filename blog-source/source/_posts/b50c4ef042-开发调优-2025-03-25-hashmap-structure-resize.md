@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - java
 categories:
-  - Java 基础
+  - 开发调优
 description: 从数组、链表、红黑树和负载因子理解 HashMap。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: hashmap-structure-resize
 synced_from_content_repo: true
 source_path: 开发调优/2025-03-25-hashmap-structure-resize.md
+source_hash: 347272353f4dff7a49c7aa6152ba53f3f5f50fdd
 ---
 
 今天不想写长文，先把 **HashMap 的底层结构和扩容过程** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

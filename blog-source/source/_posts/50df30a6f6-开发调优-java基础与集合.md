@@ -1,8 +1,9 @@
 ---
 title: Java基础与集合
-date: 2026-06-26 10:38:08
+date: 2026-06-27 10:41:14
 updated: 2026-06-26 11:04:22
 tags:
+  - java
 categories:
   - 开发调优
 description: HashMap 底层结构、put 流程、扩容机制
@@ -10,6 +11,7 @@ cover:
 abbrlink: 开发调优-java基础与集合
 synced_from_content_repo: true
 source_path: 开发调优/Java基础与集合.md
+source_hash: 0b4b18a6b74809ec33b81854b5bb9025938d62e6
 ---
 
 - **HashMap 底层结构、put 流程、扩容机制**

@@ -11,6 +11,7 @@ cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&
 abbrlink: rate-limit-protects-what
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-01-04-rate-limit-protects-what.md
+source_hash: ee3c104b29d868000ab3f284e34a5ac1e02e1aa9
 ---
 
 这篇按踩坑笔记来写，因为 **限流是在保护系统还是保护用户体验** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

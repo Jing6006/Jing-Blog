@@ -4,13 +4,16 @@ date: 2025-10-28 19:33:00
 updated: 2026-06-26 07:16:12
 tags:
   - database
+  - testing
+  - engineering
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 隔离级别是在一致性和并发性能之间取舍。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: transaction-isolation-review
 synced_from_content_repo: true
 source_path: 开发调优/2025-10-26-transaction-isolation-review.md
+source_hash: 306a989e3bd24bee54d18122200b64c278d91bc6
 ---
 
 这篇我想按“排查记录”来写，主题是 **事务隔离级别和脏读、幻读复盘**。这种写法比纯概念文更适合我自己回看。

@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - database
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 动态 SQL 要服务于可读性，不能把条件拼接写散。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: mybatis-dynamic-sql
 synced_from_content_repo: true
 source_path: 开发调优/2025-11-05-mybatis-dynamic-sql.md
+source_hash: 058949902c538f4bdf26741096980ac8c59480ba
 ---
 
 这篇按踩坑笔记来写，因为 **MyBatis 动态 SQL 写法整理** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

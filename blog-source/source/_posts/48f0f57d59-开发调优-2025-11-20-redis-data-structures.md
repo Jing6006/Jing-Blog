@@ -4,13 +4,15 @@ date: 2025-11-15 20:26:00
 updated: 2026-06-26 07:16:12
 tags:
   - database
+  - redis
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 先按访问模式选结构，再谈命令。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: redis-data-structures
 synced_from_content_repo: true
 source_path: 开发调优/2025-11-20-redis-data-structures.md
+source_hash: df56b80c6ce8f4af34bc1b10354965e3a8c8019a
 ---
 
 今天不想写长文，先把 **Redis 常用数据结构和适用场景** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

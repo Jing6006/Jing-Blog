@@ -4,6 +4,8 @@ date: 2026-06-16 21:44:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - testing
+  - ai
 categories:
   - 杂七杂八
 description: AI 能快速产出代码，但不能替我承担设计、边界和上线责任。
@@ -11,6 +13,7 @@ cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit
 abbrlink: ai-generated-code-review
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-06-16-ai-generated-code-review.md
+source_hash: 0fa45f13692bfa57c4d1e4dc8ee61730cf812d18
 ---
 
 这篇我想按“排查记录”来写，主题是 **AI 生成的代码为什么还要认真 Review**。这种写法比纯概念文更适合我自己回看。

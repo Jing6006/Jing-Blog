@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
 categories:
-  - 后端框架
+  - 开发调优
 description: 格式校验靠入口，业务规则靠领域或服务层。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: validation-layer
 synced_from_content_repo: true
 source_path: 开发调优/2025-07-28-validation-layer.md
+source_hash: b65e68ba4be9f34df4831a714b8ebcc09e047233
 ---
 
 这篇按踩坑笔记来写，因为 **参数校验应该放在哪一层** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

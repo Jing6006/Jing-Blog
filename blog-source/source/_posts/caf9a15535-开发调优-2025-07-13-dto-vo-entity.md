@@ -4,13 +4,15 @@ date: 2025-07-10 13:05:00
 updated: 2026-06-26 07:16:12
 tags:
   - spring
+  - api-design
 categories:
-  - 后端框架
+  - 开发调优
 description: 对象分层是为了隔离变化，不是为了多写几个类。
 cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80
 abbrlink: dto-vo-entity
 synced_from_content_repo: true
 source_path: 开发调优/2025-07-13-dto-vo-entity.md
+source_hash: 3c40502b29b0b7a571d4b9eeead068c623485cc9
 ---
 
 这篇我想按“排查记录”来写，主题是 **DTO、VO、Entity 分不清会带来什么麻烦**。这种写法比纯概念文更适合我自己回看。

@@ -4,13 +4,15 @@ date: 2025-03-13 20:26:00
 updated: 2026-06-26 07:16:12
 tags:
   - java
+  - ops
 categories:
-  - Java 基础
+  - 开发调优
 description: 把 GC 日志当作现象记录，而不是一串看不懂的参数。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: read-gc-log-first-time
 synced_from_content_repo: true
 source_path: 开发调优/2025-03-15-read-gc-log-first-time.md
+source_hash: 382c9334c6456731731b01ffaade304c14a98186
 ---
 
 这篇我想按“排查记录”来写，主题是 **第一次认真看 GC 日志：我关注了哪些字段**。这种写法比纯概念文更适合我自己回看。

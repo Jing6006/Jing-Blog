@@ -4,13 +4,15 @@ date: 2025-12-20 09:12:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - mq
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 失败处理要分清临时失败和永久失败。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: message-retry-dlq
 synced_from_content_repo: true
 source_path: 开发调优/2025-12-25-message-retry-dlq.md
+source_hash: 2f5945fea52f49c24653a89ed61e43f21218f654
 ---
 
 今天把 **消息重试、死信队列和人工补偿** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

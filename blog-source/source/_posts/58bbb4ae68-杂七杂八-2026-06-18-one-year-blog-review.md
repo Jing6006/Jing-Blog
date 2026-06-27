@@ -1,9 +1,10 @@
 ---
 title: 技术博客这一年：哪些内容真的帮到了我
-date: 2026-07-02 19:33:00
+date: 2026-06-25 19:33:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - testing
 categories:
   - 杂七杂八
 description: 复盘不是统计篇数，而是看哪些笔记真的指导了行动。
@@ -11,6 +12,7 @@ cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit
 abbrlink: one-year-blog-review
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-06-18-one-year-blog-review.md
+source_hash: beeb0c2aa2058eda9a2b1685c0da2df465650381
 ---
 
 这篇我想按“排查记录”来写，主题是 **技术博客这一年：哪些内容真的帮到了我**。这种写法比纯概念文更适合我自己回看。

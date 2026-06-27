@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - database
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 字段设计要让约束、含义和演进成本清晰。
 cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80
 abbrlink: database-field-design
 synced_from_content_repo: true
 source_path: 开发调优/2025-11-15-database-field-design.md
+source_hash: ee4fa86f794e2b574a71e8244a1de3375e972a2c
 ---
 
 今天把 **数据库字段设计的一些小原则** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

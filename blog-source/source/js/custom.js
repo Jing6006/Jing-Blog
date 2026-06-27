@@ -416,12 +416,12 @@
       setStatus('\u6b63\u5728\u52a0\u8f7d\u7559\u8a00...', 'muted');
       try {
         const response = await fetch('/api/messages', {cache: 'no-store'});
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        if (!response.ok) throw new Error(response.status === 404 ? '\u7559\u8a00\u63a5\u53e3\u672a\u542f\u52a8' : `HTTP ${response.status}`);
         const data = await response.json();
         renderMessages(data.messages || []);
         setStatus('', '');
-      } catch {
-        setStatus('\u7559\u8a00\u52a0\u8f7d\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5\u3002', 'error');
+      } catch (error) {
+        setStatus(error.message || '\u7559\u8a00\u52a0\u8f7d\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5\u3002', 'error');
       }
     }
 
@@ -436,6 +436,7 @@
         author: authorInput.value.trim(),
         content: contentInput.value.trim(),
         parentId: parentIdInput.value.trim(),
+        website: new FormData(form).get('website') || '',
       };
 
       if (!payload.author || !payload.content) {
@@ -452,7 +453,13 @@
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(payload),
         });
-        const data = await response.json();
+        const text = await response.text();
+        let data = {};
+        try {
+          data = text ? JSON.parse(text) : {};
+        } catch {
+          throw new Error(response.status === 404 ? '\u7559\u8a00\u63a5\u53e3\u672a\u542f\u52a8' : '\u7559\u8a00\u63a5\u53e3\u8fd4\u56de\u5f02\u5e38');
+        }
         if (!response.ok || !data.ok) throw new Error(data.error || `HTTP ${response.status}`);
 
         contentInput.value = '';

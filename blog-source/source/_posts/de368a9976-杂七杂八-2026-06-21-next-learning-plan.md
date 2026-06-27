@@ -1,6 +1,6 @@
 ---
 title: 下一阶段学习计划：从会写到写得稳
-date: 2026-07-02 08:57:00
+date: 2026-06-24 08:57:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
@@ -11,6 +11,7 @@ cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&
 abbrlink: next-learning-plan
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-06-21-next-learning-plan.md
+source_hash: 5e2462aa903d78886bf28044bb526fb51d7726f0
 ---
 
 今天不想写长文，先把 **下一阶段学习计划：从会写到写得稳** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - database
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 索引提升查询，也增加写入和维护成本。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: mysql-index-not-more-better
 synced_from_content_repo: true
 source_path: 开发调优/2025-10-01-mysql-index-not-more-better.md
+source_hash: 463d9762860d2cd4938efe81f2b3e863c8da1695
 ---
 
 这篇我想按“排查记录”来写，主题是 **MySQL 索引为什么不是越多越好**。这种写法比纯概念文更适合我自己回看。

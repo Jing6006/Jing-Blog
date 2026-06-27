@@ -4,13 +4,15 @@ date: 2025-04-12 08:57:00
 updated: 2026-06-26 07:16:12
 tags:
   - java
+  - ops
 categories:
-  - Java 基础
+  - 开发调优
 description: 按可恢复、不可恢复和用户可理解程度处理异常。
 cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
 abbrlink: exception-handling-boundary
 synced_from_content_repo: true
 source_path: 开发调优/2025-04-14-exception-handling-boundary.md
+source_hash: f94f97c13974d761b658d3397340d4d27479ff6a
 ---
 
 今天不想写长文，先把 **异常处理：不要只会捕获后打印日志** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

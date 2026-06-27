@@ -4,13 +4,15 @@ date: 2025-07-15 19:33:00
 updated: 2026-06-26 07:16:12
 tags:
   - spring
+  - api-design
 categories:
-  - 后端框架
+  - 开发调优
 description: 统一格式能降低前端处理成本，但要保留 HTTP 语义。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: unified-api-response
 synced_from_content_repo: true
 source_path: 开发调优/2025-07-18-unified-api-response.md
+source_hash: 95a57a8342345d4d4ed51e787f0db533db78d037
 ---
 
 今天把 **统一返回结果是否真的有必要** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

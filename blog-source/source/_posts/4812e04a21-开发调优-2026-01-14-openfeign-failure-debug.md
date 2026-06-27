@@ -5,13 +5,15 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
   - engineering
+  - ai
 categories:
-  - 后端框架
+  - 开发调优
 description: 远程调用失败要从网络、序列化、超时和下游错误分层排查。
 cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
 abbrlink: openfeign-failure-debug
 synced_from_content_repo: true
 source_path: 开发调优/2026-01-14-openfeign-failure-debug.md
+source_hash: 1bcc410ca901b7298299d57a97b2bf2da5ce8b13
 ---
 
 这篇按踩坑笔记来写，因为 **OpenFeign 调用失败怎么排查** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

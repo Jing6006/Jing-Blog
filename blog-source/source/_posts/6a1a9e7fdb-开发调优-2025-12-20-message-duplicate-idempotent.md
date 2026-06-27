@@ -4,13 +4,16 @@ date: 2025-12-15 08:57:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - mq
+  - api-design
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 消费者必须假设消息可能重复到达。
 cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
 abbrlink: message-duplicate-idempotent
 synced_from_content_repo: true
 source_path: 开发调优/2025-12-20-message-duplicate-idempotent.md
+source_hash: 59232985a6e58859af5945db3b82f8f5eaaff71c
 ---
 
 这篇按踩坑笔记来写，因为 **消息重复消费和幂等处理** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

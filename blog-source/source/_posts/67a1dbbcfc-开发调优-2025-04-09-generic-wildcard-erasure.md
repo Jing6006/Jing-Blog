@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - java
 categories:
-  - Java 基础
+  - 开发调优
 description: 把泛型看成编译期类型约束，而不是运行期魔法。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: generic-wildcard-erasure
 synced_from_content_repo: true
 source_path: 开发调优/2025-04-09-generic-wildcard-erasure.md
+source_hash: e68e785e5efcd2e4225ee285bac7c916370bfd54
 ---
 
 今天把 **泛型、通配符和类型擦除整理** 补成一篇正常一点的学习笔记，不写大而全，就记我这轮最想吃透的部分。

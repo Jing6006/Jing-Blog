@@ -4,13 +4,16 @@ date: 2025-11-30 13:05:00
 updated: 2026-06-26 07:16:12
 tags:
   - database
+  - redis
+  - ai
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 过期时间既影响命中率，也影响系统压力曲线。
 cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80
 abbrlink: redis-expire-details
 synced_from_content_repo: true
 source_path: 开发调优/2025-12-10-redis-expire-details.md
+source_hash: ed6e62fdc42318d990289bfadba350e5a5c536c5
 ---
 
 今天不想写长文，先把 **Redis 过期时间设置的几个细节** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

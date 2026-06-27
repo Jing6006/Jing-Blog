@@ -4,6 +4,7 @@ date: 2026-03-03 16:18:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - testing
 categories:
   - 杂七杂八
 description: Mock 是隔离依赖的工具，不是让测试通过的遮羞布。
@@ -11,6 +12,7 @@ cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&
 abbrlink: mockito-pitfalls
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-03-10-mockito-pitfalls.md
+source_hash: 3444e61583926a3d8acc26423b517ead9a52cf46
 ---
 
 这篇按踩坑笔记来写，因为 **Mockito 写测试时我踩过的坑** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

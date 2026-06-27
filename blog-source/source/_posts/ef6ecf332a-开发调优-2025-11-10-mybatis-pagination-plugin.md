@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - database
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 分页插件减少重复代码，但要理解最终执行的 SQL。
 cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80
 abbrlink: mybatis-pagination-plugin
 synced_from_content_repo: true
 source_path: 开发调优/2025-11-10-mybatis-pagination-plugin.md
+source_hash: bde61810ea2c62b9b2fdf80ee678573d35b62c0c
 ---
 
 这篇我想按“排查记录”来写，主题是 **MyBatis 分页插件和 SQL 可控性**。这种写法比纯概念文更适合我自己回看。

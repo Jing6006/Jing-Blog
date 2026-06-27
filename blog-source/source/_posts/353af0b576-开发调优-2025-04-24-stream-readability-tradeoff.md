@@ -4,13 +4,15 @@ date: 2025-04-24 11:38:00
 updated: 2026-06-26 07:16:12
 tags:
   - java
+  - api-design
 categories:
-  - Java 基础
+  - 开发调优
 description: 让 Stream 服务于清晰的数据转换，而不是炫技。
 cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80
 abbrlink: stream-readability-tradeoff
 synced_from_content_repo: true
 source_path: 开发调优/2025-04-24-stream-readability-tradeoff.md
+source_hash: b8757fee5159018a842c49b0d85db03b29da416f
 ---
 
 这篇我想按“排查记录”来写，主题是 **Stream API 写法和可读性的取舍**。这种写法比纯概念文更适合我自己回看。

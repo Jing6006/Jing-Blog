@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
 categories:
-  - 后端框架
+  - 开发调优
 description: 用事件把主流程和后置动作解耦。
 cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80
 abbrlink: spring-event-practice
 synced_from_content_repo: true
 source_path: 开发调优/2025-09-01-spring-event-practice.md
+source_hash: 69ddb734a8e247d8f18b38ca52c1805c2bc44cb8
 ---
 
 今天不想写长文，先把 **Spring 事件机制的一次小实践** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

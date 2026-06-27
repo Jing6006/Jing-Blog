@@ -4,13 +4,16 @@ date: 2025-03-16 10:51:00
 updated: 2026-06-26 07:16:12
 tags:
   - java
+  - testing
+  - engineering
 categories:
-  - Java 基础
+  - 开发调优
 description: 理解字符串不可变、拼接优化和常量池的边界。
 cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80
 abbrlink: string-pool-review
 synced_from_content_repo: true
 source_path: 开发调优/2025-03-20-string-pool-review.md
+source_hash: ebe351ba6899878947f1d977aadcb9c6cc5aae9c
 ---
 
 这篇我想按“排查记录”来写，主题是 **String、StringBuilder 和字符串常量池复盘**。这种写法比纯概念文更适合我自己回看。

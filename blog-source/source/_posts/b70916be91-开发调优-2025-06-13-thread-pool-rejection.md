@@ -4,13 +4,15 @@ date: 2025-06-12 11:38:00
 updated: 2026-06-26 07:16:12
 tags:
   - java
+  - concurrency
 categories:
-  - Java 基础
+  - 开发调优
 description: 拒绝不是异常情况，而是容量设计的一部分。
 cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80
 abbrlink: thread-pool-rejection
 synced_from_content_repo: true
 source_path: 开发调优/2025-06-13-thread-pool-rejection.md
+source_hash: a28ac197918ca8fe47010fc56ab63c9a5f1f7e50
 ---
 
 今天不想写长文，先把 **线程池拒绝策略和业务兜底** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

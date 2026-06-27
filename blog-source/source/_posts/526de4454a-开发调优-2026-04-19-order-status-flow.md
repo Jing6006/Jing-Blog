@@ -6,12 +6,13 @@ tags:
   - java
   - engineering
 categories:
-  - Java 基础
+  - 开发调优
 description: 订单状态是业务约束，不能只靠前端按钮控制。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: order-status-flow
 synced_from_content_repo: true
 source_path: 开发调优/2026-04-19-order-status-flow.md
+source_hash: d9f9d8fbe792d5ba8082bf469df501ed0cec5751
 ---
 
 这篇我想按“排查记录”来写，主题是 **订单状态流转应该怎么设计**。这种写法比纯概念文更适合我自己回看。

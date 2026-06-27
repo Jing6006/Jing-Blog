@@ -4,13 +4,15 @@ date: 2025-10-10 16:18:00
 updated: 2026-06-26 07:16:12
 tags:
   - database
+  - ai
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 用 explain 判断查询是否走到预期路径。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: explain-fields
 synced_from_content_repo: true
 source_path: 开发调优/2025-10-11-explain-fields.md
+source_hash: e324b659170338cee6e983b0e901dcb640ee0c15
 ---
 
 这篇我想按“排查记录”来写，主题是 **explain 执行计划我重点看哪些字段**。这种写法比纯概念文更适合我自己回看。

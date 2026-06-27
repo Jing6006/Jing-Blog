@@ -4,6 +4,7 @@ date: 2026-05-15 08:57:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - ai
 categories:
   - 杂七杂八
 description: AI 可以加速搜索和解释，但最终要回到代码和文档验证。
@@ -11,6 +12,7 @@ cover: https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&
 abbrlink: ai-tools-learning
 synced_from_content_repo: true
 source_path: 杂七杂八/2026-05-19-ai-tools-learning.md
+source_hash: 3cd8645d134b6c90b7761d95e6e87d1f7e6c41a3
 ---
 
 今天不想写长文，先把 **AI 工具辅助学习时怎么避免假懂** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

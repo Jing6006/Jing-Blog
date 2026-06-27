@@ -4,13 +4,15 @@ date: 2025-11-26 16:18:00
 updated: 2026-06-26 07:16:12
 tags:
   - database
+  - redis
 categories:
-  - 数据库与中间件
+  - 开发调优
 description: 缓存一致性要结合读写路径、失败重试和容忍时间。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: cache-consistency
 synced_from_content_repo: true
 source_path: 开发调优/2025-11-30-cache-consistency.md
+source_hash: 35a1fbc03024b99205180b487f314d30c6d14072
 ---
 
 这篇我想按“排查记录”来写，主题是 **缓存一致性不能只靠删除缓存**。这种写法比纯概念文更适合我自己回看。

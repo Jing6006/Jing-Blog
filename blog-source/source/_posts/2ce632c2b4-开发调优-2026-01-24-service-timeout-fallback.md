@@ -6,12 +6,13 @@ tags:
   - spring
   - engineering
 categories:
-  - 后端框架
+  - 开发调优
 description: 兜底要明确返回的是降级结果，而不是假装成功。
 cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80
 abbrlink: service-timeout-fallback
 synced_from_content_repo: true
 source_path: 开发调优/2026-01-24-service-timeout-fallback.md
+source_hash: 2ab0b89e397198d73ab882aab8e7894038bec7cc
 ---
 
 这篇按踩坑笔记来写，因为 **服务超时之后如何做兜底** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

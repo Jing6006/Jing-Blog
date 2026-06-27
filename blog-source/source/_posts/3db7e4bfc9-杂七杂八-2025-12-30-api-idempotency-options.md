@@ -4,6 +4,7 @@ date: 2025-12-27 11:38:00
 updated: 2026-06-26 07:16:12
 tags:
   - engineering
+  - api-design
 categories:
   - 杂七杂八
 description: 幂等的目标是同一请求多次执行结果可控。
@@ -11,6 +12,7 @@ cover: https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit
 abbrlink: api-idempotency-options
 synced_from_content_repo: true
 source_path: 杂七杂八/2025-12-30-api-idempotency-options.md
+source_hash: cc92a3ec7fe6e124000e81f71903b3f460bff27f
 ---
 
 今天不想写长文，先把 **接口幂等设计的几种方案** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

@@ -5,12 +5,13 @@ updated: 2026-06-26 07:16:12
 tags:
   - java
 categories:
-  - Java 基础
+  - 开发调优
 description: 用方法调用、对象创建和线程执行串起运行时数据区。
 cover: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80
 abbrlink: jvm-memory-areas
 synced_from_content_repo: true
 source_path: 开发调优/2025-03-10-jvm-memory-areas.md
+source_hash: a4ac0e8d99edb16bfc29d90afaa04611901506ac
 ---
 
 这篇按踩坑笔记来写，因为 **从一段代码重新认识 JVM 内存区域** 我现在更容易记住“错在哪”，而不是“定义长什么样”。

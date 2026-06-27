@@ -5,13 +5,16 @@ updated: 2026-06-26 07:16:12
 tags:
   - spring
   - engineering
+  - redis
+  - architecture
 categories:
-  - 后端框架
+  - 开发调优
 description: 用规则把流量控制从业务代码中抽离出来。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: sentinel-rate-limit-practice
 synced_from_content_repo: true
 source_path: 开发调优/2026-01-09-sentinel-rate-limit-practice.md
+source_hash: 46bf8030bcabfcfd5ef6d9b18bfc09e412df6d41
 ---
 
 这篇我想按“排查记录”来写，主题是 **Sentinel 限流降级入门实践**。这种写法比纯概念文更适合我自己回看。

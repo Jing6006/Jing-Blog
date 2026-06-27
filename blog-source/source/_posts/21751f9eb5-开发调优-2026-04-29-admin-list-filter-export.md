@@ -6,12 +6,13 @@ tags:
   - spring
   - database
 categories:
-  - 后端框架
+  - 开发调优
 description: 后台列表看似简单，实际包含查询性能和权限边界。
 cover: https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80
 abbrlink: admin-list-filter-export
 synced_from_content_repo: true
 source_path: 开发调优/2026-04-29-admin-list-filter-export.md
+source_hash: 370ae075b21931a44e3ea604c3d0fadd57818cd2
 ---
 
 今天不想写长文，先把 **后台管理系统的分页、筛选和导出** 这块拆成几条短一点的问答。面试里经常会被连续追问，如果只背一句定义，第二问基本就卡住了。

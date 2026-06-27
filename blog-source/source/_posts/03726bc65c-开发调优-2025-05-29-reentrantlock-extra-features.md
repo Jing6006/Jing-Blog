@@ -4,13 +4,15 @@ date: 2025-05-26 19:33:00
 updated: 2026-06-26 07:16:12
 tags:
   - java
+  - concurrency
 categories:
-  - Java 基础
+  - 开发调优
 description: 理解可中断、可超时、公平锁和条件队列。
 cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80
 abbrlink: reentrantlock-extra-features
 synced_from_content_repo: true
 source_path: 开发调优/2025-05-29-reentrantlock-extra-features.md
+source_hash: a691d2a3cb6eed5ae82124aef9c7bb045d5d688c
 ---
 
 这篇按踩坑笔记来写，因为 **ReentrantLock 比 synchronized 多了什么** 我现在更容易记住“错在哪”，而不是“定义长什么样”。
