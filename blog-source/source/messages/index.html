@@ -1,0 +1,51 @@
+---
+title: Messages
+date: 2026-06-26 22:15:00
+type: page
+aside: false
+comments: false
+---
+
+<div class="jing-guestbook" id="jing-guestbook">
+  <section class="jing-guestbook-hero">
+    <p class="jing-guestbook-kicker">Guestbook</p>
+    <h1>&#30041;&#35328;&#26495;</h1>
+    <p>&#24819;&#20132;&#27969;&#25216;&#26415;&#12289;&#21338;&#23458;&#32500;&#25252;&#12289;&#23398;&#20064;&#36335;&#32447;&#65292;&#25110;&#32773;&#21333;&#32431;&#30041;&#20010;&#33050;&#21360;&#65292;&#37117;&#21487;&#20197;&#22312;&#36825;&#37324;&#35828;&#12290;&#25903;&#25345;&#30452;&#25509;&#22238;&#22797;&#27004;&#20013;&#27004;&#12290;</p>
+  </section>
+
+  <section class="jing-guestbook-form-panel">
+    <div class="jing-guestbook-form-head">
+      <div>
+        <h2 id="jing-guestbook-form-title">&#20889;&#28857;&#20160;&#20040;</h2>
+        <p id="jing-guestbook-reply-hint">&#20889;&#23436;&#23601;&#20250;&#30452;&#25509;&#23637;&#31034;&#22312;&#19979;&#38754;&#12290;</p>
+      </div>
+      <button class="jing-ghost-button" type="button" id="jing-guestbook-cancel" hidden>&#21462;&#28040;&#22238;&#22797;</button>
+    </div>
+
+    <form class="jing-guestbook-form" id="jing-guestbook-form">
+      <input type="hidden" id="jing-guestbook-parent-id" name="parentId" value="">
+      <div class="jing-guestbook-row">
+        <label>
+          <span>&#26165;&#31216;</span>
+          <input id="jing-guestbook-author" name="author" maxlength="24" placeholder="&#24590;&#20040;&#31216;&#21628;&#20320;" required>
+        </label>
+      </div>
+      <label>
+        <span>&#20869;&#23481;</span>
+        <textarea id="jing-guestbook-content" name="content" rows="5" maxlength="800" placeholder="&#21487;&#20197;&#32842;&#25216;&#26415;&#12289;&#25552;&#38382;&#39064;&#12289;&#34917;&#20805;&#35266;&#28857;&#65292;&#25110;&#32773;&#38543;&#20415;&#25171;&#20010;&#25307;&#21628;&#12290;" required></textarea>
+      </label>
+      <div class="jing-guestbook-actions">
+        <div class="jing-guestbook-status" id="jing-guestbook-status" aria-live="polite"></div>
+        <button class="jing-primary-button" type="submit" id="jing-guestbook-submit">&#21457;&#24067;&#30041;&#35328;</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="jing-guestbook-list-panel">
+    <div class="jing-guestbook-list-head">
+      <h2>&#26368;&#26032;&#30041;&#35328;</h2>
+      <span id="jing-guestbook-count">&#21152;&#36733;&#20013;</span>
+    </div>
+    <div class="jing-guestbook-list" id="jing-guestbook-list"></div>
+  </section>
+</div>

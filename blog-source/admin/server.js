@@ -15,6 +15,7 @@ const POSTS_DIR = path.join(ROOT, 'source', '_posts');
 const IMG_DIR = path.join(ROOT, 'source', 'img');
 const DATA_DIR = path.join(__dirname, 'data');
 const ANALYTICS_FILE = path.join(DATA_DIR, 'analytics.json');
+const MESSAGES_FILE = path.join(DATA_DIR, 'messages.json');
 const CONFIG_FILE = path.join(ROOT, '_config.yml');
 const THEME_CONFIG_FILE = path.join(ROOT, '_config.butterfly.yml');
 const PUBLIC_DIR = path.join(ROOT, 'public');
@@ -242,6 +243,93 @@ function readAnalytics() {
 function writeAnalytics(data) {
   fs.mkdirSync(DATA_DIR, {recursive: true});
   fs.writeFileSync(ANALYTICS_FILE, JSON.stringify(data, null, 2), 'utf8');
+}
+
+function readMessages() {
+  fs.mkdirSync(DATA_DIR, {recursive: true});
+  if (!fs.existsSync(MESSAGES_FILE)) return [];
+  try {
+    const data = JSON.parse(fs.readFileSync(MESSAGES_FILE, 'utf8'));
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeMessages(messages) {
+  fs.mkdirSync(DATA_DIR, {recursive: true});
+  fs.writeFileSync(MESSAGES_FILE, JSON.stringify(messages, null, 2), 'utf8');
+}
+
+function normalizeMessageText(value, maxLength) {
+  return String(value || '')
+    .replace(/\r\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+    .slice(0, maxLength);
+}
+
+function messageTree() {
+  const all = readMessages()
+    .filter((item) => item && item.id && item.author && item.content)
+    .sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
+  const byParent = new Map();
+
+  for (const item of all) {
+    const parentId = item.parentId || '';
+    if (!byParent.has(parentId)) byParent.set(parentId, []);
+    byParent.get(parentId).push({...item});
+  }
+
+  const build = (parentId = '') => (byParent.get(parentId) || []).map((item) => ({
+    ...item,
+    replies: build(item.id),
+  }));
+
+  return build('').reverse();
+}
+
+function createMessage(body, req) {
+  const author = normalizeMessageText(body.author, 24);
+  const content = normalizeMessageText(body.content, 800);
+  const parentId = normalizeMessageText(body.parentId, 64);
+  if (!author || !content) throw new Error('留言昵称和内容不能为空');
+
+  const messages = readMessages();
+  if (parentId && !messages.some((item) => item.id === parentId)) {
+    throw new Error('回复目标不存在或已删除');
+  }
+
+  const message = {
+    id: crypto.randomBytes(8).toString('hex'),
+    parentId: parentId || '',
+    author,
+    content,
+    createdAt: new Date().toISOString(),
+    ip: clientIp(req),
+  };
+  messages.push(message);
+  writeMessages(messages);
+  return message;
+}
+
+function deleteMessage(id) {
+  const targetId = String(id || '');
+  const messages = readMessages();
+  const doomed = new Set([targetId]);
+  let changed = true;
+
+  while (changed) {
+    changed = false;
+    for (const item of messages) {
+      if (item.parentId && doomed.has(item.parentId) && !doomed.has(item.id)) {
+        doomed.add(item.id);
+        changed = true;
+      }
+    }
+  }
+
+  writeMessages(messages.filter((item) => !doomed.has(item.id)));
 }
 
 function clientIp(req) {
@@ -473,6 +561,7 @@ function layout(title, body) {
     <nav>
       <a href="${ADMIN_BASE}/posts/new">新建文章</a>
       <a href="${ADMIN_BASE}/analytics">访问统计</a>
+      <a href="${ADMIN_BASE}/messages">留言管理</a>
       <a href="${ADMIN_BASE}/settings">站点设置</a>
       <a href="/" target="_blank">查看博客</a>
       <form action="${LOGOUT_PATH}" method="post"><button>退出</button></form>
@@ -552,6 +641,19 @@ app.post('/track/view', (req, res) => {
   res.status(ok ? 204 : 400).end();
 });
 
+app.get('/api/messages', (req, res) => {
+  res.json({messages: messageTree()});
+});
+
+app.post('/api/messages', (req, res) => {
+  try {
+    const message = createMessage(req.body || {}, req);
+    res.status(201).json({ok: true, message});
+  } catch (error) {
+    res.status(400).json({ok: false, error: error.message});
+  }
+});
+
 app.get(`${ADMIN_BASE}/`, ensureAuth, (req, res) => {
   const posts = readPosts();
   const rows = posts
@@ -627,6 +729,49 @@ app.get(`${ADMIN_BASE}/analytics`, ensureAuth, (req, res) => {
       </section>`,
     ),
   );
+});
+
+app.get(`${ADMIN_BASE}/messages`, ensureAuth, (req, res) => {
+  const flatten = [];
+  const walk = (items, depth = 0) => {
+    for (const item of items) {
+      flatten.push({...item, depth});
+      walk(item.replies || [], depth + 1);
+    }
+  };
+  walk(messageTree());
+  const rows = flatten.map((item) => `<tr>
+      <td>${'&nbsp;'.repeat(item.depth * 4)}<strong>${htmlEscape(item.author)}</strong><small>${htmlEscape(item.id)}</small></td>
+      <td>${htmlEscape(item.content)}</td>
+      <td>${htmlEscape(item.createdAt || '')}</td>
+      <td>${htmlEscape(item.ip || '')}</td>
+      <td class="row-actions">
+        <form action="${ADMIN_BASE}/messages/${encodeURIComponent(item.id)}/delete" method="post" onsubmit="return confirm('确定删除这条留言及其回复吗？')"><button class="danger">删除</button></form>
+      </td>
+    </tr>`).join('');
+  res.send(
+    layout(
+      '留言管理',
+      `<section class="panel">
+        <div class="panel-head">
+          <div><h1>留言管理</h1><p>当前共 ${flatten.length} 条留言与回复。</p></div>
+        </div>
+        <table>
+          <thead><tr><th>用户</th><th>内容</th><th>时间</th><th>IP</th><th>操作</th></tr></thead>
+          <tbody>${rows || '<tr><td colspan="5">暂无留言</td></tr>'}</tbody>
+        </table>
+      </section>`,
+    ),
+  );
+});
+
+app.post(`${ADMIN_BASE}/messages/:id/delete`, ensureAuth, (req, res, next) => {
+  try {
+    deleteMessage(req.params.id);
+    res.redirect(`${ADMIN_BASE}/messages`);
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.get(`${ADMIN_BASE}/posts/new`, ensureAuth, (req, res) => res.send(postForm()));

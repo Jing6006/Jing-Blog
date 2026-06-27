@@ -242,7 +242,242 @@
     }).catch(() => {});
   }
 
-  updateDateCategories();
-  initArchiveSearch();
-  trackPostView();
+  function ensureGuestbookMenu() {
+    const menuTargets = [
+      document.querySelector('#menus .menus_items'),
+      document.querySelector('#sidebar-menus .menus_items'),
+    ];
+
+    for (const root of menuTargets) {
+      if (!root || root.querySelector('a[href="/messages/"]')) continue;
+
+      const item = document.createElement('div');
+      item.className = 'menus_item';
+
+      const link = document.createElement('a');
+      link.className = 'site-page';
+      link.href = '/messages/';
+
+      const icon = document.createElement('i');
+      icon.className = 'fa-fw fas fa-message';
+
+      const text = document.createElement('span');
+      text.textContent = ' \u7559\u8a00';
+
+      link.append(icon, text);
+      item.append(link);
+
+      const aboutItem = [...root.querySelectorAll('.menus_item')].find((node) => {
+        const aboutLink = node.querySelector('a.site-page');
+        return aboutLink && aboutLink.getAttribute('href') === '/about/';
+      });
+
+      if (aboutItem) {
+        root.insertBefore(item, aboutItem);
+      } else {
+        root.append(item);
+      }
+    }
+  }
+
+  function initGuestbook() {
+    if (!/^\/messages\/?$/.test(window.location.pathname)) return;
+
+    const root = document.querySelector('#jing-guestbook');
+    if (!root || root.dataset.bound === '1') return;
+    root.dataset.bound = '1';
+
+    const form = document.querySelector('#jing-guestbook-form');
+    const authorInput = document.querySelector('#jing-guestbook-author');
+    const contentInput = document.querySelector('#jing-guestbook-content');
+    const parentIdInput = document.querySelector('#jing-guestbook-parent-id');
+    const statusNode = document.querySelector('#jing-guestbook-status');
+    const submitButton = document.querySelector('#jing-guestbook-submit');
+    const cancelButton = document.querySelector('#jing-guestbook-cancel');
+    const titleNode = document.querySelector('#jing-guestbook-form-title');
+    const hintNode = document.querySelector('#jing-guestbook-reply-hint');
+    const listNode = document.querySelector('#jing-guestbook-list');
+    const countNode = document.querySelector('#jing-guestbook-count');
+
+    const state = {
+      replyTarget: null,
+      messages: [],
+    };
+
+    function setStatus(text, type) {
+      statusNode.textContent = text || '';
+      statusNode.className = `jing-guestbook-status ${type ? `is-${type}` : ''}`.trim();
+    }
+
+    function flattenCount(items) {
+      return items.reduce((total, item) => total + 1 + flattenCount(item.replies || []), 0);
+    }
+
+    function formatDate(value) {
+      if (!value) return '';
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return value;
+      return new Intl.DateTimeFormat('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      }).format(date);
+    }
+
+    function clearReplyState() {
+      state.replyTarget = null;
+      parentIdInput.value = '';
+      titleNode.textContent = '\u5199\u70b9\u4ec0\u4e48';
+      hintNode.textContent = '\u5199\u5b8c\u5c31\u4f1a\u76f4\u63a5\u5c55\u793a\u5728\u4e0b\u9762\u3002';
+      submitButton.textContent = '\u53d1\u5e03\u7559\u8a00';
+      cancelButton.hidden = true;
+    }
+
+    function setReplyTarget(message) {
+      state.replyTarget = message;
+      parentIdInput.value = message.id;
+      titleNode.textContent = `\u56de\u590d ${message.author}`;
+      hintNode.textContent = '\u56de\u590d\u4f1a\u6302\u5728\u8fd9\u6761\u7559\u8a00\u4e0b\u9762\u3002';
+      submitButton.textContent = '\u53d1\u5e03\u56de\u590d';
+      cancelButton.hidden = false;
+      contentInput.focus();
+      root.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+
+    function createMessageCard(message, depth) {
+      const card = document.createElement('article');
+      card.className = 'jing-message-card';
+      if (depth > 0) card.classList.add('is-reply');
+      card.style.setProperty('--jing-message-depth', String(Math.min(depth, 6)));
+
+      const header = document.createElement('div');
+      header.className = 'jing-message-header';
+
+      const author = document.createElement('strong');
+      author.className = 'jing-message-author';
+      author.textContent = message.author;
+
+      const meta = document.createElement('span');
+      meta.className = 'jing-message-meta';
+      meta.textContent = formatDate(message.createdAt);
+
+      const replyButton = document.createElement('button');
+      replyButton.type = 'button';
+      replyButton.className = 'jing-message-reply';
+      replyButton.textContent = '\u56de\u590d';
+      replyButton.addEventListener('click', () => setReplyTarget(message));
+
+      header.append(author, meta, replyButton);
+
+      const content = document.createElement('div');
+      content.className = 'jing-message-content';
+      for (const line of String(message.content || '').split('\n')) {
+        const paragraph = document.createElement('p');
+        paragraph.textContent = line;
+        content.append(paragraph);
+      }
+
+      card.append(header, content);
+
+      if (Array.isArray(message.replies) && message.replies.length) {
+        const replies = document.createElement('div');
+        replies.className = 'jing-message-children';
+        for (const reply of message.replies) {
+          replies.append(createMessageCard(reply, depth + 1));
+        }
+        card.append(replies);
+      }
+
+      return card;
+    }
+
+    function renderMessages(items) {
+      state.messages = Array.isArray(items) ? items : [];
+      const total = flattenCount(state.messages);
+      countNode.textContent = `${total} \u6761`;
+      listNode.innerHTML = '';
+
+      if (state.messages.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'jing-guestbook-empty';
+        empty.textContent = '\u8fd8\u6ca1\u6709\u7559\u8a00\uff0c\u4f60\u6765\u5750\u7b2c\u4e00\u6761\u3002';
+        listNode.append(empty);
+        return;
+      }
+
+      for (const item of state.messages) {
+        listNode.append(createMessageCard(item, 0));
+      }
+    }
+
+    async function loadMessages() {
+      setStatus('\u6b63\u5728\u52a0\u8f7d\u7559\u8a00...', 'muted');
+      try {
+        const response = await fetch('/api/messages', {cache: 'no-store'});
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        renderMessages(data.messages || []);
+        setStatus('', '');
+      } catch {
+        setStatus('\u7559\u8a00\u52a0\u8f7d\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5\u3002', 'error');
+      }
+    }
+
+    cancelButton.addEventListener('click', () => {
+      clearReplyState();
+      setStatus('', '');
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const payload = {
+        author: authorInput.value.trim(),
+        content: contentInput.value.trim(),
+        parentId: parentIdInput.value.trim(),
+      };
+
+      if (!payload.author || !payload.content) {
+        setStatus('\u6635\u79f0\u548c\u5185\u5bb9\u90fd\u8981\u586b\u3002', 'error');
+        return;
+      }
+
+      submitButton.disabled = true;
+      setStatus('\u6b63\u5728\u53d1\u5e03...', 'muted');
+
+      try {
+        const response = await fetch('/api/messages', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(payload),
+        });
+        const data = await response.json();
+        if (!response.ok || !data.ok) throw new Error(data.error || `HTTP ${response.status}`);
+
+        contentInput.value = '';
+        clearReplyState();
+        setStatus('\u7559\u8a00\u5df2\u53d1\u5e03\u3002', 'success');
+        await loadMessages();
+      } catch (error) {
+        setStatus(error.message || '\u53d1\u5e03\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5\u3002', 'error');
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+
+    clearReplyState();
+    loadMessages();
+  }
+
+  function boot() {
+    ensureGuestbookMenu();
+    updateDateCategories();
+    initArchiveSearch();
+    trackPostView();
+    initGuestbook();
+  }
+
+  boot();
+  document.addEventListener('pjax:complete', boot);
 })();
