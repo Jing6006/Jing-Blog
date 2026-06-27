@@ -14,7 +14,7 @@ const ROOT = path.resolve(__dirname, '..');
 const CONTENT_ROOT = path.resolve(process.env.BLOG_CONTENT_DIR || path.join(ROOT, '..', 'blog-content', 'data'));
 const POSTS_DIR = CONTENT_ROOT;
 const IMG_DIR = path.join(ROOT, 'source', 'img');
-const DATA_DIR = path.join(__dirname, 'data');
+const DATA_DIR = resolveFromRoot(process.env.BLOG_ADMIN_DATA_DIR, path.join(__dirname, 'data'));
 const ANALYTICS_FILE = path.join(DATA_DIR, 'analytics.json');
 const MESSAGES_FILE = path.join(DATA_DIR, 'messages.json');
 const CONFIG_FILE = path.join(ROOT, '_config.yml');
@@ -50,8 +50,27 @@ app.use(
 );
 app.use(`${ADMIN_BASE}/assets`, express.static(path.join(__dirname, 'public')));
 
+const publicStatic = express.static(PUBLIC_DIR);
+app.use((req, res, next) => {
+  if (
+    req.path === LOGIN_PATH
+    || req.path === LOGOUT_PATH
+    || req.path.startsWith(ADMIN_BASE)
+    || req.path.startsWith('/api/')
+    || req.path.startsWith('/track/')
+  ) {
+    return next();
+  }
+  return publicStatic(req, res, next);
+});
+
 let buildQueue = Promise.resolve();
 const messageRateLimit = new Map();
+
+function resolveFromRoot(value, fallback) {
+  if (!value) return fallback;
+  return path.isAbsolute(value) ? value : path.join(ROOT, value);
+}
 
 function htmlEscape(value = '') {
   return String(value)
@@ -295,7 +314,7 @@ function normalizeMessageText(value, maxLength) {
     .slice(0, maxLength);
 }
 
-function messageTree() {
+function messageTree({includePrivate = false} = {}) {
   const all = readMessages()
     .filter((item) => item && item.id && item.author && item.content)
     .sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
@@ -308,7 +327,13 @@ function messageTree() {
   }
 
   const build = (parentId = '') => (byParent.get(parentId) || []).map((item) => ({
-    ...item,
+    id: item.id,
+    parentId: item.parentId || '',
+    author: item.author,
+    content: item.content,
+    createdAt: item.createdAt || '',
+    isAdmin: Boolean(item.isAdmin),
+    ...(includePrivate ? {ip: item.ip || ''} : {}),
     replies: build(item.id),
   }));
 
@@ -324,7 +349,7 @@ function createMessage(body, req) {
   const ip = clientIp(req);
   const now = Date.now();
   const lastAt = messageRateLimit.get(ip) || 0;
-  if (now - lastAt < 60 * 1000) throw new Error('Message too frequent');
+  if (now - lastAt < 60 * 1000) throw new Error('留言太频繁，请稍后再试');
   messageRateLimit.set(ip, now);
 
   const messages = readMessages();
@@ -345,9 +370,37 @@ function createMessage(body, req) {
   return message;
 }
 
+function createAdminReply(parentId, body, req) {
+  const targetId = normalizeMessageText(parentId, 64);
+  const content = normalizeMessageText(body.content, 1200);
+  const author = normalizeMessageText(body.author, 24) || 'Jing';
+  if (!targetId || !content) throw new Error('回复目标和内容不能为空');
+
+  const messages = readMessages();
+  if (!messages.some((item) => item.id === targetId)) {
+    throw new Error('回复目标不存在或已删除');
+  }
+
+  const message = {
+    id: crypto.randomBytes(8).toString('hex'),
+    parentId: targetId,
+    author,
+    content,
+    createdAt: new Date().toISOString(),
+    ip: clientIp(req),
+    isAdmin: true,
+  };
+  messages.push(message);
+  writeMessages(messages);
+  return message;
+}
+
 function deleteMessage(id) {
   const targetId = String(id || '');
   const messages = readMessages();
+  if (!messages.some((item) => item.id === targetId)) {
+    throw new Error('留言不存在或已删除');
+  }
   const doomed = new Set([targetId]);
   let changed = true;
 
@@ -773,14 +826,26 @@ app.get(`${ADMIN_BASE}/messages`, ensureAuth, (req, res) => {
       walk(item.replies || [], depth + 1);
     }
   };
-  walk(messageTree());
-  const rows = flatten.map((item) => `<tr>
-      <td>${'&nbsp;'.repeat(item.depth * 4)}<strong>${htmlEscape(item.author)}</strong><small>${htmlEscape(item.id)}</small></td>
-      <td>${htmlEscape(item.content)}</td>
+  walk(messageTree({includePrivate: true}));
+  const rows = flatten.map((item) => `<tr class="${item.isAdmin ? 'admin-message' : ''}">
+      <td class="message-author-cell">
+        <div style="padding-left:${item.depth * 18}px">
+          <strong>${htmlEscape(item.author)}${item.isAdmin ? '<span class="badge">博主</span>' : ''}</strong>
+          <small>ID：${htmlEscape(item.id)}</small>
+          <small>IP：${htmlEscape(item.ip || '')}</small>
+        </div>
+      </td>
+      <td class="message-content-cell">
+        <div class="message-content">${htmlEscape(item.content).replaceAll('\n', '<br>')}</div>
+        <form class="inline-reply" action="${ADMIN_BASE}/messages/${encodeURIComponent(item.id)}/reply" method="post">
+          <input name="author" value="Jing" aria-label="回复者">
+          <textarea name="content" rows="2" maxlength="1200" placeholder="回复这条留言..." required></textarea>
+          <button class="primary">回复</button>
+        </form>
+      </td>
       <td>${htmlEscape(item.createdAt || '')}</td>
-      <td>${htmlEscape(item.ip || '')}</td>
       <td class="row-actions">
-        <form action="${ADMIN_BASE}/messages/${encodeURIComponent(item.id)}/delete" method="post" onsubmit="return confirm('确定删除这条留言及其回复吗？')"><button class="danger">删除</button></form>
+        <form action="${ADMIN_BASE}/messages/${encodeURIComponent(item.id)}/delete" method="post" onsubmit="return confirm('确定删除这条留言及其所有回复吗？')"><button class="danger">删除</button></form>
       </td>
     </tr>`).join('');
   res.send(
@@ -788,15 +853,24 @@ app.get(`${ADMIN_BASE}/messages`, ensureAuth, (req, res) => {
       '留言管理',
       `<section class="panel">
         <div class="panel-head">
-          <div><h1>留言管理</h1><p>当前共 ${flatten.length} 条留言与回复。</p></div>
+          <div><h1>留言管理</h1><p>当前共 ${flatten.length} 条留言与回复。可以直接在每条留言下回复，删除会连同子回复一起删除。</p></div>
         </div>
         <table>
-          <thead><tr><th>用户</th><th>内容</th><th>时间</th><th>IP</th><th>操作</th></tr></thead>
-          <tbody>${rows || '<tr><td colspan="5">暂无留言</td></tr>'}</tbody>
+          <thead><tr><th>用户</th><th>内容与回复</th><th>时间</th><th>操作</th></tr></thead>
+          <tbody>${rows || '<tr><td colspan="4">暂无留言</td></tr>'}</tbody>
         </table>
       </section>`,
     ),
   );
+});
+
+app.post(`${ADMIN_BASE}/messages/:id/reply`, ensureAuth, (req, res, next) => {
+  try {
+    createAdminReply(req.params.id, req.body || {}, req);
+    res.redirect(`${ADMIN_BASE}/messages`);
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.post(`${ADMIN_BASE}/messages/:id/delete`, ensureAuth, (req, res, next) => {
@@ -893,7 +967,7 @@ app.post(`${ADMIN_BASE}/settings`, ensureAuth, upload.single('avatar'), async (r
   }
 });
 
-app.get('/', (req, res) => res.redirect(ADMIN_BASE));
+app.get('/', publicStatic);
 app.use((error, req, res, next) => {
   console.error(error);
   res.status(500).send(layout('出错了', `<section class="panel"><h1>操作失败</h1><pre>${htmlEscape(error.message)}</pre><a class="button" href="${ADMIN_BASE}/">返回后台</a></section>`));

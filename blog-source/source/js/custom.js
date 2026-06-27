@@ -359,6 +359,13 @@
       author.className = 'jing-message-author';
       author.textContent = message.author;
 
+      if (message.isAdmin) {
+        const badge = document.createElement('span');
+        badge.className = 'jing-message-admin-badge';
+        badge.textContent = '\u535a\u4e3b';
+        author.append(badge);
+      }
+
       const meta = document.createElement('span');
       meta.className = 'jing-message-meta';
       meta.textContent = formatDate(message.createdAt);

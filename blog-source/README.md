@@ -25,7 +25,9 @@ npm run admin
 
 后台默认运行在 `http://127.0.0.1:4010/login`。账号、密码哈希和会话密钥放在 `.env` 中，参考 `.env.example`。
 
-后台包含文章管理、站点设置和访问统计。文章页会向 `/track/view` 上报访问记录，统计数据保存在 `admin/data/analytics.json`，该目录不会提交到 Git。
+后台包含文章管理、留言管理、站点设置和访问统计。文章页会向 `/track/view` 上报访问记录；留言板会读取和写入 `/api/messages`。访问统计默认保存在 `admin/data/analytics.json`，留言默认保存在 `admin/data/messages.json`，也可以用 `BLOG_ADMIN_DATA_DIR` 指定数据目录；该目录不会提交到 Git。
+
+本地执行 `npm run build` 后，再执行 `npm run admin`，可以直接打开 `http://127.0.0.1:4010/messages/` 预览留言板，打开 `http://127.0.0.1:4010/login` 登录后台，进入 `http://127.0.0.1:4010/admin/messages` 管理、回复和删除留言。
 
 ## 写文章
 

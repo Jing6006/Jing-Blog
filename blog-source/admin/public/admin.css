@@ -129,6 +129,48 @@ td small {
   margin: 0;
 }
 
+.admin-message {
+  background: rgba(37, 99, 235, 0.04);
+}
+
+.message-author-cell strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.message-content-cell {
+  min-width: 24rem;
+}
+
+.message-content {
+  margin-bottom: 0.75rem;
+  line-height: 1.75;
+  white-space: normal;
+}
+
+.inline-reply {
+  display: grid;
+  grid-template-columns: 7rem minmax(16rem, 1fr) auto;
+  gap: 0.55rem;
+  align-items: start;
+}
+
+.inline-reply textarea {
+  min-height: 2.8rem;
+}
+
 .button,
 button {
   display: inline-flex;
@@ -263,5 +305,9 @@ pre {
   table {
     display: block;
     overflow-x: auto;
+  }
+
+  .inline-reply {
+    grid-template-columns: 1fr;
   }
 }
