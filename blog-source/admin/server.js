@@ -986,6 +986,7 @@ app.use((error, req, res, next) => {
   res.status(500).send(layout('出错了', `<section class="panel"><h1>操作失败</h1><pre>${htmlEscape(error.message)}</pre><a class="button" href="${ADMIN_BASE}/">返回后台</a></section>`));
 });
 
-app.listen(PORT, '127.0.0.1', () => {
+const adminServer = app.listen(PORT, '127.0.0.1', () => {
   console.log(`Jing Blog Admin listening on http://127.0.0.1:${PORT}${ADMIN_BASE}`);
 });
+adminServer.ref();
