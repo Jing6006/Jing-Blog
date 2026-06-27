@@ -303,6 +303,7 @@
       replyTarget: null,
       messages: [],
     };
+    const messagesApi = '/admin/api/messages';
 
     function setStatus(text, type) {
       statusNode.textContent = text || '';
@@ -422,7 +423,7 @@
     async function loadMessages() {
       setStatus('\u6b63\u5728\u52a0\u8f7d\u7559\u8a00...', 'muted');
       try {
-        const response = await fetch('/api/messages', {cache: 'no-store'});
+        const response = await fetch(messagesApi, {cache: 'no-store'});
         if (!response.ok) throw new Error(response.status === 404 ? '\u7559\u8a00\u63a5\u53e3\u672a\u542f\u52a8' : `HTTP ${response.status}`);
         const data = await response.json();
         renderMessages(data.messages || []);
@@ -455,7 +456,7 @@
       setStatus('\u6b63\u5728\u53d1\u5e03...', 'muted');
 
       try {
-        const response = await fetch('/api/messages', {
+        const response = await fetch(messagesApi, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(payload),
