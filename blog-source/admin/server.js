@@ -474,6 +474,142 @@ function analyticsSummary() {
   return {posts, visits: data.visits};
 }
 
+function toDate(value) {
+  const date = value ? new Date(value) : new Date(NaN);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function pad2(value) {
+  return String(value).padStart(2, '0');
+}
+
+function dayKey(date) {
+  return `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
+}
+
+function hourKey(date) {
+  return `${pad2(date.getHours())}:00`;
+}
+
+function referrerHost(value) {
+  const raw = String(value || '').trim();
+  if (!raw) return '直接访问';
+  try {
+    return new URL(raw).host || '直接访问';
+  } catch {
+    return raw.slice(0, 48);
+  }
+}
+
+function analyticsDashboard(days = 30) {
+  const {posts, visits} = analyticsSummary();
+  const now = new Date();
+  const start = new Date(now);
+  start.setHours(0, 0, 0, 0);
+  start.setDate(start.getDate() - (days - 1));
+
+  const dailyMap = new Map();
+  for (let i = 0; i < days; i += 1) {
+    const date = new Date(start);
+    date.setDate(start.getDate() + i);
+    dailyMap.set(dayKey(date), {views: 0, ips: new Set()});
+  }
+
+  const hourlyMap = new Map();
+  for (let i = 0; i < 24; i += 1) {
+    hourlyMap.set(`${pad2(i)}:00`, 0);
+  }
+
+  const ipMap = new Map();
+  const referrerMap = new Map();
+  const recentVisits = [];
+
+  for (const visit of visits) {
+    const at = toDate(visit.at);
+    if (!at) continue;
+
+    const recent = at >= start;
+    if (recent) {
+      const key = dayKey(at);
+      const day = dailyMap.get(key);
+      if (day) {
+        day.views += 1;
+        if (visit.ip) day.ips.add(visit.ip);
+      }
+      const hour = hourKey(at);
+      hourlyMap.set(hour, (hourlyMap.get(hour) || 0) + 1);
+      recentVisits.push(visit);
+    }
+
+    const ip = String(visit.ip || '').trim() || '未知';
+    const item = ipMap.get(ip) || {
+      ip,
+      views: 0,
+      posts: new Set(),
+      lastVisitAt: '',
+      referrers: new Set(),
+      userAgent: '',
+    };
+    item.views += 1;
+    if (visit.path) item.posts.add(visit.path);
+    if (visit.referrer) item.referrers.add(referrerHost(visit.referrer));
+    if (!item.userAgent && visit.userAgent) item.userAgent = visit.userAgent;
+    if (!item.lastVisitAt || String(visit.at) > String(item.lastVisitAt)) item.lastVisitAt = visit.at;
+    ipMap.set(ip, item);
+
+    const refKey = referrerHost(visit.referrer);
+    referrerMap.set(refKey, (referrerMap.get(refKey) || 0) + 1);
+  }
+
+  const recentIpSet = new Set(recentVisits.map((item) => item.ip).filter(Boolean));
+  const totalViews = visits.length;
+  const totalUniqueIps = new Set(visits.map((item) => item.ip).filter(Boolean)).size;
+
+  return {
+    summary: {
+      totalViews,
+      totalUniqueIps,
+      trackedPosts: posts.length,
+      recentViews: recentVisits.length,
+      recentUniqueIps: recentIpSet.size,
+    },
+    charts: {
+      days,
+      daily: [...dailyMap.entries()].map(([date, value]) => ({
+        date,
+        views: value.views,
+        uniqueIps: value.ips.size,
+      })),
+      hourly: [...hourlyMap.entries()].map(([hour, views]) => ({hour, views})),
+      referrers: [...referrerMap.entries()]
+        .map(([name, views]) => ({name, views}))
+        .sort((a, b) => b.views - a.views)
+        .slice(0, 8),
+    },
+    topPosts: posts.slice(0, 10),
+    topIps: [...ipMap.values()]
+      .map((item) => ({
+        ip: item.ip,
+        views: item.views,
+        posts: item.posts.size,
+        lastVisitAt: item.lastVisitAt,
+        referrers: [...item.referrers].slice(0, 3),
+        userAgent: item.userAgent,
+      }))
+      .sort((a, b) => b.views - a.views)
+      .slice(0, 20),
+    recentVisits: recentVisits.slice(0, 200),
+  };
+}
+
+function resetAnalytics() {
+  writeAnalytics({posts: {}, visits: []});
+}
+
+function jsonForScript(value) {
+  return JSON.stringify(value).replace(/</g, '\\u003c');
+}
+
 function replaceTopLevel(text, key, value) {
   const escaped = String(value || '').replaceAll('\n', ' ');
   const pattern = new RegExp(`^${key}:.*$`, 'm');
@@ -633,7 +769,9 @@ async function verifyPassword(password) {
   return bcrypt.compare(password || '', hash);
 }
 
-function layout(title, body) {
+function layout(title, body, options = {}) {
+  const extraHead = options.extraHead || '';
+  const extraScript = options.extraScript || '';
   return `<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -641,6 +779,7 @@ function layout(title, body) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${htmlEscape(title)} - Jing Blog Admin</title>
   <link rel="stylesheet" href="${ADMIN_BASE}/assets/admin.css">
+  ${extraHead}
 </head>
 <body>
   <header class="topbar">
@@ -655,6 +794,7 @@ function layout(title, body) {
     </nav>
   </header>
   <main class="page">${body}</main>
+  ${extraScript}
 </body>
 </html>`;
 }
@@ -785,6 +925,185 @@ app.get(`${ADMIN_BASE}/`, ensureAuth, (req, res) => {
       </section>`,
     ),
   );
+});
+
+app.get(`${ADMIN_BASE}/analytics`, ensureAuth, (req, res, next) => {
+  if (req.query.legacy === '1') return next();
+
+  const days = Math.max(7, Math.min(90, Number(req.query.days) || 30));
+  const dashboard = analyticsDashboard(days);
+  const {summary, charts, topPosts, topIps, recentVisits} = dashboard;
+
+  const cards = [
+    {label: '总访问量', value: summary.totalViews, hint: `最近 ${days} 天 ${summary.recentViews}`},
+    {label: '独立 IP', value: summary.totalUniqueIps, hint: `最近 ${days} 天 ${summary.recentUniqueIps}`},
+    {label: '被访问文章', value: summary.trackedPosts, hint: '按文章页聚合'},
+    {label: '最近访问明细', value: recentVisits.length, hint: '列表最多展示 200 条'},
+  ];
+
+  const cardHtml = cards.map((item) => `<article class="stat-card">
+      <span class="stat-label">${htmlEscape(item.label)}</span>
+      <strong class="stat-value">${htmlEscape(item.value)}</strong>
+      <small class="stat-hint">${htmlEscape(item.hint)}</small>
+    </article>`).join('');
+
+  const rangeLinks = [7, 30, 90]
+    .map((value) => `<a class="filter-chip${value === days ? ' active' : ''}" href="${ADMIN_BASE}/analytics?days=${value}">${value} 天</a>`)
+    .join('');
+
+  const topPostRows = topPosts
+    .map((post, index) => `<tr>
+      <td><span class="rank">${index + 1}</span></td>
+      <td><a href="${htmlEscape(post.path)}" target="_blank"><strong>${htmlEscape(post.title)}</strong></a><small>${htmlEscape(post.path)}</small></td>
+      <td>${post.views}</td>
+      <td>${post.uniqueIps}</td>
+      <td>${htmlEscape(post.lastVisitAt || '')}</td>
+    </tr>`)
+    .join('');
+
+  const ipRows = topIps
+    .map((item, index) => `<tr>
+      <td><span class="rank">${index + 1}</span></td>
+      <td><strong>${htmlEscape(item.ip)}</strong><small>${htmlEscape(item.referrers.join(' / ') || '直接访问')}</small></td>
+      <td>${item.views}</td>
+      <td>${item.posts}</td>
+      <td>${htmlEscape(item.lastVisitAt || '')}</td>
+    </tr>`)
+    .join('');
+
+  const visitRows = recentVisits
+    .slice(0, 200)
+    .map((visit) => `<tr>
+      <td>${htmlEscape(visit.at)}</td>
+      <td><a href="${htmlEscape(visit.path)}" target="_blank">${htmlEscape(visit.title)}</a></td>
+      <td>${htmlEscape(visit.ip)}</td>
+      <td>${htmlEscape(referrerHost(visit.referrer))}</td>
+      <td class="ua-cell">${htmlEscape(visit.userAgent || '')}</td>
+    </tr>`)
+    .join('');
+
+  res.send(layout(
+    '访问统计',
+    `<section class="panel hero-panel">
+        <div class="panel-head">
+          <div>
+            <h1>访问统计</h1>
+            <p>把文章热度、来源 IP、访问趋势和最近明细放到一个页面里看清楚。</p>
+          </div>
+          <div class="toolbar">
+            <div class="filter-group">${rangeLinks}</div>
+            <form action="${ADMIN_BASE}/analytics/reset" method="post" onsubmit="return confirm('确定清空全部访问统计吗？此操作不可恢复。')">
+              <button class="danger">清空统计</button>
+            </form>
+          </div>
+        </div>
+        <div class="stats-grid">${cardHtml}</div>
+      </section>
+      <section class="chart-grid">
+        <section class="panel">
+          <div class="panel-head compact"><div><h2>访问趋势</h2><p>最近 ${days} 天访问量与独立 IP 走势</p></div></div>
+          <div class="chart" id="daily-chart"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head compact"><div><h2>24 小时分布</h2><p>访问最集中的时间段</p></div></div>
+          <div class="chart" id="hourly-chart"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head compact"><div><h2>来源分布</h2><p>看看流量更多来自哪里</p></div></div>
+          <div class="chart chart-donut" id="referrer-chart"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head compact"><div><h2>统计口径</h2><p>方便你快速确认这个面板在看什么</p></div></div>
+          <div class="meta-list">
+            <div><span>统计记录上限</span><strong>5000</strong></div>
+            <div><span>最近访问展示</span><strong>200</strong></div>
+            <div><span>热门文章榜单</span><strong>10</strong></div>
+            <div><span>热门 IP 榜单</span><strong>20</strong></div>
+          </div>
+        </section>
+      </section>
+      <section class="table-grid">
+        <section class="panel">
+          <div class="panel-head compact"><div><h2>热门文章</h2><p>按累计访问量排序</p></div></div>
+          <table>
+            <thead><tr><th>#</th><th>文章</th><th>访问量</th><th>独立 IP</th><th>最近访问</th></tr></thead>
+            <tbody>${topPostRows || '<tr><td colspan="5">暂无访问统计</td></tr>'}</tbody>
+          </table>
+        </section>
+        <section class="panel">
+          <div class="panel-head compact"><div><h2>Top IP</h2><p>按累计访问量排序，附带来源摘要</p></div></div>
+          <table>
+            <thead><tr><th>#</th><th>IP / 来源</th><th>访问量</th><th>文章数</th><th>最近访问</th></tr></thead>
+            <tbody>${ipRows || '<tr><td colspan="5">暂无 IP 记录</td></tr>'}</tbody>
+          </table>
+        </section>
+      </section>
+      <section class="panel">
+        <div class="panel-head compact"><div><h2>最近访问明细</h2><p>时间、文章、IP、来源和 UA 都能直接排查。</p></div></div>
+        <table>
+          <thead><tr><th>时间</th><th>文章</th><th>IP</th><th>来源</th><th>User-Agent</th></tr></thead>
+          <tbody>${visitRows || '<tr><td colspan="5">暂无访问记录</td></tr>'}</tbody>
+        </table>
+      </section>`,
+    {
+      extraHead: '<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>',
+      extraScript: `<script>
+        const analyticsData = ${jsonForScript(charts)};
+        const dailyChart = echarts.init(document.getElementById('daily-chart'));
+        dailyChart.setOption({
+          tooltip: {trigger: 'axis'},
+          legend: {top: 0},
+          grid: {left: 42, right: 20, top: 40, bottom: 28},
+          xAxis: {type: 'category', boundaryGap: false, data: analyticsData.daily.map(item => item.date)},
+          yAxis: [{type: 'value', name: '访问量'}, {type: 'value', name: '独立IP'}],
+          series: [
+            {name: '访问量', type: 'line', smooth: true, symbolSize: 7, areaStyle: {opacity: 0.12}, data: analyticsData.daily.map(item => item.views)},
+            {name: '独立IP', type: 'line', smooth: true, yAxisIndex: 1, symbolSize: 7, data: analyticsData.daily.map(item => item.uniqueIps)}
+          ]
+        });
+
+        const hourlyChart = echarts.init(document.getElementById('hourly-chart'));
+        hourlyChart.setOption({
+          tooltip: {trigger: 'axis'},
+          grid: {left: 42, right: 16, top: 24, bottom: 28},
+          xAxis: {type: 'category', data: analyticsData.hourly.map(item => item.hour)},
+          yAxis: {type: 'value', name: '访问量'},
+          series: [{type: 'bar', barWidth: '58%', itemStyle: {borderRadius: [6, 6, 0, 0]}, data: analyticsData.hourly.map(item => item.views)}]
+        });
+
+        const referrerChart = echarts.init(document.getElementById('referrer-chart'));
+        const refData = analyticsData.referrers.length
+          ? analyticsData.referrers.map(item => ({name: item.name, value: item.views}))
+          : [{name: '暂无数据', value: 1}];
+        referrerChart.setOption({
+          tooltip: {trigger: 'item'},
+          legend: {bottom: 0, left: 'center'},
+          series: [{
+            type: 'pie',
+            radius: ['48%', '74%'],
+            itemStyle: {borderRadius: 8, borderColor: '#fff', borderWidth: 2},
+            label: {formatter: '{b}\\n{d}%'},
+            data: refData
+          }]
+        });
+
+        window.addEventListener('resize', () => {
+          dailyChart.resize();
+          hourlyChart.resize();
+          referrerChart.resize();
+        });
+      </script>`,
+    },
+  ));
+});
+
+app.post(`${ADMIN_BASE}/analytics/reset`, ensureAuth, (req, res, next) => {
+  try {
+    resetAnalytics();
+    res.redirect(`${ADMIN_BASE}/analytics`);
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.get(`${ADMIN_BASE}/analytics`, ensureAuth, (req, res) => {

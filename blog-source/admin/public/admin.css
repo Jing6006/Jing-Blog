@@ -78,6 +78,10 @@ a {
   margin-bottom: 1rem;
 }
 
+.panel-head.compact {
+  margin-bottom: 0.75rem;
+}
+
 h1 {
   margin: 0 0 0.35rem;
   font-size: 1.55rem;
@@ -123,6 +127,137 @@ td small {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.6rem;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.filter-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.15rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.filter-chip.active {
+  border-color: rgba(37, 99, 235, 0.24);
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--primary);
+}
+
+.hero-panel {
+  padding-bottom: 1rem;
+}
+
+.stats-grid,
+.chart-grid,
+.table-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.stats-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.chart-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.table-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.stat-card {
+  display: grid;
+  gap: 0.35rem;
+  min-height: 7.5rem;
+  padding: 1rem;
+  border: 1px solid rgba(37, 99, 235, 0.08);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.96));
+}
+
+.stat-label,
+.stat-hint,
+.meta-list span {
+  color: var(--muted);
+}
+
+.stat-label {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.stat-value {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.stat-hint {
+  font-size: 0.85rem;
+}
+
+.chart {
+  width: 100%;
+  height: 320px;
+}
+
+.chart-donut {
+  height: 300px;
+}
+
+.meta-list {
+  display: grid;
+  gap: 0.85rem;
+  padding-top: 0.35rem;
+}
+
+.meta-list div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfdff;
+}
+
+.rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.ua-cell {
+  max-width: 24rem;
+  color: var(--muted);
+  word-break: break-word;
 }
 
 .row-actions form {
@@ -299,6 +434,12 @@ pre {
   }
 
   .grid.two {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid,
+  .chart-grid,
+  .table-grid {
     grid-template-columns: 1fr;
   }
 
