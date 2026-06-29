@@ -234,8 +234,6 @@ function syncContent() {
 
   const sourceFiles = walkMarkdown(SOURCE_DIR);
   const expected = new Set();
-  const stampBase = Date.now();
-  let stampOffset = 0;
   const buildStamp = formatDateTime(new Date());
   writeDateCategories(sourceFiles);
 
@@ -245,6 +243,7 @@ function syncContent() {
     const folderParts = path.dirname(rel) === '.'
       ? ['\u672a\u5206\u7c7b']
       : path.dirname(rel).split(path.sep).filter(Boolean);
+    const sourceStamp = formatDateTime(fs.statSync(sourceFile).mtime);
     let raw = fs.readFileSync(sourceFile, 'utf8');
     let {data, content} = parseFrontMatter(raw);
     const hadExplicitDate = Boolean(data.date);
@@ -252,8 +251,7 @@ function syncContent() {
     // \u65b0\u6587\u7ae0\uff08\u6e90\u6587\u4ef6\u6ca1\u5199 date\uff09\uff1a\u81ea\u52a8\u76d6\u5f53\u524d\u65f6\u95f4\u5e76\u5199\u56de\u6e90\u6587\u4ef6\uff0c
     // \u4fdd\u8bc1\u201c\u6700\u65b0\u5199\u7684\u201d\u6c38\u8fdc\u6392\u5728\u9996\u9875\u6700\u524d\uff0c\u4e14\u65e5\u671f\u4e00\u7ecf\u751f\u6210\u5c31\u56fa\u5b9a\u4e0b\u6765\u3001\u53ef\u968f git \u63d0\u4ea4\u3002
     if (!data.date) {
-      const stamp = formatDateTime(new Date(stampBase + stampOffset * 60000));
-      stampOffset += 1;
+      const stamp = sourceStamp;
       const stamped = insertSourceDate(raw, stamp);
       if (stamped) {
         try {
@@ -300,6 +298,8 @@ function syncContent() {
         }
         if (!hadExplicitDate && prevData.source_hash === sourceHash) {
           updated = prevData.updated || updated;
+        } else if (!hadExplicitDate && changed) {
+          updated = data.updated || sourceStamp || buildStamp;
         } else {
           updated = changed ? buildStamp : (prevData.updated || updated);
         }
