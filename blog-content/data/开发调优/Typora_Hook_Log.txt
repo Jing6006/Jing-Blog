@@ -1,0 +1,176 @@
+[2026/6/29 08:18:23] [Log] -------------------------------------------
+------------------
+[2026/6/29 08:18:23] [Log] crypto.publicDecrypt called
+------------------
+[2026/6/29 08:18:23] [Log] Key: -----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7nVoGCHqIMJyqgALEUrc
+5JJhap0+HtJqzPE04pz4y+nrOmY7/12f3HvZyyoRsxKdXTZbO0wEHFIh0cRqsuaJ
+PyaOOPbA0BsalofIAY3mRhQQ3vSf+rn3g+w0S+udWmKV9DnmJlpWqizFajU4T/E4
+5ZgMNcXt3E1ips32rdbTR0Nnen9PVITvrbJ3l6CI2BFBImZQZ2P8N+LsqfJsqyVV
+wDkt3mHAVxV7FZbfYWG+8FDSuKQHaCmvgAtChx9hwl3J6RekkqDVa6GIV13D23LS
+qdk0Jb521wFJi/V6QAK6SLBiby5gYN6zQQ5RQpjXtR53MwzTdiAzGEuKdOtrY2Me
+DwIDAQAB
+-----END PUBLIC KEY-----
+
+
+------------------
+[2026/6/29 08:18:23] [Log] Buffer (Hex): 666473406578616d706c652e636f6d
+------------------
+[2026/6/29 08:18:24] [Log] BrowserWindow created
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("document.loadData") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("document.loadData") result: "{\"snap\":null,\"filePath\":\"D:\\\\Student\\\\Java\\\\博客\\\\blog-content\\\\data\\\\开发调优\\\\面试.md\",\"backups\":null,\"shouldReadFromDisk\":false,\"windowCounts\":1}"
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("setting.put") args: ["sidebar_tab","outline"]
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("setting.put") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("window.updateMenuForIsAlwaysOnTop") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("window.updateMenuForIsAlwaysOnTop") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("menu.updateCustomZoom") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("menu.updateCustomZoom") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("window.updateMenuForIsAlwaysOnTop") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("window.updateMenuForIsAlwaysOnTop") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("menu.updateCustomZoom") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("menu.updateCustomZoom") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("setting.getRecentFiles") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("setting.getRecentFiles") result: {"files":[{"name":"面试.md","path":"D:\\Student\\Java\\博客\\blog-content\\data\\开发调优\\面试.md","date":1782692303926},{"name":"面试.md","path":"D:\\桌面\\面试.md","date":1782551703049},{"name":"README.md","path":"D:\\Student\\Java\\博客\\blog-source\\README.md","date":1782540331499},{"name":"Java基础与集合.md","path":"D:\\Student\\Java\\博客\\blog-content\\data\\杂七杂八\\Java基础与集合.md","date":1782471857465},{"name":"破解总结.md","path":"D:\\桌面\\破解总结.md","date":1782369007153},{"name":"三年Java后端简历严刑拷打报告.md","path":"D:\\办公\\wx\\xwechat_files\\wxid_ami4f6svh8b622_9b86\\msg\\file\\2026-06\\三年Java后端简历严刑拷打报告.md","date":1782287145481},{"name":"简历.md","path":"D:\\办公\\wx\\xwechat_files\\wxid_ami4f6svh8b622_9b86\\msg\\file\\2026-06\\简历.md","date":1782286246888},{"name":"简版面试题.md","path":"D:\\桌面\\简版面试题.md","date":1782261290250},{"name":"SpringBoot.md","path":"D:\\Student\\Java\\博客\\hexo-blog\\date\\资源荟萃\\SpringBoot.md","date":1782216180253},{"name":"前端页面提示词.md","path":"D:\\Student\\Java\\博客\\hexo-blog\\date\\资源荟萃\\前端页面提示词.md","date":1782216177074},{"name":"所有问题.md","path":"D:\\桌面\\面试\\面试问题\\所有问题.md","date":1782213439023},{"name":"Mq.md","path":"D:\\桌面\\知识库\\Mq.md","date":1782212584029},{"name":"数据一致性.md","path":"D:\\桌面\\知识库\\数据一致性.md","date":1782129777187},{"name":"幂等.md","path":"D:\\桌面\\知识库\\幂等.md","date":1782129458350},{"name":"SpringAi.md","path":"D:\\Student\\Java\\博客\\hexo-blog\\date\\Java\\SpringAi.md","date":1782112208167},{"name":"6elasticsearch-8x.md","path":"D:\\桌面\\Java\\2601\\tool\\6elasticsearch-8x.md","date":1782111352693},{"name":"6elasticsearch-8x.md","path":"D:\\桌面\\AI智能应用开发\\2601\\tool\\6elasticsearch-8x.md","date":1782109961860},{"name":"面试必背问题清单.md","path":"D:\\桌面\\面试\\面试必背问题清单.md","date":1782088571935},{"name":"instruction.md","path":"C:\\Users\\李璟\\.codex\\instruction.md","date":1781936953402},{"name":"AGENTS.md","path":"C:\\Users\\李璟\\.codex\\AGENTS.md","date":1781936504811},{"name":"认证和授权.md","path":"D:\\桌面\\知识库\\认证和授权.md","date":1781886968336},{"name":"why-build-a-tech-blog.md","path":"D:\\Student\\Java\\博客\\hexo-blog\\source\\_posts\\why-build-a-tech-blog.md","date":1781886935603},{"name":"面试必背问题清单.md","path":"D:\\桌面\\面试必背问题清单.md","date":1781742754764},{"name":"项目1-中原提前花-贷前风控模块.md","path":"D:\\桌面\\面试\\项目1-中原提前花-贷前风控模块.md","date":1781704881639},{"name":"面试自我介绍话术-最终版.md","path":"D:\\桌面\\面试自我介绍话术-最终版.md","date":1781704865555},{"name":"客户画像开发文档.md","path":"D:\\办公\\wx\\xwechat_files\\wxid_ami4f6svh8b622_9b86\\msg\\file\\2026-06\\客户画像开发文档.md","date":1781684627183},{"name":"面试自我介绍话术-正确版.md","path":"D:\\桌面\\知识库\\面试自我介绍话术-正确版.md","date":1781662791706},{"name":"面试自我介绍话术-最终版.md","path":"D:\\桌面\\知识库\\面试自我介绍话术-最终版.md","date":1781660876307},{"name":"李璟自我介绍-1分半.md","path":"D:\\桌面\\知识库\\李璟自我介绍-1分半.md","date":1781659052686},{"name":"李璟自我介绍-1分半.md","path":"D:\\桌面\\李璟自我介绍-1分半.md","date":1781618442225},{"name":"redis.md","path":"D:\\桌面\\知识库\\redis.md","date":1781617820219},{"name":"微服务.md","path":"D:\\桌面\\知识库\\微服务.md","date":1781617758896},{"name":"ES.md","path":"D:\\桌面\\知识库\\ES.md","date":1781617737921},{"name":"RabbitMQ.md","path":"D:\\桌面\\知识库\\RabbitMQ.md","date":1781617703414},{"name":"项目场景秒杀.md","path":"D:\\桌面\\知识库\\项目场景秒杀.md","date":1781617644449},{"name":"李璟-面试必背问题清单.md","path":"D:\\桌面\\李璟-面试必背问题清单.md","date":1781617611631},{"name":"redis分布式锁.md","path":"D:\\桌面\\知识库\\redis分布式锁.md","date":1781617563682},{"name":"项目中如何帮助数据库和Redis缓存一致.md","path":"D:\\桌面\\知识库\\项目中如何帮助数据库和Redis缓存一致.md","date":1781617532527},{"name":"RAG流程.md","path":"D:\\桌面\\知识库\\RAG流程.md","date":1781617489320},{"name":"前端页面提示词.md","path":"D:\\桌面\\知识库\\前端页面提示词.md","date":1781617376775}],"folders":[]}
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("window.updateMenuForIsAlwaysOnTop") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("window.updateMenuForIsAlwaysOnTop") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("menu.updateCustomZoom") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("menu.updateCustomZoom") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("window.updateMenuForIsAlwaysOnTop") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("window.updateMenuForIsAlwaysOnTop") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("menu.updateCustomZoom") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("menu.updateCustomZoom") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("window.checkAsFocus") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("window.checkAsFocus") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("document.getSnapWithValidation") args: [null]
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("document.getSnapWithValidation") result: "{\"snap\":null,\"shouldReadFromDisk\":false}"
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("window.setTitle") args: [null,false]
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("window.setTitle") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("window.updateMenuForIsAlwaysOnTop") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("window.updateMenuForIsAlwaysOnTop") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("menu.updateCustomZoom") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("menu.updateCustomZoom") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("window.checkAsFocus") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("window.checkAsFocus") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("setting.getDownloadingDicts") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("setting.getDownloadingDicts") result: "[]"
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("setting.getUserDictionaryPath") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("setting.getUserDictionaryPath") result: "C:\\Users\\李璟\\AppData\\Roaming\\Typora\\typora-dictionaries"
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("setting.getUserDict") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("setting.getUserDict") result: "{}"
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("document.hasDuplicateName") args: ["面试.md"]
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("document.hasDuplicateName") result: false
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("document.setLastSync") args: ["2026-06-29T00:18:24.689Z"]
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("document.setLastSync") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("window.updateMenuForIsAlwaysOnTop") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("window.updateMenuForIsAlwaysOnTop") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("menu.updateCustomZoom") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("menu.updateCustomZoom") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("window.setTitle") args: ["面试.md - Typora"]
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("window.setTitle") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("window.setTitle") args: [null,false]
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("window.setTitle") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("theme.setThemeSource") args: ["system"]
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("theme.setThemeSource") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("setting.put") args: ["backgroundColor","#FFFFFF"]
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("setting.put") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("setting.put") args: ["isDarkMode",false]
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("setting.put") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("window.updateMenuForIsAlwaysOnTop") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("window.updateMenuForIsAlwaysOnTop") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("menu.updateCustomZoom") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("menu.updateCustomZoom") result: 
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .invoke("window.checkAsFocus") args: []
+------------------
+[2026/6/29 08:18:24] [Log] [IPC] .handle("window.checkAsFocus") result: 
+------------------
+[2026/6/29 08:18:25] [Log] [IPC] .invoke("setting.getKeyBinding") args: []
+------------------
+[2026/6/29 08:18:25] [Log] [IPC] .handle("setting.getKeyBinding") result: {"_useLowerCase":true}
+------------------
+[2026/6/29 08:25:51] [Log] [IPC] .invoke("window.setTitle") args: [null,true]
+------------------
+[2026/6/29 08:25:51] [Log] [IPC] .handle("window.setTitle") result: 
+------------------
+[2026/6/29 08:27:14] [Log] -------------------------------------------
+------------------
+[2026/6/29 08:27:14] [Log] crypto.publicDecrypt called
+------------------
+[2026/6/29 08:27:14] [Log] Key: -----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7nVoGCHqIMJyqgALEUrc
+5JJhap0+HtJqzPE04pz4y+nrOmY7/12f3HvZyyoRsxKdXTZbO0wEHFIh0cRqsuaJ
+PyaOOPbA0BsalofIAY3mRhQQ3vSf+rn3g+w0S+udWmKV9DnmJlpWqizFajU4T/E4
+5ZgMNcXt3E1ips32rdbTR0Nnen9PVITvrbJ3l6CI2BFBImZQZ2P8N+LsqfJsqyVV
+wDkt3mHAVxV7FZbfYWG+8FDSuKQHaCmvgAtChx9hwl3J6RekkqDVa6GIV13D23LS
+qdk0Jb521wFJi/V6QAK6SLBiby5gYN6zQQ5RQpjXtR53MwzTdiAzGEuKdOtrY2Me
+DwIDAQAB
+-----END PUBLIC KEY-----
+
+
+------------------
+[2026/6/29 08:27:14] [Log] Buffer (Hex): a8a390dd7bfedb8567725fa39c541a115d0116eefe20e60b47b9883e8a9f3a51ba46d39bf504a8611f7b05db4f42ea93c2e3e4fcd8ab321fb049225360bf9b987d9a09efda3ea3f85f05de7d493e1f490b94a4df52751d04c0c1289a95b4595c0cbc48dff04b7ddc54fafa3471d241ab63b3e93bbc9231d509bafe801c3581bc4ed438a8328de7eeca672ce572129e4ccf342babc905120a948ef52c908c7c525f35e5b71eaee531abb7b618acde4adfb0755d68abef446220fdd8b499098faf50f0c089293702fe53e391753a7ac54a1bf40ac10dc053a54672554b78c14273aea774e8f47495a9243d34ea867e302365f496a43a3d8053ff58ef7efe501fdb
+------------------
+[2026/6/29 08:27:14] [Log] BrowserWindow created
+------------------
