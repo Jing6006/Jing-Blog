@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const {
+  ROOT,
   POSTS_DIR,
   safePostFile,
   postRelPath,
@@ -14,32 +15,65 @@ const {
   generateAbbrlink,
 } = require('./utils');
 
+const GENERATED_POSTS_DIR = path.join(ROOT, 'source', '_posts');
+
+function listValue(value) {
+  if (!value) return [];
+  return Array.isArray(value) ? value.filter(Boolean) : [value];
+}
+
+function sourceFolderCategory(file) {
+  return file.includes('/') ? file.split('/')[0] : '未分类';
+}
+
+function generatedMetaBySourcePath() {
+  const map = new Map();
+  if (!fs.existsSync(GENERATED_POSTS_DIR)) return map;
+
+  for (const full of walkMarkdown(GENERATED_POSTS_DIR)) {
+    const parsed = parseFrontMatter(fs.readFileSync(full, 'utf8'));
+    if (!parsed.data.source_path) continue;
+    map.set(String(parsed.data.source_path).replace(/\\/g, '/'), parsed.data);
+  }
+
+  return map;
+}
+
+function postViewData(file, parsed, generated = {}) {
+  const generatedCategories = listValue(generated.categories);
+  const generatedTags = listValue(generated.tags);
+  return {
+    title: parsed.data.title || generated.title || path.basename(file, '.md'),
+    date: normalizeDate(generated.date || parsed.data.date),
+    updated: normalizeDate(
+      generated.updated || parsed.data.updated || generated.date || parsed.data.date,
+    ),
+    categories: generatedCategories.length ? generatedCategories : [sourceFolderCategory(file)],
+    tags: generatedTags.length ? generatedTags : listValue(parsed.data.tags),
+    description: generated.description || parsed.data.description || '',
+    cover: generated.cover || parsed.data.cover || '',
+    abbrlink: generated.abbrlink || parsed.data.abbrlink || '',
+  };
+}
+
 function readPosts(opts = {}) {
   fs.mkdirSync(POSTS_DIR, { recursive: true });
   const { search, category, tag, status } = opts;
+  const generatedBySource = generatedMetaBySourcePath();
 
   let posts = walkMarkdown(POSTS_DIR)
     .map((full) => {
       const file = postRelPath(full);
       const parsed = parseFrontMatter(fs.readFileSync(full, 'utf8'));
-      const inferredCategory = file.includes('/') ? file.split('/')[0] : '未分类';
+      const view = postViewData(file, parsed, generatedBySource.get(file));
       const isPublished = parsed.data.published !== false;
       const isTop = parsed.data.top === true || parsed.data.sticky === true;
       return {
         file,
-        title: parsed.data.title || path.basename(file, '.md'),
-        date: normalizeDate(parsed.data.date),
-        updated: normalizeDate(parsed.data.updated),
-        categories: asArray(parsed.data.categories).length
-          ? asArray(parsed.data.categories)
-          : [inferredCategory],
-        tags: asArray(parsed.data.tags),
-        description: parsed.data.description || '',
-        cover: parsed.data.cover || '',
+        ...view,
         content: parsed.content.trim(),
         published: isPublished,
         top: isTop,
-        abbrlink: parsed.data.abbrlink || '',
       };
     })
     .sort((a, b) => String(b.date).localeCompare(String(a.date)));
@@ -84,22 +118,13 @@ function readPost(file) {
   const full = safePostFile(file);
   const parsed = parseFrontMatter(fs.readFileSync(full, 'utf8'));
   const rel = postRelPath(full);
-  const inferredCategory = rel.includes('/') ? rel.split('/')[0] : '未分类';
+  const view = postViewData(rel, parsed, generatedMetaBySourcePath().get(rel));
   return {
     file: rel,
-    title: parsed.data.title || '',
-    date: normalizeDate(parsed.data.date),
-    updated: normalizeDate(parsed.data.updated),
-    categories: asArray(parsed.data.categories).length
-      ? asArray(parsed.data.categories)
-      : [inferredCategory],
-    tags: asArray(parsed.data.tags),
-    description: parsed.data.description || '',
-    cover: parsed.data.cover || '',
+    ...view,
     content: parsed.content.trim(),
     published: parsed.data.published !== false,
     top: parsed.data.top === true || parsed.data.sticky === true,
-    abbrlink: parsed.data.abbrlink || '',
   };
 }
 
@@ -111,7 +136,11 @@ function writePost(file, body) {
       ? parseFrontMatter(fs.readFileSync(existingTarget, 'utf8')).data
       : {};
   const categories = splitList(body.categories);
-  const category = categories[0] || asArray(existing.categories)[0] || '未分类';
+  const category =
+    categories[0] ||
+    (file ? sourceFolderCategory(String(file).replace(/\\/g, '/')) : '') ||
+    asArray(existing.categories)[0] ||
+    '未分类';
   const filename = file
     ? path.basename(file)
     : `${Date.now()}-${slugifyTitle(body.title)}.md`;

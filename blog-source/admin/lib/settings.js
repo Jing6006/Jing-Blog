@@ -49,18 +49,26 @@ function setThemeSettings(theme, values) {
       `  fas fa-envelope: mailto:${values.email} || Email || '#4a7dbe'`,
     );
   }
-  socialLines.push(
-    `  fab fa-qq: javascript:void(0) || QQ账号 ${socialText(values.qq)} || '#12B7F5'`,
-  );
-  socialLines.push(
-    `  fab fa-weixin: javascript:void(0) || 微信账号 ${socialText(values.wechat)} || '#07C160'`,
-  );
-  socialLines.push(
-    `  fab fa-linux: ${values.linuxdo || 'https://linux.do/'} || Linux.do || '#111827'`,
-  );
-  socialLines.push(
-    `  fab fa-git-alt: ${values.gitee || 'https://gitee.com/lijing-dev'} || Gitee || '#C71D23'`,
-  );
+  if (values.qq) {
+    socialLines.push(
+      `  fab fa-qq: javascript:void(0) || QQ账号 ${socialText(values.qq, '')} || '#12B7F5'`,
+    );
+  }
+  if (values.wechat) {
+    socialLines.push(
+      `  fab fa-weixin: javascript:void(0) || 微信账号 ${socialText(values.wechat, '')} || '#07C160'`,
+    );
+  }
+  if (values.gitee) {
+    socialLines.push(
+      `  fab fa-git-alt: ${values.gitee} || Gitee || '#C71D23'`,
+    );
+  }
+  if (values.linuxdo) {
+    socialLines.push(
+      `  icon-linuxdo: ${values.linuxdo} || Linux.do || '#3f4752'`,
+    );
+  }
   theme = theme.replace(
     /social:\r?\n[\s\S]*?\r?\n# --------------------------------------\r?\n# Image Settings/,
     `${socialLines.join('\n')}\n\n# --------------------------------------\n# Image Settings`,
@@ -108,7 +116,9 @@ function readSettings() {
         /fab fa-weixin:\s*javascript:void\(0\)\s*\|\|\s*微信账号\s*([^|]*)\|\|/,
         theme,
       ) || readThemeValue(/fab fa-weixin:\s*([^|]+)\|\|/, theme),
-    linuxdo: readThemeValue(/fab fa-linux:\s*([^|]+)\|\|/, theme),
+    linuxdo:
+      readThemeValue(/icon-linuxdo:\s*([^|]+)\|\|/, theme) ||
+      readThemeValue(/fab fa-linux:\s*([^|]+)\|\|/, theme),
     gitee: readThemeValue(/fab fa-git-alt:\s*([^|]+)\|\|/, theme),
     avatar: readThemeValue(/avatar:\r?\n\s+img:\s*(.*)/, theme),
     authorDescription: readThemeValue(

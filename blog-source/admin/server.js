@@ -389,6 +389,7 @@ function postFormPage(post = {}) {
 function analyticsPage(days = 30) {
   const dashboard = analyticsDashboard(days);
   const { summary, charts, topPosts, topIps, recentVisits, limits } = dashboard;
+  const emptyChart = '<div class="chart-empty">暂无访问数据</div>';
 
   const cards = [
     { label: '总访问量', value: summary.totalViews, hint: `最近 ${days} 天 ${summary.recentViews}` },
@@ -475,15 +476,15 @@ function analyticsPage(days = 30) {
     <section class="chart-grid">
       <section class="panel">
         <div class="panel-head compact"><div><h2>访问趋势</h2><p>最近 ${days} 天访问量与独立 IP</p></div></div>
-        <div class="chart" id="daily-chart"></div>
+        <div class="chart" id="daily-chart">${charts.daily.some((i) => i.views > 0) ? '' : emptyChart}</div>
       </section>
       <section class="panel">
         <div class="panel-head compact"><div><h2>24 小时分布</h2></div></div>
-        <div class="chart" id="hourly-chart"></div>
+        <div class="chart" id="hourly-chart">${charts.hourly.some((i) => i.views > 0) ? '' : emptyChart}</div>
       </section>
       <section class="panel">
         <div class="panel-head compact"><div><h2>来源分布</h2></div></div>
-        <div class="chart chart-donut" id="referrer-chart"></div>
+        <div class="chart chart-donut" id="referrer-chart">${charts.referrers.length ? '' : emptyChart}</div>
       </section>
       <section class="panel">
         <div class="panel-head compact"><div><h2>统计口径</h2></div></div>
@@ -525,6 +526,7 @@ function analyticsPage(days = 30) {
       extraScript: `<script>
         const d = ${jsonForScript(charts)};
         (function(){
+          if (!window.echarts) return;
           const dc = echarts.init(document.getElementById('daily-chart'));
           dc.setOption({
             tooltip: {trigger:'axis'}, legend: {top:0},

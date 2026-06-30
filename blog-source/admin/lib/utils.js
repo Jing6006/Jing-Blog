@@ -163,7 +163,8 @@ function clientIp(req) {
 
 function normalizePostPath(value) {
   const clean = String(value || '').split('?')[0].split('#')[0];
-  if (!/^\/posts\/[A-Za-z0-9_-]+\/?$/.test(clean)) return '';
+  if (!/^\/posts\/[^/]+\/?$/.test(clean)) return '';
+  if (clean.includes('..') || clean.includes('\\')) return '';
   return clean.endsWith('/') ? clean : `${clean}/`;
 }
 
