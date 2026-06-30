@@ -1,7 +1,18 @@
 ---
 title: 【教程】使用render部署cpa并接入supabase数据库
 date: 2026-06-30 15:57:21
-updated: 2026-06-30 15:57:21
+updated: 2026-06-30 17:32:50
+tags:
+  - database
+  - ops
+categories:
+  - 杂七杂八
+description: 一、部署 Render Web Service
+cover:
+abbrlink: 杂七杂八-教程-使用render部署cpa并接入supabase数据库
+synced_from_content_repo: true
+source_path: 杂七杂八/【教程】使用render部署cpa并接入supabase数据库.md
+source_hash: ea8d6ccbd96a477de736de4caf8ca8fb8edc85ef
 ---
 
 ## 一、部署 Render Web Service

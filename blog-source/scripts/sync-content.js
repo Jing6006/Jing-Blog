@@ -1,12 +1,15 @@
 const crypto = require('crypto');
+const {spawnSync} = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
+const REPO_ROOT = path.resolve(ROOT, '..');
 const SOURCE_DIR = path.resolve(process.env.BLOG_CONTENT_DIR || path.join(ROOT, '..', 'blog-content', 'data'));
 const POSTS_DIR = path.join(ROOT, 'source', '_posts');
 const DATE_CATEGORIES_FILE = path.join(ROOT, 'source', 'date-categories.json');
 const GENERATED_MARKER = 'synced_from_content_repo: true';
+const BLOG_TIMEZONE = 'Asia/Shanghai';
 
 function parseFrontMatter(text) {
   if (!text.startsWith('---')) return {data: {}, content: text};
@@ -146,9 +149,60 @@ function sameList(left, right) {
 }
 
 function formatDateTime(date) {
-  const pad = (n) => String(n).padStart(2, '0');
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} `
-    + `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: BLOG_TIMEZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${values.year}-${values.month}-${values.day} ${values.hour}:${values.minute}:${values.second}`;
+}
+
+function dateFromFilename(rel) {
+  const match = toPosix(rel).match(/(?:^|\/)(\d{4})-(\d{2})-(\d{2})(?:[-_./]|$)/);
+  return match ? `${match[1]}-${match[2]}-${match[3]} 00:00:00` : null;
+}
+
+function dateFromGeneratedPost(outputFile) {
+  if (!fs.existsSync(outputFile)) return null;
+  const prevRaw = fs.readFileSync(outputFile, 'utf8');
+  if (!prevRaw.includes(GENERATED_MARKER)) return null;
+  const {data} = parseFrontMatter(prevRaw);
+  return data.date || null;
+}
+
+function dateFromGitHistory(sourceFile) {
+  const repoRel = path.relative(REPO_ROOT, sourceFile);
+  if (repoRel.startsWith('..')) return null;
+
+  const result = spawnSync('git', [
+    '-C',
+    REPO_ROOT,
+    'log',
+    '--follow',
+    '--format=%aI',
+    '--',
+    repoRel,
+  ], {encoding: 'utf8'});
+
+  if (result.status !== 0 || !result.stdout.trim()) return null;
+
+  const dates = result.stdout.trim().split(/\r?\n/).filter(Boolean);
+  const firstCommitDate = dates[dates.length - 1];
+  const parsed = new Date(firstCommitDate);
+  return Number.isNaN(parsed.getTime()) ? null : formatDateTime(parsed);
+}
+
+function stableSourceDate(rel, sourceFile, outputFile, sourceStamp) {
+  return dateFromFilename(rel)
+    || dateFromGeneratedPost(outputFile)
+    || dateFromGitHistory(sourceFile)
+    || sourceStamp;
 }
 
 function inferTags(rel, title, existingTags) {
@@ -167,8 +221,14 @@ function inferTags(rel, title, existingTags) {
 
 // 给缺少 date 的源文件补一行 date，保证“最新写的排最前”，并写回源仓库使其稳定可提交。
 // 返回补好的 raw 文本；已有 date 或无法解析时返回 null。
-function insertSourceDate(raw, stamp) {
-  if (!raw.startsWith('---')) return null;
+function insertSourceDate(raw, stamp, title) {
+  if (!raw.startsWith('---')) {
+    return stringifyFrontMatter({
+      title,
+      date: stamp,
+      updated: stamp,
+    }, raw);
+  }
   const end = raw.indexOf('\n---', 3);
   if (end === -1) return null;
   const header = raw.slice(0, end);
@@ -247,29 +307,33 @@ function syncContent() {
     let raw = fs.readFileSync(sourceFile, 'utf8');
     let {data, content} = parseFrontMatter(raw);
     const hadExplicitDate = Boolean(data.date);
+    let stampedSourceDate = false;
+    const generatedName = `${fileHash(rel)}-${safeSlug(relNoExt)}.md`;
+    const outputFile = path.join(POSTS_DIR, generatedName);
 
-    // \u65b0\u6587\u7ae0\uff08\u6e90\u6587\u4ef6\u6ca1\u5199 date\uff09\uff1a\u81ea\u52a8\u76d6\u5f53\u524d\u65f6\u95f4\u5e76\u5199\u56de\u6e90\u6587\u4ef6\uff0c
-    // \u4fdd\u8bc1\u201c\u6700\u65b0\u5199\u7684\u201d\u6c38\u8fdc\u6392\u5728\u9996\u9875\u6700\u524d\uff0c\u4e14\u65e5\u671f\u4e00\u7ecf\u751f\u6210\u5c31\u56fa\u5b9a\u4e0b\u6765\u3001\u53ef\u968f git \u63d0\u4ea4\u3002
+    // Missing dates must be stable across local builds and Render/CI fresh checkouts.
+    // Prefer durable metadata before falling back to filesystem mtime.
     if (!data.date) {
-      const stamp = sourceStamp;
-      const stamped = insertSourceDate(raw, stamp);
+      const stamp = stableSourceDate(rel, sourceFile, outputFile, sourceStamp);
+      const stamped = insertSourceDate(raw, stamp, path.basename(rel, path.extname(rel)));
       if (stamped) {
         try {
           fs.writeFileSync(sourceFile, stamped, 'utf8');
           raw = stamped;
           ({data, content} = parseFrontMatter(raw));
+          stampedSourceDate = true;
           console.log(`[content] Stamped new article date ${stamp}: ${rel}`);
         } catch (err) {
           // \u6e90\u76ee\u5f55\u53ea\u8bfb\uff08\u4f8b\u5982\u670d\u52a1\u5668 tarball\uff09\u65f6\u9000\u5316\u4e3a\u4ec5\u672c\u6b21\u6784\u5efa\u4f7f\u7528\uff0c\u4e0d\u5199\u56de\u3002
           data.date = stamp;
+          stampedSourceDate = true;
         }
       } else {
         data.date = stamp;
+        stampedSourceDate = true;
       }
     }
 
-    const generatedName = `${fileHash(rel)}-${safeSlug(relNoExt)}.md`;
-    const outputFile = path.join(POSTS_DIR, generatedName);
     let date = data.date;
     const title = data.title || path.basename(rel, path.extname(rel));
     // Keep generated Hexo categories aligned with the content repository folders.
@@ -293,7 +357,7 @@ function syncContent() {
             || !sameList(prevCategories, categories)
             || !sameList(prevTags, tags)
             || prevData.source_path !== toPosix(rel);
-        if (!hadExplicitDate && prevData.date) {
+        if (!hadExplicitDate && !stampedSourceDate && prevData.date) {
           date = prevData.date;
         }
         if (!hadExplicitDate && prevData.source_hash === sourceHash) {
@@ -313,9 +377,7 @@ function syncContent() {
     }
 
     expected.add(generatedName);
-    fs.writeFileSync(
-      outputFile,
-      stringifyFrontMatter({
+    const outputText = stringifyFrontMatter({
         title,
         date,
         updated,
@@ -327,9 +389,11 @@ function syncContent() {
         synced_from_content_repo: true,
         source_path: toPosix(rel),
         source_hash: sourceHash,
-      }, content),
-      'utf8',
-    );
+      }, content);
+
+    if (!fs.existsSync(outputFile) || fs.readFileSync(outputFile, 'utf8') !== outputText) {
+      fs.writeFileSync(outputFile, outputText, 'utf8');
+    }
   }
 
   for (const file of fs.readdirSync(POSTS_DIR)) {

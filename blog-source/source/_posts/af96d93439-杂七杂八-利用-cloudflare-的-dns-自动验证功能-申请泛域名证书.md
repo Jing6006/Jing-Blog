@@ -2,6 +2,15 @@
 title: 利用 Cloudflare 的 DNS 自动验证功能，申请泛域名证书
 date: 2026-06-30 15:54:51
 updated: 2026-06-30 15:54:51
+tags:
+categories:
+  - 杂七杂八
+description: References
+cover:
+abbrlink: 杂七杂八-利用-cloudflare-的-dns-自动验证功能-申请泛域名证书
+synced_from_content_repo: true
+source_path: 杂七杂八/利用 Cloudflare 的 DNS 自动验证功能，申请泛域名证书.md
+source_hash: ede72de008ff48283d55932a8f588e06830e9ac3
 ---
 
 # References
