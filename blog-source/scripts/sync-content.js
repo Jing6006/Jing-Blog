@@ -43,16 +43,30 @@ function parseFrontMatter(text) {
   return {data, content};
 }
 
+function cleanFrontMatterText(value) {
+  return String(value || '').replace(/\s+/g, ' ').trim();
+}
+
+function yamlScalar(value) {
+  if (typeof value === 'boolean' || typeof value === 'number') return String(value);
+
+  const text = cleanFrontMatterText(value);
+  const ambiguous = /:\s|(^|\s)#|^[\s\-?:,\[\]{}#&*!|>'"%@`<]|["']$/.test(text)
+    || /^(true|false|null|undefined|yes|no|on|off)$/i.test(text);
+
+  return ambiguous ? JSON.stringify(text) : text;
+}
+
 function stringifyFrontMatter(data, content) {
   const lines = ['---'];
   for (const [key, value] of Object.entries(data)) {
     if (Array.isArray(value)) {
       lines.push(`${key}:`);
-      for (const item of value) lines.push(`  - ${item}`);
+      for (const item of value) lines.push(`  - ${yamlScalar(item)}`);
     } else if (value === '' || value == null) {
       lines.push(`${key}:`);
     } else {
-      lines.push(`${key}: ${value}`);
+      lines.push(`${key}: ${yamlScalar(value)}`);
     }
   }
   lines.push('---', '', content.trimStart());
@@ -114,7 +128,7 @@ function safeSlug(value) {
 function firstParagraph(content) {
   return content
     .split(/\r?\n\r?\n/)
-    .map((item) => item.replace(/[#>*`-]/g, '').trim())
+    .map((item) => cleanFrontMatterText(item.replace(/[#>*`-]/g, '')))
     .find(Boolean) || '';
 }
 

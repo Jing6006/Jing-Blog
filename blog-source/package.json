@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "node tools/build-diagnostics.js before && npm run content:sync && hexo generate && node tools/build-diagnostics.js after",
+    "build": "node tools/build-diagnostics.js before && npm run content:sync && hexo clean && hexo generate && node tools/build-diagnostics.js after",
     "clean": "hexo clean",
     "content:sync": "node scripts/sync-content.js",
     "content:watch": "node scripts/watch-content.js",

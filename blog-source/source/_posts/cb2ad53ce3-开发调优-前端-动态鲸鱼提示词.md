@@ -2,6 +2,15 @@
 title: 前端-动态鲸鱼提示词
 date: 2026-06-30 18:38:01
 updated: 2026-06-30 18:38:01
+tags:
+categories:
+  - 开发调优
+description: 鲸鱼森林 × 地火生命 双屏电影感网页提示词文档（交流合作：SWAN02_）
+cover:
+abbrlink: 开发调优-前端-动态鲸鱼提示词
+synced_from_content_repo: true
+source_path: 开发调优/前端-动态鲸鱼提示词.md
+source_hash: 9b3b6c7a7c9a9fecd71c933327f3e7e1d5fa5145
 ---
 
 # 鲸鱼森林 × 地火生命 双屏电影感网页提示词文档（交流合作：SWAN02_）
