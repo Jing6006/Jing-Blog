@@ -165,8 +165,8 @@ function layout(title, body, options = {}) {
     <a class="brand" href="${ADMIN_BASE}/">Jing Blog Admin</a>
     <nav>${navLinks(current)}</nav>
     <div class="topbar-actions">
-      <a href="/" target="_blank" class="button">鏌ョ湅鍗氬</a>
-      <form action="${LOGOUT_PATH}" method="post"><button>閫€鍑?/button></form>
+      <a href="/" target="_blank" class="button">查看博客</a>
+      <form action="${LOGOUT_PATH}" method="post"><button>退出</button></form>
     </div>
   </header>
   <main class="page">${body}</main>
@@ -182,23 +182,23 @@ function loginPage(error = '') {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>鐧诲綍 - Jing Blog Admin</title>
+  <title>登录 - Jing Blog Admin</title>
   <link rel="stylesheet" href="${ADMIN_BASE}/assets/admin.css">
 </head>
 <body class="login-page">
   <form class="login-card" action="${LOGIN_PATH}" method="post">
-    <h1>鍗氬鍚庡彴</h1>
-    <p>鐧诲綍鍚庡彲浠ョ鐞嗘枃绔犮€佺暀瑷€銆佺粺璁″拰绔欑偣璧勬枡銆?/p>
+    <h1>博客后台</h1>
+    <p>登录后可以管理文章、留言、分类标签和站点资料。</p>
     ${error ? `<div class="alert">${htmlEscape(error)}</div>` : ''}
-    <label>璐﹀彿<input name="username" autocomplete="username" required></label>
-    <label>瀵嗙爜<input name="password" type="password" autocomplete="current-password" required></label>
-    <button class="primary">鐧诲綍</button>
+    <label>账号<input name="username" autocomplete="username" required></label>
+    <label>密码<input name="password" type="password" autocomplete="current-password" required></label>
+    <button class="primary">登录</button>
   </form>
 </body>
 </html>`;
 }
 
-// ==================== DASHBOARD ====================
+// ==================== DASHBOARD ====================// ==================== DASHBOARD ====================// ==================== DASHBOARD ====================
 
 function dashboardPage() {
   const postStats = getStats();
@@ -288,22 +288,22 @@ function postListPage(query = {}) {
 
   const filterHtml = `
     <form class="toolbar" method="get" action="${ADMIN_BASE}/posts">
-      <input name="search" value="${htmlEscape(query.search || '')}" placeholder="鎼滅储鏍囬鎴栧唴瀹?.." style="width:220px">
+      <input name="search" value="${htmlEscape(query.search || '')}" placeholder="搜索标题或内容..." style="width:220px">
       <select name="category">
-        <option value="">鍏ㄩ儴鍒嗙被</option>
+        <option value="">全部分类</option>
         ${categories.map((c) => `<option value="${htmlEscape(c.name)}"${query.category === c.name ? ' selected' : ''}>${htmlEscape(c.name)} (${c.count})</option>`).join('')}
       </select>
       <select name="tag">
-        <option value="">鍏ㄩ儴鏍囩</option>
+        <option value="">全部标签</option>
         ${tags.map((t) => `<option value="${htmlEscape(t.name)}"${query.tag === t.name ? ' selected' : ''}>${htmlEscape(t.name)} (${t.count})</option>`).join('')}
       </select>
       <select name="status">
-        <option value="">鍏ㄩ儴鐘舵€?/option>
-        <option value="published"${query.status === 'published' ? ' selected' : ''}>宸插彂甯?/option>
-        <option value="draft"${query.status === 'draft' ? ' selected' : ''}>鑽夌</option>
+        <option value="">全部状态</option>
+        <option value="published"${query.status === 'published' ? ' selected' : ''}>已发布</option>
+        <option value="draft"${query.status === 'draft' ? ' selected' : ''}>草稿</option>
       </select>
-      <button>绛涢€?/button>
-      ${query.search || query.category || query.tag || query.status ? `<a class="button" href="${ADMIN_BASE}/posts">娓呴櫎</a>` : ''}
+      <button>筛选</button>
+      ${query.search || query.category || query.tag || query.status ? `<a class="button" href="${ADMIN_BASE}/posts">清除</a>` : ''}
     </form>`;
 
   const rows = posts
@@ -311,8 +311,8 @@ function postListPage(query = {}) {
       (post) => `<tr>
     <td>
       <div class="post-title-row">
-        ${post.top ? '<span class="badge badge-warning">缃《</span>' : ''}
-        ${!post.published ? '<span class="badge badge-draft">鑽夌</span>' : ''}
+        ${post.top ? '<span class="badge badge-warning">置顶</span>' : ''}
+        ${!post.published ? '<span class="badge badge-draft">草稿</span>' : ''}
         <strong>${htmlEscape(post.title)}</strong>
       </div>
       <small>${htmlEscape(post.file)}</small>
@@ -321,25 +321,25 @@ function postListPage(query = {}) {
     <td>${htmlEscape(post.tags.join(', '))}</td>
     <td>${htmlEscape(post.date)}</td>
     <td class="row-actions">
-      <a class="button" href="${ADMIN_BASE}/posts/${encodeURIComponent(post.file)}">缂栬緫</a>
-      ${post.published ? `<a class="button" href="/posts/${htmlEscape(post.abbrlink || '')}/" target="_blank">鏌ョ湅</a>` : ''}
-      <form action="${ADMIN_BASE}/posts/${encodeURIComponent(post.file)}/delete" method="post" onsubmit="return confirm('纭畾鍒犻櫎杩欑瘒鏂囩珷鍚楋紵')" style="display:inline"><button class="danger">鍒犻櫎</button></form>
+      <a class="button" href="${ADMIN_BASE}/posts/${encodeURIComponent(post.file)}">编辑</a>
+      ${post.published ? `<a class="button" href="/posts/${htmlEscape(post.abbrlink || '')}/" target="_blank">查看</a>` : ''}
+      <form action="${ADMIN_BASE}/posts/${encodeURIComponent(post.file)}/delete" method="post" onsubmit="return confirm('确定删除这篇文章吗？')" style="display:inline"><button class="danger">删除</button></form>
     </td>
   </tr>`,
     )
     .join('');
 
   return layout(
-    '鏂囩珷绠＄悊',
+    '文章管理',
     `<section class="panel">
       <div class="panel-head">
-        <div><h1>鏂囩珷绠＄悊</h1><p>褰撳墠鍏?${posts.length} 绡囨枃绔狅紙${getStats().published} 宸插彂甯?/ ${getStats().draft} 鑽夌 / ${getStats().pinned} 缃《锛?/p></div>
-        <a class="button primary" href="${ADMIN_BASE}/posts/new">+ 鏂板缓鏂囩珷</a>
+        <div><h1>文章管理</h1><p>当前共 ${posts.length} 篇文章（${getStats().published} 已发布 / ${getStats().draft} 草稿 / ${getStats().pinned} 置顶）</p></div>
+        <a class="button primary" href="${ADMIN_BASE}/posts/new">+ 新建文章</a>
       </div>
       ${filterHtml}
       <table>
-        <thead><tr><th>鏂囩珷</th><th>鍒嗙被</th><th>鏍囩</th><th>鏃ユ湡</th><th>鎿嶄綔</th></tr></thead>
-        <tbody>${rows || '<tr><td colspan="5">鏆傛棤鍖归厤鏂囩珷</td></tr>'}</tbody>
+        <thead><tr><th>文章</th><th>分类</th><th>标签</th><th>日期</th><th>操作</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="5">暂无匹配文章</td></tr>'}</tbody>
       </table>
     </section>`,
     { current: '/posts' },
@@ -348,37 +348,41 @@ function postListPage(query = {}) {
 
 function postFormPage(post = {}) {
   const statusOptions = post.file
-    ? `<label class="checkbox-label"><input type="checkbox" name="published" value="true"${post.published !== false ? ' checked' : ''}> 宸插彂甯冿紙鍙栨秷鍕鹃€夊垯淇濆瓨涓鸿崏绋匡級</label>
-       <label class="checkbox-label"><input type="checkbox" name="top" value="true"${post.top ? ' checked' : ''}> 缃《</label>`
-    : `<label class="checkbox-label"><input type="checkbox" name="published" value="true" checked> 宸插彂甯冿紙鍙栨秷鍕鹃€夊垯淇濆瓨涓鸿崏绋匡級</label>
-       <label class="checkbox-label"><input type="checkbox" name="top" value="true"> 缃《</label>`;
+    ? `<label class="checkbox-label"><input type="checkbox" name="published" value="true"${post.published !== false ? ' checked' : ''}> 已发布（取消勾选则保存为草稿）</label>
+       <label class="checkbox-label"><input type="checkbox" name="top" value="true"${post.top ? ' checked' : ''}> 置顶</label>`
+    : `<label class="checkbox-label"><input type="checkbox" name="published" value="true" checked> 已发布（取消勾选则保存为草稿）</label>
+       <label class="checkbox-label"><input type="checkbox" name="top" value="true"> 置顶</label>`;
 
   return layout(
-    post.file ? '缂栬緫鏂囩珷' : '鏂板缓鏂囩珷',
+    post.file ? '编辑文章' : '新建文章',
     `<section class="panel">
-      <h1>${post.file ? '缂栬緫鏂囩珷' : '鏂板缓鏂囩珷'}</h1>
+      <h1>${post.file ? '编辑文章' : '新建文章'}</h1>
       <form class="editor" method="post" action="${ADMIN_BASE}/posts${post.file ? `/${encodeURIComponent(post.file)}` : ''}">
         <div class="grid two">
-          <label>鏍囬<input name="title" value="${htmlEscape(post.title || '')}" required></label>
-          <label>鍙戝竷鏃ユ湡<input name="date" value="${htmlEscape(post.date || '')}"></label>
+          <label>标题<input name="title" value="${htmlEscape(post.title || '')}" required></label>
+          <label>发布日期<input name="date" value="${htmlEscape(post.date || '')}"></label>
         </div>
         <div class="grid two">
-          <label>鍒嗙被锛堥€楀彿鍒嗛殧锛?input name="categories" value="${htmlEscape(asArray(post.categories).join(', '))}" placeholder="宸ョ▼瀹炶返, Java"></label>
-          <label>鏍囩锛堥€楀彿鍒嗛殧锛?input name="tags" value="${htmlEscape(asArray(post.tags).join(', '))}" placeholder="Hexo, Spring"></label>
+          <label>分类<input name="categories" value="${htmlEscape(asArray(post.categories).join(', '))}" placeholder="开发调优, Java"></label>
+          <label>标签<input name="tags" value="${htmlEscape(asArray(post.tags).join(', '))}" placeholder="Hexo, Spring"></label>
         </div>
-        <label>灏侀潰鍥?URL<input name="cover" value="${htmlEscape(post.cover || '')}"></label>
-        <label>鎽樿<textarea name="description" rows="3">${htmlEscape(post.description || '')}</textarea></label>
-        <div class="grid two">${statusOptions}</div>
-        <label>姝ｆ枃 Markdown<textarea name="content" class="markdown" rows="22">${htmlEscape(post.content || '')}</textarea></label>
+        <label>封面 URL<input name="cover" value="${htmlEscape(post.cover || '')}"></label>
+        <label>摘要<textarea name="description" rows="3">${htmlEscape(post.description || '')}</textarea></label>
+        <label>正文 Markdown<textarea name="content" class="markdown" rows="22">${htmlEscape(post.content || '')}</textarea></label>
+        <div class="grid two compact-grid">
+          <label>更新时间<input name="updated" value="${htmlEscape(post.updated || '')}" placeholder="2026-06-30 12:00:00"></label>
+          <div class="checkbox-group">${statusOptions}</div>
+        </div>
         <div class="actions">
-          <button class="primary">淇濆瓨骞跺彂甯?/button>
-          <a class="button" href="${ADMIN_BASE}/posts">杩斿洖</a>
+          <button class="primary">保存</button>
+          <a class="button" href="${ADMIN_BASE}/posts">返回</a>
         </div>
       </form>
     </section>`,
-    { current: '/posts' },
   );
 }
+
+// ==================== ANALYTICS ====================
 
 // ==================== ANALYTICS ====================
 
@@ -404,10 +408,7 @@ function analyticsPage(days = 30) {
     .join('');
 
   const rangeLinks = [7, 30, 90]
-    .map(
-      (v) =>
-        `<a class="filter-chip${v === days ? ' active' : ''}" href="${ADMIN_BASE}/analytics?days=${v}">${v} 澶?/a>`,
-    )
+    .map((v) => `<a class="filter-chip${v === days ? ' active' : ''}" href="${ADMIN_BASE}/analytics?days=${v}">${v} 天</a>`)
     .join('');
 
   const topPostRows = topPosts
@@ -429,17 +430,17 @@ function analyticsPage(days = 30) {
     <td><span class="rank">${i + 1}</span></td>
     <td>
       <strong>${htmlEscape(item.ip)}</strong>
-      ${blacklist.some((b) => b.ip === item.ip) ? '<span class="badge badge-danger">宸插皝绂?/span>' : ''}
-      <small>${htmlEscape(item.referrers.join(' / ') || '鐩存帴璁块棶')}</small>
+      ${blacklist.some((b) => b.ip === item.ip) ? '<span class="badge badge-danger">已封禁</span>' : ''}
+      <small>${htmlEscape(item.referrers.join(' / ') || '直接访问')}</small>
     </td>
     <td>${item.views}</td>
     <td>${item.posts}</td>
     <td>${htmlEscape(item.lastVisitAt || '')}</td>
     <td>
-      <a class="button" href="${ADMIN_BASE}/analytics/ip/${encodeURIComponent(item.ip)}">璇︽儏</a>
+      <a class="button" href="${ADMIN_BASE}/analytics/ip/${encodeURIComponent(item.ip)}">详情</a>
       ${blacklist.some((b) => b.ip === item.ip)
-        ? `<form action="${ADMIN_BASE}/analytics/blacklist/${encodeURIComponent(item.ip)}/remove" method="post" style="display:inline"><button>瑙ｅ皝</button></form>`
-        : `<form action="${ADMIN_BASE}/analytics/blacklist/${encodeURIComponent(item.ip)}" method="post" style="display:inline"><button class="danger">灏佺</button></form>`}
+        ? `<form action="${ADMIN_BASE}/analytics/blacklist/${encodeURIComponent(item.ip)}/remove" method="post" style="display:inline"><button>解封</button></form>`
+        : `<form action="${ADMIN_BASE}/analytics/blacklist/${encodeURIComponent(item.ip)}" method="post" style="display:inline"><button class="danger">封禁</button></form>`}
     </td>
   </tr>`,
     )
@@ -458,14 +459,14 @@ function analyticsPage(days = 30) {
     .join('');
 
   return layout(
-    '璁块棶缁熻',
+    '访问统计',
     `<section class="panel hero-panel">
       <div class="panel-head">
-        <div><h1>璁块棶缁熻</h1><p>鏂囩珷鐑害銆佹潵婧?IP銆佽闂秼鍔垮拰鏈€杩戞槑缁?/p></div>
+        <div><h1>访问统计</h1><p>文章热度、来源 IP、访问趋势和最近明细</p></div>
         <div class="toolbar">
           <div class="filter-group">${rangeLinks}</div>
-          <form action="${ADMIN_BASE}/analytics/reset" method="post" onsubmit="return confirm('纭畾娓呯┖鍏ㄩ儴璁块棶缁熻鍚楋紵')">
-            <button class="danger">娓呯┖缁熻</button>
+          <form action="${ADMIN_BASE}/analytics/reset" method="post" onsubmit="return confirm('确定清空全部访问统计吗？')">
+            <button class="danger">清空统计</button>
           </form>
         </div>
       </div>
@@ -473,48 +474,48 @@ function analyticsPage(days = 30) {
     </section>
     <section class="chart-grid">
       <section class="panel">
-        <div class="panel-head compact"><div><h2>璁块棶瓒嬪娍</h2><p>鏈€杩?${days} 澶╄闂噺涓庣嫭绔?IP</p></div></div>
+        <div class="panel-head compact"><div><h2>访问趋势</h2><p>最近 ${days} 天访问量与独立 IP</p></div></div>
         <div class="chart" id="daily-chart"></div>
       </section>
       <section class="panel">
-        <div class="panel-head compact"><div><h2>24 灏忔椂鍒嗗竷</h2></div></div>
+        <div class="panel-head compact"><div><h2>24 小时分布</h2></div></div>
         <div class="chart" id="hourly-chart"></div>
       </section>
       <section class="panel">
-        <div class="panel-head compact"><div><h2>鏉ユ簮鍒嗗竷</h2></div></div>
+        <div class="panel-head compact"><div><h2>来源分布</h2></div></div>
         <div class="chart chart-donut" id="referrer-chart"></div>
       </section>
       <section class="panel">
-        <div class="panel-head compact"><div><h2>缁熻鍙ｅ緞</h2></div></div>
+        <div class="panel-head compact"><div><h2>统计口径</h2></div></div>
         <div class="meta-list">
-          <div><span>缁熻璁板綍涓婇檺</span><strong>${limits.maxVisits}</strong></div>
-          <div><span>鏈€杩戣闂睍绀?/span><strong>${limits.recentVisits}</strong></div>
-          <div><span>鐑棬鏂囩珷姒滃崟</span><strong>${limits.topPosts}</strong></div>
-          <div><span>鐑棬 IP 姒滃崟</span><strong>${limits.topIps}</strong></div>
+          <div><span>统计记录上限</span><strong>${limits.maxVisits}</strong></div>
+          <div><span>最近访问展示</span><strong>${limits.recentVisits}</strong></div>
+          <div><span>热门文章榜单</span><strong>${limits.topPosts}</strong></div>
+          <div><span>热门 IP 榜单</span><strong>${limits.topIps}</strong></div>
         </div>
       </section>
     </section>
     <section class="table-grid">
       <section class="panel">
-        <div class="panel-head compact"><div><h2>鐑棬鏂囩珷</h2></div></div>
+        <div class="panel-head compact"><div><h2>热门文章</h2></div></div>
         <table>
-          <thead><tr><th>#</th><th>鏂囩珷</th><th>璁块棶閲?/th><th>鐙珛 IP</th><th>鏈€杩戣闂?/th></tr></thead>
-          <tbody>${topPostRows || '<tr><td colspan="5">鏆傛棤缁熻</td></tr>'}</tbody>
+          <thead><tr><th>#</th><th>文章</th><th>访问量</th><th>独立 IP</th><th>最近访问</th></tr></thead>
+          <tbody>${topPostRows || '<tr><td colspan="5">暂无统计</td></tr>'}</tbody>
         </table>
       </section>
       <section class="panel">
         <div class="panel-head compact"><div><h2>Top IP</h2></div></div>
         <table>
-          <thead><tr><th>#</th><th>IP / 鏉ユ簮</th><th>璁块棶閲?/th><th>鏂囩珷鏁?/th><th>鏈€杩戣闂?/th><th>鎿嶄綔</th></tr></thead>
-          <tbody>${ipRows || '<tr><td colspan="6">鏆傛棤璁板綍</td></tr>'}</tbody>
+          <thead><tr><th>#</th><th>IP / 来源</th><th>访问量</th><th>文章数</th><th>最近访问</th><th>操作</th></tr></thead>
+          <tbody>${ipRows || '<tr><td colspan="6">暂无记录</td></tr>'}</tbody>
         </table>
       </section>
     </section>
     <section class="panel">
-      <div class="panel-head compact"><div><h2>鏈€杩戣闂槑缁?/h2></div></div>
+      <div class="panel-head compact"><div><h2>最近访问明细</h2></div></div>
       <table>
-        <thead><tr><th>鏃堕棿</th><th>鏂囩珷</th><th>IP</th><th>鏉ユ簮</th><th>UA</th></tr></thead>
-        <tbody>${visitRows || '<tr><td colspan="5">鏆傛棤璁板綍</td></tr>'}</tbody>
+        <thead><tr><th>时间</th><th>文章</th><th>IP</th><th>来源</th><th>UA</th></tr></thead>
+        <tbody>${visitRows || '<tr><td colspan="5">暂无记录</td></tr>'}</tbody>
       </table>
     </section>`,
     {
@@ -544,10 +545,9 @@ function analyticsPage(days = 30) {
           });
           const rc = echarts.init(document.getElementById('referrer-chart'));
           rc.setOption({
-            tooltip: {trigger:'item'}, legend: {bottom:0,left:'center'},
-            series: [{type:'pie',radius:['48%','74%'],itemStyle:{borderRadius:8,borderColor:'#fff',borderWidth:2},label:{formatter:'{b}\\n{d}%'},data:d.referrers.length?d.referrers.map(i=>({name:i.name,value:i.views})):[{name:'鏆傛棤鏁版嵁',value:1}]}]
+            tooltip: {trigger:'item'},
+            series: [{type:'pie',radius:['48%','74%'],itemStyle:{borderRadius:8,borderColor:'#fff',borderWidth:2},label:{formatter:'{b}\n{d}%'},data:d.referrers.length?d.referrers.map(i=>({name:i.name,value:i.views})):[{name:'暂无来源',value:1}]}]
           });
-          window.addEventListener('resize',()=>{dc.resize();hc.resize();rc.resize();});
         })();
       </script>`,
     },
@@ -560,27 +560,27 @@ function ipDetailPage(ip) {
   const detail = ipDetail(ip);
 
   return layout(
-    `IP 璇︽儏: ${ip}`,
+    `IP 详情: ${ip}`,
     `<section class="panel">
       <div class="panel-head">
-        <div><h1>IP 璇︽儏: ${htmlEscape(ip)}</h1><p>璁块棶 ${detail.totalViews} 娆★紝娑夊強 ${detail.visitedPosts.length} 绡囨枃绔?/p></div>
+        <div><h1>IP 详情: ${htmlEscape(ip)}</h1><p>共 ${detail.totalViews} 次访问，访问过 ${detail.visitedPosts.length} 篇文章</p></div>
         <div>
           ${blocked
-            ? `<form action="${ADMIN_BASE}/analytics/blacklist/${encodeURIComponent(ip)}/remove" method="post" style="display:inline"><button>瑙ｉ櫎灏佺</button></form>`
-            : `<form action="${ADMIN_BASE}/analytics/blacklist/${encodeURIComponent(ip)}" method="post" style="display:inline"><button class="danger">灏佺姝?IP</button></form>`}
-          <a class="button" href="${ADMIN_BASE}/analytics">杩斿洖缁熻</a>
+            ? `<form action="${ADMIN_BASE}/analytics/blacklist/${encodeURIComponent(ip)}/remove" method="post" style="display:inline"><button>解除封禁</button></form>`
+            : `<form action="${ADMIN_BASE}/analytics/blacklist/${encodeURIComponent(ip)}" method="post" style="display:inline"><button class="danger">封禁 IP</button></form>`}
+          <a class="button" href="${ADMIN_BASE}/analytics">返回统计</a>
         </div>
       </div>
       <div class="meta-list">
-        <div><span>棣栨璁块棶</span><strong>${htmlEscape(detail.firstVisitAt || '鏈煡')}</strong></div>
-        <div><span>鏈€杩戣闂?/span><strong>${htmlEscape(detail.lastVisitAt || '鏈煡')}</strong></div>
-        <div><span>鏉ユ簮娓犻亾</span><strong>${htmlEscape(detail.referrers.join(' / ') || '鐩存帴璁块棶')}</strong></div>
+        <div><span>首次访问</span><strong>${htmlEscape(detail.firstVisitAt || '暂无')}</strong></div>
+        <div><span>最近访问</span><strong>${htmlEscape(detail.lastVisitAt || '暂无')}</strong></div>
+        <div><span>来源</span><strong>${htmlEscape(detail.referrers.join(' / ') || '直接访问')}</strong></div>
       </div>
-      <h2>璁块棶杩囩殑鏂囩珷</h2>
+      <h2>访问过的文章</h2>
       <ul>${detail.visitedPosts.map((p) => `<li><a href="${htmlEscape(p)}" target="_blank">${htmlEscape(p)}</a></li>`).join('')}</ul>
-      <h2>鏈€杩戣闂褰?/h2>
+      <h2>访问明细</h2>
       <table>
-        <thead><tr><th>鏃堕棿</th><th>鏂囩珷</th><th>鏉ユ簮</th><th>UA</th></tr></thead>
+        <thead><tr><th>时间</th><th>文章</th><th>来源</th><th>UA</th></tr></thead>
         <tbody>${detail.visits.map((v) => `<tr>
           <td>${htmlEscape(v.at)}</td>
           <td><a href="${htmlEscape(v.path)}" target="_blank">${htmlEscape(v.title)}</a></td>
@@ -595,13 +595,14 @@ function ipDetailPage(ip) {
 
 // ==================== MESSAGES ====================
 
+// ==================== MESSAGES ====================
+
 function messagesPage() {
-  const filter = ''; // TODO: filter param support
   const flatten = [];
   const walk = (items, depth = 0) => {
     for (const item of items) {
       flatten.push({ ...item, depth });
-      walk(item.replies || [], depth + 1);
+      if (item.replies?.length) walk(item.replies, depth + 1);
     }
   };
   walk(messageTree({ includePrivate: true }));
@@ -611,24 +612,24 @@ function messagesPage() {
       (item) => `<tr class="${item.isAdmin ? 'admin-message' : ''}${item.status === 'pending' ? ' message-pending' : ''}">
     <td class="message-author-cell">
       <div style="padding-left:${item.depth * 18}px">
-        <strong>${htmlEscape(item.author)}${item.isAdmin ? '<span class="badge">鍗氫富</span>' : ''}</strong>
-        ${item.status === 'pending' ? '<span class="badge badge-warning">寰呭鏍?/span>' : ''}
-        <small>IP锛?{htmlEscape(item.ip || '')}</small>
-        <small>ID锛?{htmlEscape(item.id)}</small>
+        <strong>${htmlEscape(item.author)}${item.isAdmin ? '<span class="badge">管理员</span>' : ''}</strong>
+        ${item.status === 'pending' ? '<span class="badge badge-warning">待审核</span>' : ''}
+        <small>IP: ${htmlEscape(item.ip || '')}</small>
+        <small>ID: ${htmlEscape(item.id)}</small>
       </div>
     </td>
     <td class="message-content-cell">
       <div class="message-content">${htmlEscape(item.content).replaceAll('\n', '<br>')}</div>
       <form class="inline-reply" action="${ADMIN_BASE}/messages/${encodeURIComponent(item.id)}/reply" method="post">
-        <input name="author" value="Jing" aria-label="鍥炲鑰?>
-        <textarea name="content" rows="2" maxlength="1200" placeholder="鍥炲杩欐潯鐣欒█..." required></textarea>
-        <button class="primary">鍥炲</button>
+        <input name="author" value="Jing" aria-label="回复作者" required>
+        <textarea name="content" rows="2" maxlength="1200" placeholder="写一条回复..." required></textarea>
+        <button class="primary">回复</button>
       </form>
     </td>
     <td>${htmlEscape(item.createdAt || '')}</td>
     <td class="row-actions">
-      ${item.status === 'pending' ? `<form action="${ADMIN_BASE}/messages/${encodeURIComponent(item.id)}/approve" method="post" style="display:inline"><button class="primary">瀹℃牳閫氳繃</button></form>` : ''}
-      <form action="${ADMIN_BASE}/messages/${encodeURIComponent(item.id)}/delete" method="post" onsubmit="return confirm('纭畾鍒犻櫎杩欐潯鐣欒█鍚楋紵')" style="display:inline"><button class="danger">鍒犻櫎</button></form>
+      ${item.status === 'pending' ? `<form action="${ADMIN_BASE}/messages/${encodeURIComponent(item.id)}/approve" method="post" style="display:inline"><button class="primary">审核通过</button></form>` : ''}
+      <form action="${ADMIN_BASE}/messages/${encodeURIComponent(item.id)}/delete" method="post" onsubmit="return confirm('确定删除这条留言吗？')" style="display:inline"><button class="danger">删除</button></form>
     </td>
   </tr>`,
     )
@@ -637,22 +638,24 @@ function messagesPage() {
   const stats = getMessageStats();
 
   return layout(
-    '鐣欒█绠＄悊',
+    '留言管理',
     `<section class="panel">
       <div class="panel-head">
         <div>
-          <h1>鐣欒█绠＄悊</h1>
-          <p>鍏?${stats.total} 鏉★紝${stats.approved} 宸插鏍革紝<strong style="color:var(--danger)">${stats.pending} 寰呭鏍?/strong></p>
+          <h1>留言管理</h1>
+          <p>共 ${stats.total} 条，${stats.approved} 已审核，<strong style="color:var(--danger)">${stats.pending} 待审核</strong></p>
         </div>
       </div>
       <table>
-        <thead><tr><th>鐢ㄦ埛</th><th>鍐呭涓庡洖澶?/th><th>鏃堕棿</th><th>鎿嶄綔</th></tr></thead>
-        <tbody>${rows || '<tr><td colspan="4">鏆傛棤鐣欒█</td></tr>'}</tbody>
+        <thead><tr><th>用户</th><th>内容与回复</th><th>时间</th><th>操作</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="4">暂无留言</td></tr>'}</tbody>
       </table>
     </section>`,
     { current: '/messages' },
   );
 }
+
+// ==================== MEDIA LIBRARY ====================
 
 // ==================== MEDIA LIBRARY ====================
 
@@ -668,9 +671,9 @@ function mediaPage() {
       <strong>${htmlEscape(img.name)}</strong>
       <small>${htmlEscape(img.sizeFormatted)}</small>
       <div class="media-actions">
-        <button onclick="copyToClipboard('${htmlEscape(img.path)}')" class="button">澶嶅埗璺緞</button>
-        <button onclick="copyToClipboard('![](${htmlEscape(img.path)})')" class="button">澶嶅埗 MD</button>
-        <form action="${ADMIN_BASE}/media/${encodeURIComponent(img.name)}/delete" method="post" onsubmit="return confirm('纭畾鍒犻櫎鍚楋紵')" style="display:inline"><button class="danger">鍒犻櫎</button></form>
+        <button onclick="copyToClipboard('${htmlEscape(img.path)}')" class="button">复制路径</button>
+        <button onclick="copyToClipboard('![](${htmlEscape(img.path)})')" class="button">复制 MD</button>
+        <form action="${ADMIN_BASE}/media/${encodeURIComponent(img.name)}/delete" method="post" onsubmit="return confirm('确定删除吗？')" style="display:inline"><button class="danger">删除</button></form>
       </div>
     </div>
   </div>`,
@@ -681,20 +684,20 @@ function mediaPage() {
     '媒体库',
     `<section class="panel">
       <div class="panel-head">
-        <div><h1>濯掍綋搴?/h1><p>鍏?${images.length} 寮犲浘鐗囥€備笂浼犳柊鍥剧墖鐢ㄤ簬鏂囩珷灏侀潰鎴栧唴瀹规彃鍥俱€?/p></div>
+        <div><h1>媒体库</h1><p>共 ${images.length} 张图片。上传新图片用于文章封面或内容插图。</p></div>
         <form class="upload-form" action="${ADMIN_BASE}/media/upload" method="post" enctype="multipart/form-data">
           <input type="file" name="image" accept=".jpg,.jpeg,.png,.gif,.webp,.svg,image/*" required>
-          <button class="primary">涓婁紶</button>
+          <button class="primary">上传</button>
         </form>
       </div>
-      <div class="media-grid">${cards || '<p class="empty-state">鏆傛棤涓婁紶鐨勫浘鐗?/p>'}</div>
+      <div class="media-grid">${cards || '<p class="empty-state">暂无上传的图片</p>'}</div>
     </section>`,
     {
       current: '/media',
       extraScript: `<script>
         function copyToClipboard(text) {
           if (navigator.clipboard) {
-            navigator.clipboard.writeText(text).then(() => showToast('宸插鍒? ' + text));
+            navigator.clipboard.writeText(text).then(() => showToast('已复制 ' + text));
           } else {
             const el = document.createElement('textarea');
             el.value = text;
@@ -702,7 +705,7 @@ function mediaPage() {
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            showToast('宸插鍒? ' + text);
+            showToast('已复制 ' + text);
           }
         }
       </script>`,
@@ -712,76 +715,55 @@ function mediaPage() {
 
 // ==================== TAXONOMY ====================
 
+// ==================== TAXONOMY ====================
+
 function taxonomyPage(body = {}) {
   const categories = getAllCategories();
   const tags = getAllTags();
-  const error = body.error || '';
   const ok = body.ok || '';
+  const error = body.error || '';
 
-  const catRows = categories
-    .map(
-      (c) => `<tr>
-    <td><strong>${htmlEscape(c.name)}</strong></td>
-    <td>${c.count} 绡?/td>
-    <td>
-      <a class="button" href="${ADMIN_BASE}/posts?category=${encodeURIComponent(c.name)}">鏌ョ湅鏂囩珷</a>
-      <button class="button" onclick="document.getElementById('rename-cat-old').value='${htmlEscape(c.name)}';document.getElementById('rename-cat-dlg').showModal()">閲嶅懡鍚?/button>
-    </td>
-  </tr>`,
-    )
-    .join('');
-
-  const tagRows = tags
-    .map(
-      (t) => `<tr>
-    <td><strong>${htmlEscape(t.name)}</strong></td>
-    <td>${t.count} 绡?/td>
-    <td>
-      <a class="button" href="${ADMIN_BASE}/posts?tag=${encodeURIComponent(t.name)}">鏌ョ湅鏂囩珷</a>
-      <button class="button" onclick="document.getElementById('rename-tag-old').value='${htmlEscape(t.name)}';document.getElementById('rename-tag-dlg').showModal()">閲嶅懡鍚?/button>
-    </td>
-  </tr>`,
-    )
-    .join('');
+  const catRows = categories.map((c) => `<tr><td>${htmlEscape(c.name)}</td><td>${c.count}</td><td><a class="button" href="${ADMIN_BASE}/posts?category=${encodeURIComponent(c.name)}">查看文章</a><button class="button" onclick="document.getElementById('rename-cat-old').value='${htmlEscape(c.name)}';document.getElementById('rename-cat-dlg').showModal()">重命名</button></td></tr>`).join('');
+  const tagRows = tags.map((t) => `<tr><td>${htmlEscape(t.name)}</td><td>${t.count}</td><td><a class="button" href="${ADMIN_BASE}/posts?tag=${encodeURIComponent(t.name)}">查看文章</a><button class="button" onclick="document.getElementById('rename-tag-old').value='${htmlEscape(t.name)}';document.getElementById('rename-tag-dlg').showModal()">重命名</button></td></tr>`).join('');
 
   return layout(
     '分类与标签',
     `<section class="panel">
       ${error ? `<div class="alert">${htmlEscape(error)}</div>` : ''}
       ${ok ? `<div class="alert alert-ok">${htmlEscape(ok)}</div>` : ''}
-      <h1>鍒嗙被涓庢爣绛剧鐞?/h1>
-      <p>杩欓噷鍙互鏌ョ湅銆侀噸鍛藉悕鍒嗙被鍜屾爣绛俱€傞噸鍛藉悕浼氭洿鏂版墍鏈夊叧鑱旀枃绔犮€?/p>
+      <h1>分类与标签管理</h1>
+      <p>这里可以查看、重命名分类和标签。重命名会更新所有关联文章。</p>
     </section>
     <section class="table-grid">
       <section class="panel">
-        <div class="panel-head compact"><div><h2>鍒嗙被 (${categories.length})</h2></div></div>
+        <div class="panel-head compact"><div><h2>分类 (${categories.length})</h2></div></div>
         <table>
-          <thead><tr><th>鍚嶇О</th><th>鏂囩珷鏁?/th><th>鎿嶄綔</th></tr></thead>
-          <tbody>${catRows || '<tr><td colspan="3">鏆傛棤鍒嗙被</td></tr>'}</tbody>
+          <thead><tr><th>名称</th><th>文章数</th><th>操作</th></tr></thead>
+          <tbody>${catRows || '<tr><td colspan="3">暂无分类</td></tr>'}</tbody>
         </table>
       </section>
       <section class="panel">
-        <div class="panel-head compact"><div><h2>鏍囩 (${tags.length})</h2></div></div>
+        <div class="panel-head compact"><div><h2>标签 (${tags.length})</h2></div></div>
         <table>
-          <thead><tr><th>鍚嶇О</th><th>鏂囩珷鏁?/th><th>鎿嶄綔</th></tr></thead>
-          <tbody>${tagRows || '<tr><td colspan="3">鏆傛棤鏍囩</td></tr>'}</tbody>
+          <thead><tr><th>名称</th><th>文章数</th><th>操作</th></tr></thead>
+          <tbody>${tagRows || '<tr><td colspan="3">暂无标签</td></tr>'}</tbody>
         </table>
       </section>
     </section>
     <dialog id="rename-cat-dlg">
       <form method="post" action="${ADMIN_BASE}/taxonomy/category/rename">
-        <h3>閲嶅懡鍚嶅垎绫?/h3>
+        <h3>重命名分类</h3>
         <input id="rename-cat-old" name="oldName" type="hidden">
-        <label>鏂板悕绉?input name="newName" required></label>
-        <div class="actions"><button class="primary">纭</button><button type="button" onclick="this.closest('dialog').close()">鍙栨秷</button></div>
+        <label>新名称<input name="newName" required></label>
+        <div class="actions"><button class="primary">确认</button><button type="button" onclick="this.closest('dialog').close()">取消</button></div>
       </form>
     </dialog>
     <dialog id="rename-tag-dlg">
       <form method="post" action="${ADMIN_BASE}/taxonomy/tag/rename">
-        <h3>閲嶅懡鍚嶆爣绛?/h3>
+        <h3>重命名标签</h3>
         <input id="rename-tag-old" name="oldName" type="hidden">
-        <label>鏂板悕绉?input name="newName" required></label>
-        <div class="actions"><button class="primary">纭</button><button type="button" onclick="this.closest('dialog').close()">鍙栨秷</button></div>
+        <label>新名称<input name="newName" required></label>
+        <div class="actions"><button class="primary">确认</button><button type="button" onclick="this.closest('dialog').close()">取消</button></div>
       </form>
     </dialog>`,
     { current: '/taxonomy' },
@@ -790,39 +772,41 @@ function taxonomyPage(body = {}) {
 
 // ==================== SETTINGS ====================
 
+// ==================== SETTINGS ====================
+
 function settingsPage() {
   const settings = readSettings();
   return layout(
-    '绔欑偣璁剧疆',
+    '站点设置',
     `<section class="panel">
-      <h1>绔欑偣璁剧疆</h1>
-      <p>淇敼 Hexo 绔欑偣鍜?Butterfly 涓婚閰嶇疆銆?/p>
+      <h1>站点设置</h1>
+      <p>修改 Hexo 站点和 Butterfly 主题配置。</p>
       <form class="editor" action="${ADMIN_BASE}/settings" method="post" enctype="multipart/form-data">
         <div class="grid two">
-          <label>绔欑偣鍚嶇О<input name="title" value="${htmlEscape(settings.title)}" required></label>
-          <label>浣滆€呭悕<input name="author" value="${htmlEscape(settings.author)}" required></label>
+          <label>站点名称<input name="title" value="${htmlEscape(settings.title)}" required></label>
+          <label>作者名<input name="author" value="${htmlEscape(settings.author)}" required></label>
         </div>
-        <label>鍓爣棰?input name="subtitle" value="${htmlEscape(settings.subtitle)}"></label>
-        <label>绔欑偣鎻忚堪<textarea name="description" rows="3">${htmlEscape(settings.description)}</textarea></label>
+        <label>副标题<input name="subtitle" value="${htmlEscape(settings.subtitle)}"></label>
+        <label>站点描述<textarea name="description" rows="3">${htmlEscape(settings.description)}</textarea></label>
         <div class="grid two">
-          <label>閭<input name="email" type="email" value="${htmlEscape(settings.email)}"></label>
+          <label>邮箱<input name="email" type="email" value="${htmlEscape(settings.email)}"></label>
           <label>GitHub<input name="github" value="${htmlEscape(settings.github)}"></label>
         </div>
         <div class="grid two">
           <label>QQ<input name="qq" value="${htmlEscape(settings.qq)}"></label>
-          <label>寰俊<input name="wechat" value="${htmlEscape(settings.wechat)}"></label>
+          <label>微信<input name="wechat" value="${htmlEscape(settings.wechat)}"></label>
         </div>
         <div class="grid two">
           <label>Linux.do<input name="linuxdo" value="${htmlEscape(settings.linuxdo)}"></label>
           <label>Gitee<input name="gitee" value="${htmlEscape(settings.gitee)}"></label>
         </div>
-        <label>浣滆€呭崱鐗囦粙缁?input name="authorDescription" value="${htmlEscape(settings.authorDescription)}"></label>
-        <label>鍏憡<textarea name="announcement" rows="3">${htmlEscape(settings.announcement)}</textarea></label>
-        <label>褰撳墠澶村儚 <input value="${htmlEscape(settings.avatar)}" readonly></label>
-        <label>涓婁紶鏂板ご鍍?input name="avatar" type="file" accept=".jpg,.jpeg,.png,.webp,.svg,image/*"></label>
+        <label>作者卡片介绍<input name="authorDescription" value="${htmlEscape(settings.authorDescription)}"></label>
+        <label>公告<textarea name="announcement" rows="3">${htmlEscape(settings.announcement)}</textarea></label>
+        <label>当前头像 <input value="${htmlEscape(settings.avatar)}" readonly></label>
+        <label>上传新头像<input name="avatar" type="file" accept=".jpg,.jpeg,.png,.webp,.svg,image/*"></label>
         <div class="actions">
-          <button class="primary">淇濆瓨骞跺彂甯?/button>
-          <a class="button" href="${ADMIN_BASE}/">杩斿洖</a>
+          <button class="primary">保存并发布</button>
+          <a class="button" href="${ADMIN_BASE}/">返回</a>
         </div>
       </form>
     </section>`,
@@ -832,15 +816,17 @@ function settingsPage() {
 
 // ==================== BUILD ====================
 
+// ==================== BUILD ====================
+
 function buildPage() {
   const statusLabel =
     buildState.status === 'success'
-      ? '鏋勫缓鎴愬姛'
+      ? '构建成功'
       : buildState.status === 'building'
-        ? '鏋勫缓涓?..'
+        ? '构建中...'
         : buildState.status === 'failed'
-          ? '鏋勫缓澶辫触'
-          : '绌洪棽';
+          ? '构建失败'
+          : '空闲';
 
   const statusClass =
     buildState.status === 'success'
@@ -850,10 +836,10 @@ function buildPage() {
         : '';
 
   return layout(
-    '鏋勫缓绠＄悊',
+    '构建管理',
     `<section class="panel">
       <div class="panel-head">
-        <div><h1>鏋勫缓绠＄悊</h1><p>瑙﹀彂绔欑偣閲嶆柊鏋勫缓骞堕儴缃插埌绾夸笂銆?/p></div>
+        <div><h1>构建管理</h1><p>触发站点重新构建并部署到线上。</p></div>
         <form action="${ADMIN_BASE}/build/trigger" method="post">
           <button class="primary" ${buildState.status === 'building' ? 'disabled' : ''}>
             ${buildState.status === 'building' ? '构建中...' : '重新构建并部署'}
@@ -862,20 +848,22 @@ function buildPage() {
       </div>
     </section>
     <section class="panel">
-      <div class="panel-head compact"><div><h2>鏋勫缓鐘舵€?/h2></div></div>
+      <div class="panel-head compact"><div><h2>构建状态</h2></div></div>
       <div class="meta-list">
-        <div><span>褰撳墠鐘舵€?/span><strong class="${statusClass}">${htmlEscape(statusLabel)}</strong></div>
-        <div><span>鏈€杩戞瀯寤?/span><strong>${buildState.lastAt ? htmlEscape(buildState.lastAt.slice(0, 19).replace('T', ' ')) : '浠庢湭鏋勫缓'}</strong></div>
-        <div><span>鑰楁椂</span><strong>${buildState.lastDuration ? `${buildState.lastDuration}s` : 'N/A'}</strong></div>
+        <div><span>当前状态</span><strong class="${statusClass}">${htmlEscape(statusLabel)}</strong></div>
+        <div><span>最近构建</span><strong>${buildState.lastAt ? htmlEscape(buildState.lastAt.slice(0, 19).replace('T', ' ')) : '从未构建'}</strong></div>
+        <div><span>耗时</span><strong>${buildState.lastDuration ? `${buildState.lastDuration}s` : 'N/A'}</strong></div>
       </div>
     </section>
     ${buildState.lastLog ? `<section class="panel">
-      <div class="panel-head compact"><div><h2>鏋勫缓鏃ュ織</h2></div></div>
+      <div class="panel-head compact"><div><h2>构建日志</h2></div></div>
       <pre>${htmlEscape(buildState.lastLog)}</pre>
     </section>` : ''}`,
     { current: '' },
   );
 }
+
+// ==================== AUDIT LOG ====================
 
 // ==================== AUDIT LOG ====================
 
@@ -893,19 +881,21 @@ function auditPage() {
     .join('');
 
   return layout(
-    '鎿嶄綔鏃ュ織',
+    '操作日志',
     `<section class="panel">
       <div class="panel-head">
-        <div><h1>鎿嶄綔鏃ュ織</h1><p>璁板綍鍚庡彴鍏抽敭鎿嶄綔锛屾渶澶氫繚鐣?500 鏉°€?/p></div>
+        <div><h1>操作日志</h1><p>记录后台关键操作，最多保留 500 条。</p></div>
       </div>
       <table>
-        <thead><tr><th>鏃堕棿</th><th>鎿嶄綔</th><th>璇︽儏</th><th>IP</th></tr></thead>
-        <tbody>${rows || '<tr><td colspan="4">鏆傛棤鏃ュ織</td></tr>'}</tbody>
+        <thead><tr><th>时间</th><th>操作</th><th>详情</th><th>IP</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="4">暂无日志</td></tr>'}</tbody>
       </table>
     </section>`,
     { current: '/audit' },
   );
 }
+
+// ==================== ROUTES ====================
 
 // ==================== ROUTES ====================
 
@@ -960,7 +950,7 @@ app.get(`${ADMIN_BASE}/posts/new`, ensureAuth, (req, res) =>
 app.post(`${ADMIN_BASE}/posts`, ensureAuth, async (req, res, next) => {
   try {
     const file = writePost(null, req.body);
-    logAction('create_post', `鍒涘缓鏂囩珷: ${req.body.title}`, clientIp(req));
+    logAction('create_post', `创建文章: ${req.body.title}`, clientIp(req));
     await rebuildAndDeploy();
     res.redirect(`${ADMIN_BASE}/posts`);
   } catch (error) {
@@ -977,7 +967,7 @@ app.get(`${ADMIN_BASE}/posts/:file`, ensureAuth, (req, res, next) => {
 app.post(`${ADMIN_BASE}/posts/:file`, ensureAuth, async (req, res, next) => {
   try {
     writePost(req.params.file, req.body);
-    logAction('edit_post', `缂栬緫鏂囩珷: ${req.body.title || req.params.file}`, clientIp(req));
+    logAction('edit_post', `编辑文章: ${req.body.title || req.params.file}`, clientIp(req));
     await rebuildAndDeploy();
     res.redirect(`${ADMIN_BASE}/posts`);
   } catch (error) {
@@ -991,7 +981,7 @@ app.post(
     try {
       const post = readPost(req.params.file);
       deletePost(req.params.file);
-      logAction('delete_post', `鍒犻櫎鏂囩珷: ${post.title}`, clientIp(req));
+      logAction('delete_post', `删除文章: ${post.title}`, clientIp(req));
       await rebuildAndDeploy();
       res.redirect(`${ADMIN_BASE}/posts`);
     } catch (error) {
@@ -1010,7 +1000,7 @@ app.post(
   ensureAuth,
   (req, res) => {
     resetAnalytics();
-    logAction('reset_analytics', '娓呯┖璁块棶缁熻', clientIp(req));
+    logAction('reset_analytics', '清空访问统计', clientIp(req));
     res.redirect(`${ADMIN_BASE}/analytics`);
   },
 );
@@ -1022,7 +1012,7 @@ app.post(
   ensureAuth,
   (req, res) => {
     addToBlacklist(req.params.ip, '管理员手动封禁');
-    logAction('block_ip', `灏佺 IP: ${req.params.ip}`, clientIp(req));
+    logAction('block_ip', `封禁 IP: ${req.params.ip}`, clientIp(req));
     res.redirect(`${ADMIN_BASE}/analytics`);
   },
 );
@@ -1031,7 +1021,7 @@ app.post(
   ensureAuth,
   (req, res) => {
     removeFromBlacklist(req.params.ip);
-    logAction('unblock_ip', `瑙ｅ皝 IP: ${req.params.ip}`, clientIp(req));
+    logAction('unblock_ip', `解封 IP: ${req.params.ip}`, clientIp(req));
     res.redirect(`${ADMIN_BASE}/analytics`);
   },
 );
@@ -1046,7 +1036,7 @@ app.post(
   (req, res, next) => {
     try {
       createAdminReply(req.params.id, req.body || {}, req);
-      logAction('reply_message', `鍥炲鐣欒█: ${req.params.id}`, clientIp(req));
+      logAction('reply_message', `回复留言: ${req.params.id}`, clientIp(req));
       res.redirect(`${ADMIN_BASE}/messages`);
     } catch (error) {
       next(error);
@@ -1059,7 +1049,7 @@ app.post(
   (req, res, next) => {
     try {
       deleteMessage(req.params.id);
-      logAction('delete_message', `鍒犻櫎鐣欒█: ${req.params.id}`, clientIp(req));
+      logAction('delete_message', `删除留言: ${req.params.id}`, clientIp(req));
       res.redirect(`${ADMIN_BASE}/messages`);
     } catch (error) {
       next(error);
@@ -1072,7 +1062,7 @@ app.post(
   (req, res, next) => {
     try {
       approveMessage(req.params.id);
-      logAction('approve_message', `瀹℃牳閫氳繃鐣欒█: ${req.params.id}`, clientIp(req));
+      logAction('approve_message', `审核通过留言: ${req.params.id}`, clientIp(req));
       res.redirect(`${ADMIN_BASE}/messages`);
     } catch (error) {
       next(error);
@@ -1085,7 +1075,7 @@ app.post(
   (req, res) => {
     const ids = splitList(req.body.ids);
     const count = batchDeleteMessages(ids);
-    logAction('batch_delete_messages', `鎵归噺鍒犻櫎 ${count} 鏉＄暀瑷€`, clientIp(req));
+    logAction('batch_delete_messages', `批量删除 ${count} 条留言`, clientIp(req));
     res.redirect(`${ADMIN_BASE}/messages`);
   },
 );
@@ -1099,7 +1089,7 @@ app.post(
   (req, res, next) => {
     try {
       const url = uploadImage(req.file);
-      logAction('upload_image', `涓婁紶鍥剧墖: ${url}`, clientIp(req));
+      logAction('upload_image', `上传图片: ${url}`, clientIp(req));
       res.redirect(`${ADMIN_BASE}/media`);
     } catch (error) {
       next(error);
@@ -1112,7 +1102,7 @@ app.post(
   (req, res, next) => {
     try {
       deleteImage(req.params.file);
-      logAction('delete_image', `鍒犻櫎鍥剧墖: ${req.params.file}`, clientIp(req));
+      logAction('delete_image', `删除图片: ${req.params.file}`, clientIp(req));
       res.redirect(`${ADMIN_BASE}/media`);
     } catch (error) {
       next(error);
@@ -1178,7 +1168,7 @@ app.post(
   async (req, res, next) => {
     try {
       writeSettings(req.body, req.file);
-      logAction('update_settings', '鏇存柊绔欑偣璁剧疆', clientIp(req));
+      logAction('update_settings', '更新站点设置', clientIp(req));
       await rebuildAndDeploy();
       res.redirect(`${ADMIN_BASE}/settings`);
     } catch (error) {
@@ -1191,7 +1181,7 @@ app.post(
 app.get(`${ADMIN_BASE}/build`, ensureAuth, (req, res) => res.send(buildPage()));
 app.post(`${ADMIN_BASE}/build/trigger`, ensureAuth, async (req, res, next) => {
   try {
-    logAction('trigger_build', '鎵嬪姩瑙﹀彂鏋勫缓', clientIp(req));
+    logAction('trigger_build', '手动触发构建', clientIp(req));
     await rebuildAndDeploy();
     res.redirect(`${ADMIN_BASE}/build`);
   } catch (error) {
@@ -1213,7 +1203,7 @@ app.use((error, req, res, next) => {
     .send(
       layout(
         '出错了',
-        `<section class="panel"><h1>鎿嶄綔澶辫触</h1><pre>${htmlEscape(error.message)}</pre><a class="button" href="${ADMIN_BASE}/">杩斿洖鍚庡彴</a></section>`,
+        `<section class="panel"><h1>操作失败</h1><pre>${htmlEscape(error.message)}</pre><a class="button" href="${ADMIN_BASE}/">返回后台</a></section>`,
         { current: '' },
       ),
     );
