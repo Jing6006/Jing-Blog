@@ -96,6 +96,37 @@
       });
   }
 
+  function countOccurrences(text, token) {
+    if (!text || !token) return 0;
+    let count = 0;
+    let index = text.indexOf(token);
+    while (index !== -1) {
+      count += 1;
+      index = text.indexOf(token, index + token.length);
+    }
+    return count;
+  }
+
+  function scoreSearchItem(item, tokens, query) {
+    let score = 0;
+
+    for (const token of tokens) {
+      if (item.titleSearch === token) score += 200;
+      else if (item.titleSearch.startsWith(token)) score += 120;
+      else if (item.titleSearch.includes(token)) score += 90;
+
+      if (item.tagsSearch.includes(token)) score += 45;
+      if (item.categoriesSearch.includes(token)) score += 25;
+      score += Math.min(countOccurrences(item.contentSearch, token), 8);
+    }
+
+    if (item.titleSearch === query) score += 300;
+    else if (item.titleSearch.includes(query)) score += 150;
+    if (item.contentSearch.includes(query)) score += 10;
+
+    return score;
+  }
+
   function createResultItem(item) {
     const result = document.createElement('article');
     result.className = 'jing-search-result';
@@ -162,17 +193,26 @@
         searchIndexPromise = fetchTextWithTimeout('/search.xml', 12000)
           .then((xml) => {
             const doc = new DOMParser().parseFromString(xml, 'application/xml');
-            return [...doc.querySelectorAll('entry')].map((entry) => {
+            return [...doc.querySelectorAll('entry')].map((entry, index) => {
               const titleText = plainText(textFromXml(entry, 'title'));
               const contentText = plainText(textFromXml(entry, 'content'));
               const tags = [...entry.querySelectorAll('tags')].map((node) => plainText(node.textContent));
               const categories = [...entry.querySelectorAll('categories')].map((node) => plainText(node.textContent));
               const summary = contentText.slice(0, 120);
+              const titleSearch = normalize(titleText);
+              const contentSearch = normalize(contentText);
+              const tagsSearch = normalize(tags.join(' '));
+              const categoriesSearch = normalize(categories.join(' '));
               return {
+                index,
                 title: titleText,
                 url: textFromXml(entry, 'url'),
                 summary,
-                haystack: normalize([titleText, contentText, tags.join(' '), categories.join(' ')].join(' ')),
+                titleSearch,
+                contentSearch,
+                tagsSearch,
+                categoriesSearch,
+                haystack: [titleSearch, contentSearch, tagsSearch, categoriesSearch].join(' '),
               };
             });
           });
@@ -197,6 +237,8 @@
             const tokens = query.split(' ').filter(Boolean);
             const matched = items
               .filter((item) => tokens.every((token) => item.haystack.includes(token)))
+              .map((item) => ({...item, score: scoreSearchItem(item, tokens, query)}))
+              .sort((a, b) => b.score - a.score || a.index - b.index)
               .slice(0, 12);
 
             meta.textContent = `${matched.length} 篇`;
