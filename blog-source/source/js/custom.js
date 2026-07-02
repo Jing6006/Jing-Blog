@@ -303,7 +303,7 @@
       replyTarget: null,
       messages: [],
     };
-    const messagesApi = '/admin/api/messages';
+    const messagesApi = '/api/messages';
 
     function setStatus(text, type) {
       statusNode.textContent = text || '';

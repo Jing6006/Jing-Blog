@@ -939,6 +939,18 @@ app.post('/api/messages', (req, res) => {
   }
 });
 
+app.get(`${ADMIN_BASE}/api/messages`, (req, res) => {
+  res.json({ messages: messageTree() });
+});
+app.post(`${ADMIN_BASE}/api/messages`, (req, res) => {
+  try {
+    const message = createMessage(req.body || {}, req);
+    res.status(201).json({ ok: true, message });
+  } catch (error) {
+    res.status(400).json({ ok: false, error: error.message });
+  }
+});
+
 // Dashboard
 app.get(`${ADMIN_BASE}/`, ensureAuth, (req, res) => res.send(dashboardPage()));
 
