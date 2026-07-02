@@ -1,6 +1,52 @@
 (() => {
   document.documentElement.classList.add('jing-blog-ready');
 
+  const themeStorageKey = 'jing-theme';
+
+  function getStoredTheme() {
+    try {
+      return localStorage.getItem(themeStorageKey);
+    } catch {
+      return '';
+    }
+  }
+
+  function setStoredTheme(theme) {
+    try {
+      localStorage.setItem(themeStorageKey, theme);
+    } catch {}
+  }
+
+  function applyTheme(theme) {
+    const nextTheme = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.dataset.jingTheme = nextTheme;
+    const toggle = document.querySelector('.jing-theme-toggle');
+    if (toggle) {
+      const isDark = nextTheme === 'dark';
+      toggle.setAttribute('aria-pressed', String(isDark));
+      toggle.title = isDark ? '切换为白底黑字' : '切换为黑底白字';
+      toggle.setAttribute('aria-label', toggle.title);
+    }
+  }
+
+  applyTheme(getStoredTheme() || 'light');
+
+  function initThemeToggle() {
+    let toggle = document.querySelector('.jing-theme-toggle');
+    if (!toggle) {
+      toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'jing-theme-toggle';
+      document.body.append(toggle);
+      toggle.addEventListener('click', () => {
+        const nextTheme = document.documentElement.dataset.jingTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(nextTheme);
+        setStoredTheme(nextTheme);
+      });
+    }
+    applyTheme(document.documentElement.dataset.jingTheme || getStoredTheme() || 'light');
+  }
+
   function updateDateCategories() {
     fetch('/date-categories.json', {cache: 'no-store'})
       .then((response) => (response.ok ? response.json() : null))
@@ -528,6 +574,7 @@
   }
 
   function boot() {
+    initThemeToggle();
     ensureGuestbookMenu();
     updateDateCategories();
     initArchiveSearch();

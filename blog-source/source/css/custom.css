@@ -7,10 +7,31 @@
   --jing-border: #e2e8f0;
   --jing-link: #1677ff;
   --jing-code-bg: #f6f8fa;
+  --jing-code-text: #be123c;
+  --jing-blockquote-bg: #f1f5f9;
+  --jing-nav-bg: rgba(255, 255, 255, 0.96);
+  --jing-shadow: rgba(15, 23, 42, 0.08);
+  --jing-article-width: 820px;
+}
+
+html[data-jing-theme="dark"] {
+  --jing-bg: #050505;
+  --jing-surface: #0b0b0b;
+  --jing-text: #f7f7f7;
+  --jing-muted: #d4d4d4;
+  --jing-faint: #a3a3a3;
+  --jing-border: #2f2f2f;
+  --jing-link: #7db7ff;
+  --jing-code-bg: #141414;
+  --jing-code-text: #ff8aa3;
+  --jing-blockquote-bg: #101010;
+  --jing-nav-bg: rgba(5, 5, 5, 0.94);
+  --jing-shadow: rgba(0, 0, 0, 0.34);
 }
 
 html {
   font-size: 16px;
+  background: var(--jing-bg);
 }
 
 body {
@@ -1186,5 +1207,208 @@ a {
   #article-container .jing-about-contact-links a {
     width: 100%;
     margin-top: 10px;
+  }
+}
+
+/* Reading polish and black/white theme toggle */
+#nav,
+#page-header.nav-fixed #nav,
+#nav.show {
+  background: var(--jing-nav-bg) !important;
+  box-shadow: 0 1px 3px var(--jing-shadow);
+}
+
+#nav .menus_items .menus_item .menus_item_child {
+  box-shadow: 0 8px 24px var(--jing-shadow);
+}
+
+.post #content-inner.layout {
+  max-width: calc(var(--jing-article-width) + 32px);
+}
+
+.post .layout #post {
+  max-width: var(--jing-article-width);
+}
+
+#post .post-title {
+  margin-bottom: 14px;
+  font-size: 34px;
+  line-height: 1.28;
+}
+
+#post .post-meta {
+  margin-bottom: 34px;
+}
+
+#article-container {
+  font-size: 17px;
+  line-height: 1.86;
+  overflow-wrap: break-word;
+}
+
+#article-container h2 {
+  margin-top: 2.35em;
+  margin-bottom: 0.85em;
+  padding-bottom: 0.42em;
+  font-size: 24px;
+}
+
+#article-container h3 {
+  margin-top: 1.9em;
+  margin-bottom: 0.7em;
+  font-size: 20px;
+}
+
+#article-container h4 {
+  margin-top: 1.55em;
+  margin-bottom: 0.55em;
+  font-size: 17px;
+}
+
+#article-container p,
+#article-container ul,
+#article-container ol,
+#article-container blockquote {
+  margin: 1.05em 0;
+}
+
+#article-container ul,
+#article-container ol {
+  padding-left: 1.45em;
+}
+
+#article-container li {
+  margin: 0.36em 0;
+  padding-left: 0.12em;
+}
+
+#article-container blockquote {
+  margin: 1.35em 0;
+  padding: 0.9em 1.1em;
+  background: var(--jing-blockquote-bg);
+}
+
+#article-container blockquote p:first-child {
+  margin-top: 0;
+}
+
+#article-container blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+#article-container code {
+  color: var(--jing-code-text);
+}
+
+#article-container figure.highlight,
+#article-container pre {
+  margin: 1.35em 0;
+}
+
+#article-container figure.highlight table,
+#article-container figure.highlight td,
+#article-container figure.highlight th {
+  border: 0;
+}
+
+#article-container table {
+  display: block;
+  width: 100%;
+  margin: 1.35em 0;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+#article-container th,
+#article-container td {
+  padding: 0.58em 0.72em;
+  border: 1px solid var(--jing-border);
+}
+
+#article-container th {
+  background: var(--jing-code-bg);
+  color: var(--jing-text);
+  font-weight: 600;
+}
+
+#article-container hr {
+  height: 1px;
+  margin: 2.2em 0;
+  border: 0;
+  background: var(--jing-border);
+}
+
+.jing-theme-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1001;
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--jing-border);
+  border-radius: 50%;
+  background: var(--jing-surface);
+  color: var(--jing-text);
+  box-shadow: 0 8px 24px var(--jing-shadow);
+  cursor: pointer;
+  transition: transform 0.16s ease, border-color 0.16s ease, background-color 0.16s ease;
+}
+
+.jing-theme-toggle::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  background: linear-gradient(90deg, currentColor 0 50%, transparent 50% 100%);
+}
+
+.jing-theme-toggle:hover {
+  border-color: var(--jing-link);
+  transform: translateY(-2px);
+}
+
+.jing-theme-toggle:focus-visible {
+  outline: 3px solid rgba(22, 119, 255, 0.24);
+  outline-offset: 3px;
+}
+
+@media screen and (max-width: 900px) {
+  #article-container {
+    font-size: 16.5px;
+    line-height: 1.82;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  #post .post-title {
+    font-size: 25px;
+  }
+
+  #post .post-meta {
+    margin-bottom: 26px;
+  }
+
+  #article-container {
+    font-size: 16px;
+    line-height: 1.78;
+  }
+
+  #article-container h2 {
+    font-size: 21px;
+  }
+
+  #article-container h3 {
+    font-size: 18px;
+  }
+
+  .jing-theme-toggle {
+    right: 14px;
+    bottom: 14px;
+    width: 42px;
+    height: 42px;
   }
 }
